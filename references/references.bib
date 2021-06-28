@@ -1,0 +1,121 @@
+
+@article{papamakarios_normalizing_2019,
+	title = {Normalizing Flows for Probabilistic Modeling and Inference},
+	url = {http://arxiv.org/abs/1912.02762},
+	abstract = {Normalizing flows provide a general mechanism for defining expressive probability distributions, only requiring the specification of a (usually simple) base distribution and a series of bijective transformations. There has been much recent work on normalizing flows, ranging from improving their expressive power to expanding their application. We believe the field has now matured and is in need of a unified perspective. In this review, we attempt to provide such a perspective by describing flows through the lens of probabilistic modeling and inference. We place special emphasis on the fundamental principles of flow design, and discuss foundational topics such as expressive power and computational trade-offs. We also broaden the conceptual framing of flows by relating them to more general probability transformations. Lastly, we summarize the use of flows for tasks such as generative modeling, approximate inference, and supervised learning.},
+	journaltitle = {{arXiv}:1912.02762 [cs, stat]},
+	author = {Papamakarios, George and Nalisnick, Eric and Rezende, Danilo Jimenez and Mohamed, Shakir and Lakshminarayanan, Balaji},
+	urldate = {2021-04-16},
+	date = {2019-12-05},
+	eprinttype = {arxiv},
+	eprint = {1912.02762},
+	note = {version: 1},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Normalizing flows},
+	file = {arXiv Fulltext PDF:/home/silas/Zotero/storage/JAE533Z8/Papamakarios et al. - 2019 - Normalizing Flows for Probabilistic Modeling and I.pdf:application/pdf;arXiv.org Snapshot:/home/silas/Zotero/storage/HKC3NTSY/1912.html:text/html}
+}
+
+@article{kobyzev_normalizing_2020,
+	title = {Normalizing Flows: An Introduction and Review of Current Methods},
+	issn = {0162-8828, 2160-9292, 1939-3539},
+	url = {http://arxiv.org/abs/1908.09257},
+	doi = {10.1109/TPAMI.2020.2992934},
+	shorttitle = {Normalizing Flows},
+	abstract = {Normalizing Flows are generative models which produce tractable distributions where both sampling and density evaluation can be efficient and exact. The goal of this survey article is to give a coherent and comprehensive review of the literature around the construction and use of Normalizing Flows for distribution learning. We aim to provide context and explanation of the models, review current state-of-the-art literature, and identify open questions and promising future directions.},
+	pages = {1--1},
+	journaltitle = {{IEEE} Transactions on Pattern Analysis and Machine Intelligence},
+	shortjournal = {{IEEE} Trans. Pattern Anal. Mach. Intell.},
+	author = {Kobyzev, Ivan and Prince, Simon J. D. and Brubaker, Marcus A.},
+	urldate = {2021-06-21},
+	date = {2020},
+	eprinttype = {arxiv},
+	eprint = {1908.09257},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Normalizing flows},
+	file = {arXiv Fulltext PDF:/home/silas/Zotero/storage/BVDA3PNU/Kobyzev et al. - 2020 - Normalizing Flows An Introduction and Review of C.pdf:application/pdf;arXiv.org Snapshot:/home/silas/Zotero/storage/JKAXBEAW/1908.html:text/html}
+}
+
+@article{kingma_glow_2018,
+	title = {Glow: Generative Flow with Invertible 1x1 Convolutions},
+	url = {http://arxiv.org/abs/1807.03039},
+	shorttitle = {Glow},
+	abstract = {Flow-based generative models (Dinh et al., 2014) are conceptually attractive due to tractability of the exact log-likelihood, tractability of exact latent-variable inference, and parallelizability of both training and synthesis. In this paper we propose Glow, a simple type of generative flow using an invertible 1x1 convolution. Using our method we demonstrate a significant improvement in log-likelihood on standard benchmarks. Perhaps most strikingly, we demonstrate that a generative model optimized towards the plain log-likelihood objective is capable of efficient realistic-looking synthesis and manipulation of large images. The code for our model is available at https://github.com/openai/glow},
+	journaltitle = {{arXiv}:1807.03039 [cs, stat]},
+	author = {Kingma, Diederik P. and Dhariwal, Prafulla},
+	urldate = {2021-06-22},
+	date = {2018-07-10},
+	eprinttype = {arxiv},
+	eprint = {1807.03039},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Normalizing flows, Computer Science - Artificial Intelligence},
+	file = {arXiv Fulltext PDF:/home/silas/Zotero/storage/W2D7DMTQ/Kingma and Dhariwal - 2018 - Glow Generative Flow with Invertible 1x1 Convolut.pdf:application/pdf;arXiv.org Snapshot:/home/silas/Zotero/storage/6FN3IGIG/1807.html:text/html}
+}
+
+@article{chen_neural_2019,
+	title = {Neural Ordinary Differential Equations},
+	url = {http://arxiv.org/abs/1806.07366},
+	abstract = {We introduce a new family of deep neural network models. Instead of specifying a discrete sequence of hidden layers, we parameterize the derivative of the hidden state using a neural network. The output of the network is computed using a blackbox differential equation solver. These continuous-depth models have constant memory cost, adapt their evaluation strategy to each input, and can explicitly trade numerical precision for speed. We demonstrate these properties in continuous-depth residual networks and continuous-time latent variable models. We also construct continuous normalizing ﬂows, a generative model that can train by maximum likelihood, without partitioning or ordering the data dimensions. For training, we show how to scalably backpropagate through any {ODE} solver, without access to its internal operations. This allows end-to-end training of {ODEs} within larger models.},
+	journaltitle = {{arXiv}:1806.07366 [cs, stat]},
+	author = {Chen, Ricky T. Q. and Rubanova, Yulia and Bettencourt, Jesse and Duvenaud, David},
+	urldate = {2021-06-22},
+	date = {2019-12-13},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1806.07366},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Normalizing flows, Computer Science - Artificial Intelligence},
+	file = {Chen et al. - 2019 - Neural Ordinary Differential Equations.pdf:/home/silas/Zotero/storage/T3Y927H3/Chen et al. - 2019 - Neural Ordinary Differential Equations.pdf:application/pdf}
+}
+
+@article{rezende_variational_2016,
+	title = {Variational Inference with Normalizing Flows},
+	url = {http://arxiv.org/abs/1505.05770},
+	abstract = {The choice of approximate posterior distribution is one of the core problems in variational inference. Most applications of variational inference employ simple families of posterior approximations in order to allow for efficient inference, focusing on mean-field or other simple structured approximations. This restriction has a significant impact on the quality of inferences made using variational methods. We introduce a new approach for specifying flexible, arbitrarily complex and scalable approximate posterior distributions. Our approximations are distributions constructed through a normalizing flow, whereby a simple initial density is transformed into a more complex one by applying a sequence of invertible transformations until a desired level of complexity is attained. We use this view of normalizing flows to develop categories of finite and infinitesimal flows and provide a unified view of approaches for constructing rich posterior approximations. We demonstrate that the theoretical advantages of having posteriors that better match the true posterior, combined with the scalability of amortized variational approaches, provides a clear improvement in performance and applicability of variational inference.},
+	journaltitle = {{arXiv}:1505.05770 [cs, stat]},
+	author = {Rezende, Danilo Jimenez and Mohamed, Shakir},
+	urldate = {2021-06-22},
+	date = {2016-06-14},
+	eprinttype = {arxiv},
+	eprint = {1505.05770},
+	keywords = {Computer Science - Machine Learning, Statistics - Computation, Statistics - Machine Learning, Normalizing flows, Computer Science - Artificial Intelligence, Statistics - Methodology},
+	file = {arXiv Fulltext PDF:/home/silas/Zotero/storage/NST3KQ34/Rezende and Mohamed - 2016 - Variational Inference with Normalizing Flows.pdf:application/pdf;arXiv.org Snapshot:/home/silas/Zotero/storage/6MCEK7Z6/1505.html:text/html}
+}
+
+@article{dinh_density_2017,
+	title = {Density estimation using Real {NVP}},
+	url = {http://arxiv.org/abs/1605.08803},
+	abstract = {Unsupervised learning of probabilistic models is a central yet challenging problem in machine learning. Specifically, designing models with tractable learning, sampling, inference and evaluation is crucial in solving this task. We extend the space of such models using real-valued non-volume preserving (real {NVP}) transformations, a set of powerful invertible and learnable transformations, resulting in an unsupervised learning algorithm with exact log-likelihood computation, exact sampling, exact inference of latent variables, and an interpretable latent space. We demonstrate its ability to model natural images on four datasets through sampling, log-likelihood evaluation and latent variable manipulations.},
+	journaltitle = {{arXiv}:1605.08803 [cs, stat]},
+	author = {Dinh, Laurent and Sohl-Dickstein, Jascha and Bengio, Samy},
+	urldate = {2021-06-22},
+	date = {2017-02-27},
+	eprinttype = {arxiv},
+	eprint = {1605.08803},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Normalizing flows, Computer Science - Artificial Intelligence, Computer Science - Neural and Evolutionary Computing},
+	file = {arXiv Fulltext PDF:/home/silas/Zotero/storage/6P47AL8X/Dinh et al. - 2017 - Density estimation using Real NVP.pdf:application/pdf;arXiv.org Snapshot:/home/silas/Zotero/storage/ZEFKXEZM/1605.html:text/html}
+}
+
+@article{grathwohl_ffjord_2018,
+	title = {{FFJORD}: Free-form Continuous Dynamics for Scalable Reversible Generative Models},
+	url = {http://arxiv.org/abs/1810.01367},
+	shorttitle = {{FFJORD}},
+	abstract = {A promising class of generative models maps points from a simple distribution to a complex distribution through an invertible neural network. Likelihood-based training of these models requires restricting their architectures to allow cheap computation of Jacobian determinants. Alternatively, the Jacobian trace can be used if the transformation is specified by an ordinary differential equation. In this paper, we use Hutchinson's trace estimator to give a scalable unbiased estimate of the log-density. The result is a continuous-time invertible generative model with unbiased density estimation and one-pass sampling, while allowing unrestricted neural network architectures. We demonstrate our approach on high-dimensional density estimation, image generation, and variational inference, achieving the state-of-the-art among exact likelihood methods with efficient sampling.},
+	journaltitle = {{arXiv}:1810.01367 [cs, stat]},
+	author = {Grathwohl, Will and Chen, Ricky T. Q. and Bettencourt, Jesse and Sutskever, Ilya and Duvenaud, David},
+	urldate = {2021-06-22},
+	date = {2018-10-22},
+	eprinttype = {arxiv},
+	eprint = {1810.01367},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Computer Science - Computer Vision and Pattern Recognition, Normalizing flows},
+	file = {arXiv Fulltext PDF:/home/silas/Zotero/storage/RAU66LXL/Grathwohl et al. - 2018 - FFJORD Free-form Continuous Dynamics for Scalable.pdf:application/pdf;arXiv.org Snapshot:/home/silas/Zotero/storage/YLRKNUU3/1810.html:text/html}
+}
+
+@article{chen_residual_2020,
+	title = {Residual Flows for Invertible Generative Modeling},
+	url = {http://arxiv.org/abs/1906.02735},
+	abstract = {Flow-based generative models parameterize probability distributions through an invertible transformation and can be trained by maximum likelihood. Invertible residual networks provide a flexible family of transformations where only Lipschitz conditions rather than strict architectural constraints are needed for enforcing invertibility. However, prior work trained invertible residual networks for density estimation by relying on biased log-density estimates whose bias increased with the network's expressiveness. We give a tractable unbiased estimate of the log density using a "Russian roulette" estimator, and reduce the memory required during training by using an alternative infinite series for the gradient. Furthermore, we improve invertible residual blocks by proposing the use of activation functions that avoid derivative saturation and generalizing the Lipschitz condition to induced mixed norms. The resulting approach, called Residual Flows, achieves state-of-the-art performance on density estimation amongst flow-based models, and outperforms networks that use coupling blocks at joint generative and discriminative modeling.},
+	journaltitle = {{arXiv}:1906.02735 [cs, stat]},
+	author = {Chen, Ricky T. Q. and Behrmann, Jens and Duvenaud, David and Jacobsen, Jörn-Henrik},
+	urldate = {2021-06-22},
+	date = {2020-07-23},
+	eprinttype = {arxiv},
+	eprint = {1906.02735},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Normalizing flows},
+	file = {arXiv Fulltext PDF:/home/silas/Zotero/storage/GWAZC3IU/Chen et al. - 2020 - Residual Flows for Invertible Generative Modeling.pdf:application/pdf;arXiv.org Snapshot:/home/silas/Zotero/storage/P24FRJPH/1906.html:text/html}
+}
