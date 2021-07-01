@@ -1,4 +1,5 @@
 torch
+torchvision
 pyro-ppl
 matplotlib
 seaborn
@@ -6,3 +7,4 @@ numpy
 scikit-learn
 pytest
 Sphinx
+pytorch-lightning
