@@ -1,0 +1,18 @@
+\section{Invertible Linear-Time Transformations}
+A simple construction of a normalizing flow could be invertible linear-time transformations. Their general form is given by:
+\begin{align*}
+    f(z)=\mathbf{z}+\mathbf{u}h_\theta(\mathbf{w}^T\mathbf{z}+b)
+\end{align*}
+with parameters $\lambda=\{\mathbf{w},\mathbf{u},b,\theta\}$ and $h$ smooth nonliterary, NOTE[I don't know why as i would assume that it also has to be invertible for $f$ to be invertible] 
+by application of the theory discussed in [\ref{NF}]
+\begin{align*}
+    q(z_n) & =q(z_0)\prod_k|\det J(f_k \circ z_{k-1})|^{-1}\\
+    & = q(z_0)\prod_k|1+\det (\mathbf{u}h'(z_{k-1})^T\mathbf{w})|^{-1}\\
+    & = q(z_0)\prod_k|1+ \mathbf{u}^Th'(z_{k-1})\mathbf{w}|^{-1}
+\end{align*}
+a good pick here could be the SE kernel:
+\begin{align*}
+    h(x)_\alpha & =\exp(-\frac{x^2}{\alpha})\\
+    h'(x)_\alpha= & -\exp(-\frac{x^2}{\alpha}) \cdot 2 \cdot \frac{x}{\alpha}
+\end{align*}
+

@@ -1,0 +1,30 @@
+\section{Optimization}\label{Ch:Opt}
+When we then to fit the posterior to the variational family we need an objective function. Ie how do we determine what is a good fit. A common chioce is the KL-divergence:
+\begin{align*}
+    KL[q_\theta || p] & = \int p(z) \ln \frac{p(z)}{q_\theta(z)}dz\\
+    & = \ln p(x) - L[q_\theta]
+\end{align*}
+Thus we get:
+\begin{align*}
+    \ln p(x)= KL[q_\theta||p] + L[q_\theta]
+\end{align*}
+Here $\ln p(x)$ is the marginal likelihood and thus does not does not depend on $q_\theta$ and is thus a constant w.r.t. $\theta$ as such maximizing $L[q_\theta]$ over $\theta$, minimizes $KL[q_\theta||p]$ so we will resort to maximizing $L[q_\theta]$ due to their equivalence.
+\begin{align*}
+    L[q_\theta] & = \E{q_\phi(z_n)}{\ln q_\theta(z_n)}-\E{q_\phi(z_n)}{\ln p(x,z_n)}\\
+    & = \E{q_0(z_0)}{\ln q_\theta(f_{(n)}\circ z_0)}-\E{q_0(z_0)}{\ln p(x,f_{(n)}\circ z_0)}\\
+    & = \E{q_0(z_0)}{\ln q(z_0)}-\sum_k\E{q_0(z_0)}{\ln|\det J(f_k \circ f_{(k-1)}\circ z_0)|} \\&-\E{q_0(z_0)}{\ln p(x,f_{(n)}\circ z_0)}
+\end{align*}
+As $\E{q_0(z_0)}{\ln q(z_0)}\perp\phi$ we can leave it out as it will not effect the optimization, we can furthere apply the reparametrization trick to $z_0\sim q_0$, and then estimate the gradients using that:
+\begin{align*}
+     L[q_\theta] = & -\sum_k\E{q_0(z_0)}{\ln|\det J(f_k \circ f_{(k-1)}\circ z_0)|} 
+     \\&-\E{q_0(z_0)}{\ln p(x,f_{(n)}\circ z_0)}\\
+     = & -\sum_k\E{q(\varepsilon)}{\ln|\det J(f_k \circ f_{(k-1)}\circ g(\lambda,\varepsilon))|} 
+     \\&-\E{q(\varepsilon)}{\ln p(x,f_{(n)}\circ g(\lambda,\varepsilon))}\\
+     \nabla_\phi L[q_\theta] = & -\sum_k\int q(\varepsilon)\nabla_\phi \ln|\det J(f^{\phi_k}_k \circ f^{(\phi_{k-1})}_{(k-1)}\circ g(\lambda,\varepsilon))|d\varepsilon \\ & -\int q(\varepsilon)\nabla_\phi \ln p(x,f^\phi_{(n)}\circ g(\lambda,\varepsilon))d\varepsilon\\
+     \approx & -\sum_k\sum_{n\in N}\nabla_\phi \ln|\det J(f^{\phi_k}_k \circ f^{(\phi_{k-1})}_{(k-1)}\circ g(\lambda,\varepsilon_n))| \\ 
+     & -\sum_{n \in N}\nabla_\phi \ln p(x,f^\phi_{(n)}\circ g(\lambda,\varepsilon_n)), \ \ \{\varepsilon_n\}^{|N|} \sim q(\varepsilon)
+\end{align*}
+Where we will use autograd to evaluate  $\nabla_\phi \ln|\det J(f^{\phi_k}_k \circ f^{(\phi_{k-1})}_{(k-1)}\circ g(\lambda,\varepsilon_n))|$ and \\  $ \nabla_\phi \ln p(x,f^\phi_{(n)}\circ g(\lambda,\varepsilon_n))$ at $\varepsilon_n$, this will allow us to recursively approximate the direction of greatest ascent and we can then use something like the Adam algorithm to fit the flow our posterior.
+
+\subsection{Optimation of planar flows}
+from the derived formula above we can easily find the 

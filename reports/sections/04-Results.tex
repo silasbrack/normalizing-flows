@@ -1,0 +1,36 @@
+\section{Results}
+
+% meh, a bit funky -- used tikzplotlib in python
+\begin{figure}
+    \centering
+    \input{figures/U1}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+\begin{table}[htb]
+\centering
+\caption{Fefjfiewjfoewjf for seed $0$.}
+\begin{tabular}{@{}cllllllll@{}}
+\toprule
+\multirow{2}{*}{}                       & \multicolumn{1}{c}{\multirow{2}{*}{Mean-field}} & \multicolumn{1}{c}{\multirow{2}{*}{Full-rank}} & \multicolumn{3}{c}{Planar} & \multicolumn{3}{c}{Radial} \\ \cmidrule(l){4-9} 
+                                        & \multicolumn{1}{c}{}                            & \multicolumn{1}{c}{}                           & 4       & 8      & 16      & 4       & 8      & 16      \\ \midrule
+ELBO                                    &                                                 &                                                &         &        &         &         &        &         \\
+$\mu - \hat{\mu}$           &                                                 &                                                &         &        &         &         &        &         \\
+$\sigma^2 - \hat{\sigma}^2$ &                                                 &                                                &         &        &         &         &        &         \\
+$\hat{k}$                               &                                                 &                                                &         &        &         &         &        &         \\ \bottomrule
+\end{tabular}
+\end{table}
+
+% num_flows = [4, 8, 16]
+% gradient_samples = [1, 4, 8]
+
+% {'elbo': [-17886.721237182617,
+%   -18000.507843613625,
+%   -17948.60223340988,
+%   -17902.622589111328,
+%   -17880.530441880226,
+%   -17874.11350044608,
+%   -17869.44455718994,
+%   -19573.12942624092,
+%   -17874.11769157648]}

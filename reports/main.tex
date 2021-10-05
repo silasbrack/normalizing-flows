@@ -1,0 +1,25 @@
+% Testing this instead of geometry for standardized wider margins
+% article scrartcl amsart
+\documentclass[11pt,a4paper]{amsart}
+
+\usepackage{style}
+\include{macros}
+\addbibresource{references.bib}
+
+\title{Variational inference using normalizing flows}
+\author{Silas Brack \and Jesper Martinhoff Knudsen}
+\thanks{Thanks to our supervisor Michael Riis Andersen.}
+
+\begin{document}
+\maketitle
+\input{sections/00-Abstract}
+\input{sections/01-Intro}
+\input{sections/02-ILTT}
+\input{sections/03-Optimization}
+\input{sections/04-Results}
+\input{sections/05-Conclusion}
+\nocite{*}
+\printbibliography
+\clearpage
+\input{sections/06-Appendix}
+\end{document}
