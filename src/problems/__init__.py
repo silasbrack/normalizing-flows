@@ -1,5 +1,4 @@
-from .mnist import MNISTDataModule
-from .multivariate_normal import model, get_data
-# from .poisson_regression import model, get_data
+from .energy_function import EnergyPosteriorProblem
+from .multivariate_normal import MultivariateNormal
+from .poisson_regression import PoissonRegression
 # from .logistic_regression import model, get_data
-from .energy_function import model, get_distribution

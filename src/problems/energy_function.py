@@ -1,11 +1,12 @@
 import torch
 import pyro
 from pyro import distributions as dist
-from torch.optim import Adam
+from pyro.optim import Adam
 from pyro.infer import SVI, Trace_ELBO
 import numpy as np
 import tqdm
 import seaborn as sns
+import matplotlib.pyplot as plt
 from src.visualization.visualize_distribution import plot_samples
 
 
@@ -16,7 +17,7 @@ class EnergyDistribution(dist.TorchDistribution):
         self.dist_type = dist_type
         self.dim = 2
 
-        w1 = lambda x: torch.sin((2 * torch.pi * x) / 4)
+        w1 = lambda x: torch.sin((2 * np.pi * x) / 4)
         w2 = lambda x: 3 * torch.exp(-(((x - 1) / 0.6) ** 2) / 2)
         w3 = lambda x: 3 * 1 / (1 + torch.exp(- ((x - 1) / 0.3)))
 
@@ -106,7 +107,8 @@ class EnergyPosteriorProblem:  # nn.Module
             losses[i] = svi.step(z0)
 
             if plot and i % 1000 == 0:
-                self.plot_flow_samples(title=f"z_{{{self.n_flows}}} for iteration {i}")
+                self.plot_flow_samples(title=f"$z_{{{self.n_flows}}}$ for iteration {i}")
+                plt.show()
 
         if plot:
             sns.lineplot(data=-losses) \
@@ -114,14 +116,15 @@ class EnergyPosteriorProblem:  # nn.Module
                 xlabel="Iteration",
                 ylabel="ELBO",
             )
+            plt.show()
 
         return {"svi": svi, "losses": losses}
 
-    def plot_flow_samples(self, f=None, title=""):
+    def plot_flow_samples(self, f=None, title="", ax=None):
         if f is None:
             f = self.n_flows
         intermediate_nf = dist.TransformedDistribution(self.base_dist, self.nfs[:f])
-        ax = plot_samples(intermediate_nf, title=title)
+        ax = plot_samples(intermediate_nf, title=title, ax=ax)
         return ax
 
     @staticmethod

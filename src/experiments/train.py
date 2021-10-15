@@ -1,4 +1,4 @@
-from torch.optim import Adam
+from pyro.optim import Adam
 import pyro
 from pyro.infer import Trace_ELBO, SVI
 from collections import defaultdict

@@ -33,16 +33,20 @@ def plot_pdf(dist, ax=None, x_min=-4, x_max=4, y_min=-4, y_max=4, point_density=
     return ax
 
 
-def plot_samples(dist, n=500, title=""):
+def plot_samples(dist, n=500, title="", ax=None):
+    if ax is None:
+        fig, ax = plt.subplots(1, 1)
     samples = dist.sample(torch.Size([n])).numpy()
     ax = sns.kdeplot(
         x=samples[:, 0],
         y=samples[:, 1],
         n_levels=10,
-        shade=True
+        shade=True,
+        ax=ax
     )
     ax.set(
         xlim=(-4, 4),
         ylim=(-4, 4),
         title=title,
     )
+    return ax
