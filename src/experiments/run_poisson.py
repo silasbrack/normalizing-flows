@@ -12,7 +12,7 @@ sns.scatterplot(x=data["age"], y=data["deaths"]) \
     .set(
         xlabel="Age",
         ylabel="Number of deaths",
-    )
+        )
 
 model = problem.poisson_model
 guide = normalizing_flow(model, flow_type=planar, num_flows=4)

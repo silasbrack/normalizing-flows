@@ -1,43 +1,18 @@
-import matplotlib.pyplot as plt
 from src.problems.energy import EnergyPosteriorProblem
 from pyro.distributions.transforms import planar, radial
-from src.visualization.visualize_distribution import plot_pdf
 
 """
 We want to recreate figure 3 from Rezende et al, 2015.
 """
 
-index = 1
+epochs = 20000
+flow_samples = 256
 for dist_name in ["U1", "U2", "U3", "U4"]:
-    dist = EnergyPosteriorProblem.get_dist(dist_name)
-
-    plt.figure(figsize=(20, 10))
-    ax = plt.subplot(5, 9, index)
-    plot_pdf(dist, ax=ax).set(
-        title=dist_name,
-        xticks=[],
-        yticks=[],
-    )
-    index += 2
-
     for flow_type in [planar, radial]:
         for n_flows in [2, 8, 32]:
             problem = EnergyPosteriorProblem(
                 dist_name=dist_name,
-                nfs=[flow_type(dist.dim) for _ in range(n_flows)],
+                nfs=[flow_type(input_dim=2) for _ in range(n_flows)],
             )
-            train_result = problem.train(20000, plot=False)
-
-            ax = plt.subplot(5, 9, index)
-            problem.plot_flow_samples(ax=ax)
-            ax.set(
-                title=f"K = {n_flows}",
-                xticks=[],
-                yticks=[],
-            )
-
-            index += 1
-        index += 1
-    index -= 1
-plt.tight_layout()
-plt.show()
+            train_result = problem.train(epochs, plot=False)
+            flow_samples = problem.sample((flow_samples,))
