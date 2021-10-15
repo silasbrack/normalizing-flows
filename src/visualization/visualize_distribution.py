@@ -1,26 +1,48 @@
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-def _evaluate_pdf(exact_log_density, lims, point_density):
-    xx, yy = np.meshgrid(np.linspace(lims[0][0], lims[0][1], point_density),
-                        np.linspace(lims[1][0], lims[1][1], point_density))
-    z = torch.tensor(np.concatenate((xx.reshape(-1, 1), yy.reshape(-1, 1)), axis=1))
-    density = torch.exp(exact_log_density(z)).reshape(point_density, point_density)
-    return density
 
-def plot_pdf_image(exact_log_density, ax, lims=np.array([[-4, 4], [-4, 4]]), point_density=100,
-                       name=None):
-    density = _evaluate_pdf(exact_log_density, lims, point_density)
-    ax.imshow(density, extent=([lims[0][0], lims[0][1], lims[1][0], lims[1][1]]), cmap="coolwarm")
-    if name is not None:
-        plt.title(name, fontsize=22)
+def plot_pdf(dist, ax=None, x_min=-4, x_max=4, y_min=-4, y_max=4, point_density=100, how="contourf"):
+    if ax is None:
+        fig, ax = plt.subplots(1, 1)
+    x = np.linspace(x_min, x_max, point_density)
+    y = np.linspace(y_min, y_max, point_density)
+    x_grid, y_grid = np.meshgrid(x, y)
+    pos = np.empty(x_grid.shape + (2,))
+    pos[:, :, 0] = x_grid
+    pos[:, :, 1] = y_grid
+    z = torch.exp(dist.log_prob(torch.tensor(pos)))
+    if how == "contourf":
+        ax.contourf(x_grid, y_grid, z, levels=10)
+    elif how == "contour":
+        ax.contour(x_grid, y_grid, z, levels=10)
+    elif how == "heatmap":
+        sns.heatmap(
+            data=z,
+            cbar=False,
+            ax=ax
+        )
+        ax.set(
+            xticks=[],
+            yticks=[],
+        )
+    else:
+        raise Exception("Parameter 'how' must be in values ['contourf', 'contour','heatmap'].")
+    return ax
 
-def plot_pdf_contours(dist, xmin=-4,xmax=4,ymin=-4,ymax=4,point_density=100):
-    x = np.linspace(xmin, xmax, point_density)
-    y = np.linspace(ymin, ymax, point_density)
-    X, Y = np.meshgrid(x,y)
-    pos = np.empty(X.shape + (2,))
-    pos[:, :, 0] = X; pos[:, :, 1] = Y
-    Z = torch.exp(dist.log_prob(torch.tensor(pos)))
-    CS = plt.contour(X, Y, Z, levels=10, cmap="coolwarm")
+
+def plot_samples(dist, n=500, title=""):
+    samples = dist.sample(torch.Size([n])).numpy()
+    ax = sns.kdeplot(
+        x=samples[:, 0],
+        y=samples[:, 1],
+        n_levels=10,
+        shade=True
+    )
+    ax.set(
+        xlim=(-4, 4),
+        ylim=(-4, 4),
+        title=title,
+    )

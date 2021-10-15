@@ -1,7 +1,7 @@
-from src.problems.nf import NormalizingFlow
+# from src.problems.nf import NormalizingFlow
 
 
-def visualize_flow_as_gif(model: NormalizingFlow, to_save: bool):
+def visualize_flow_as_gif(model, to_save):
     path_to_visualizations = "figures/"
     _save_to_gif(None, path_to_visualizations, "model.gif")
 

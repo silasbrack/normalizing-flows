@@ -1,29 +1,42 @@
-def train(model, guide, epochs, gradient_mc_samples=1, adam_params={"lr": 3e-4}, plot=True):
+from torch.optim import Adam
+import pyro
+from pyro.infer import Trace_ELBO, SVI
+from collections import defaultdict
+import numpy as np
+from pyro import poutine
+import tqdm
+import seaborn as sns
+
+
+def train(data, model, guide, epochs, gradient_mc_samples=1, adam_params={"lr": 3e-4}, plot=True):
     optim = Adam(adam_params)
-    loss = Trace_ELBO(num_particles=gradient_mc_samples)
+    loss = Trace_ELBO(num_particles=gradient_mc_samples) # Have to fix stuff to use vectorize_particles=True
     svi = SVI(model, guide, optim, loss=loss)
     pyro.clear_param_store()
 
     gradient_norms = defaultdict(list)
-    register_gradient_hooks(svi, gradient_norms, [data])
+    register_gradient_hooks(svi, gradient_norms, [*data])
 
     losses = np.zeros(epochs)
-    for i in tqdm.notebook.tqdm(range(epochs)):
-        losses[i] = svi.step(data)
+    for i in tqdm.tqdm(range(epochs)):
+        losses[i] = svi.step(*data)
 
     if plot:
-        plt.plot(-losses)
-        plt.ylabel("ELBO")
-        plt.xlabel("Iteration")
-        plt.show()
+        sns.lineplot(data=-losses) \
+            .set(
+                xlabel="Iteration",
+                ylabel="ELBO",
+            )
 
     return {"svi": svi, "losses": losses, "gradient_norms": gradient_norms}
+
 
 def register_gradient_hooks(svi, gradient_norms, svi_args=[]):
     # Register hooks to monitor gradient norms.
     svi.step(*svi_args)
     for name, value in pyro.get_param_store().named_parameters():
         value.register_hook(lambda g, name=name: gradient_norms[name].append(g.norm().item()))
+
 
 # KL annealing, credit to https://pyro.ai/examples/custom_objectives.html#Example:-KL-Annealing
 def simple_elbo_kl_annealing(model, guide, *args, **kwargs):
