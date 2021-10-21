@@ -33,15 +33,19 @@ def plot_pdf(dist, ax=None, x_min=-4, x_max=4, y_min=-4, y_max=4, point_density=
     return ax
 
 
-def plot_samples(dist, n=500, title="", ax=None):
+def plot_samples(dist=None, samples=None, n=500, title="", ax=None, shade=True):
     if ax is None:
         fig, ax = plt.subplots(1, 1)
-    samples = dist.sample(torch.Size([n])).numpy()
+    if dist is None and samples is None:
+        raise ValueError('Expected either dist or samples args')
+    elif samples is None:
+        samples = dist.sample(torch.Size([n])).numpy()
     ax = sns.kdeplot(
         x=samples[:, 0],
         y=samples[:, 1],
         n_levels=10,
-        shade=True,
+        shade=shade,
+        cmap=sns.color_palette("rocket", as_cmap=True),
         ax=ax
     )
     ax.set(
