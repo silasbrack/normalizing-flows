@@ -1,5 +1,18 @@
 # Variational inference using normalizing flows
 
+## How to run
+
+For example, to run the energy experiment and generate plots, run:
+
+```bash
+git clone https://github.com/silasbrack/normalizing-flows.git
+cd normalizing-flows/
+pip install -e .
+pip install -r requirements.txt
+python src/experiments/run_energy.py
+python src/visualization/experiments/visualize_energy.py
+```
+
 ## Structure
 
 	├── LICENSE
