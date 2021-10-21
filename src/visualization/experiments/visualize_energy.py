@@ -14,10 +14,10 @@ We want to recreate figure 3 from Rezende et al, 2015.
 plt.figure(figsize=(20, 10))
 
 index = 1
-for dist_name in ["U1", "U2", "U3"]:
+for dist_name in ["U1", "U2", "U3", "U4"]:
     dist = EnergyPosteriorProblem.get_dist(dist_name)
 
-    ax = plt.subplot(5, 9, index)
+    ax = plt.subplot(4, 9, index)
     # ax = plt.subplot(5, 7, index)
     plot_pdf(dist, ax=ax, how="contour").set(
         title=dist_name,
@@ -33,7 +33,7 @@ for dist_name in ["U1", "U2", "U3"]:
             #flow_samples = results["flow_samples"][flow_type][n_flows]
             flow_samples = results
 
-            ax = plt.subplot(5, 9, index)
+            ax = plt.subplot(4, 9, index)
             # ax = plt.subplot(5, 7, index)
             plot_samples(samples=flow_samples, ax=ax, shade=False)
             ax.set(
