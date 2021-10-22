@@ -35,8 +35,8 @@ class PoissonRegression:
              10]).double()
 
         # prep data
-        x = scale(age)
+        x = torch.tensor(scale(age))
         x = x[:, None]
         x = design_matrix(x).double()
 
-        return {"design_matrix": x, "ages": age, "deaths": deaths}
+        return {"design_matrix": x, "age": age, "deaths": deaths}
