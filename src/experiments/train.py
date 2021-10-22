@@ -28,7 +28,7 @@ def train(data, model, guide, epochs, gradient_mc_samples=1, adam_params={"lr": 
                 ylabel="ELBO",
             )
 
-    return {"svi": svi, "losses": losses, "gradient_norms": gradient_norms}
+    return {"losses": losses, "gradient_norms": gradient_norms}
 
 
 def register_gradient_hooks(svi, gradient_norms, svi_args=[]):

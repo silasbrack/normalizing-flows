@@ -59,8 +59,9 @@ class EnergyPosteriorProblem:  # nn.Module
                  dist_name,
                  nfs,
                  dim=2,
-                 base_dist=lambda dim: dist.Normal(torch.zeros(dim), torch.ones(dim)), ):
-        # super(EnergyPosteriorProblem, self).__init__()
+                 base_dist=lambda dim: dist.Normal(torch.zeros(dim), torch.ones(dim)),
+                 device=torch.device("cpu")
+                 ):
         self.uuid = np.random.randint(low=0, high=10000, size=1)[0]
         self.dim = dim
         self.base_dist = base_dist(dim)
@@ -68,6 +69,8 @@ class EnergyPosteriorProblem:  # nn.Module
         self.nfs = nfs
         self.nf_dist = dist.TransformedDistribution(self.base_dist, self.nfs)
         self._register()
+
+        self.device = device
 
         self.dist_name = dist_name
         self.target_dist = EnergyPosteriorProblem.get_dist(dist_name)
@@ -103,7 +106,7 @@ class EnergyPosteriorProblem:  # nn.Module
 
         losses = np.zeros(epochs)
         for i in tqdm.tqdm(range(epochs)):
-            z0 = self.sample(n_samples)
+            z0 = self.sample(n_samples).to(self.device)
             losses[i] = svi.step(z0)
 
             if plot and i % 1000 == 0:
@@ -118,7 +121,7 @@ class EnergyPosteriorProblem:  # nn.Module
             )
             plt.show()
 
-        return {"svi": svi, "losses": losses}
+        return {"losses": losses}
 
     def plot_flow_samples(self, f=None, title="", ax=None):
         if f is None:
