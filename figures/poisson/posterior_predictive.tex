@@ -6,17 +6,43 @@
 \begin{axis}[
 axis line style={white!15!black},
 legend cell align={left},
-legend style={fill opacity=0.8, draw opacity=1, text opacity=1, draw=white!80!black},
+legend style={
+  fill opacity=0.8,
+  draw opacity=1,
+  text opacity=1,
+  at={(0.03,0.97)},
+  anchor=north west,
+  draw=white!80!black
+},
 tick align=outside,
-title={Prediction distribution \(\displaystyle t_{*}|\mathbf{t}\)},
+tick pos=left,
 x grid style={white!80!black},
-xmajorticks=false,
-xmin=33.3802096774194, xmax=65.6197903225806,
+xlabel=\textcolor{white!15!black}{Age},
+xmin=33.1877806451613, xmax=65.8122193548387,
 xtick style={color=white!15!black},
+xtick={30,40,50,60,70},
+xticklabels={
+  \(\displaystyle 30\),
+  \(\displaystyle 40\),
+  \(\displaystyle 50\),
+  \(\displaystyle 60\),
+  \(\displaystyle 70\)
+},
 y grid style={white!80!black},
-ymajorticks=false,
+ylabel=\textcolor{white!15!black}{Number of deaths},
 ymin=-1.4, ymax=29.4,
-ytick style={color=white!15!black}
+ytick style={color=white!15!black},
+ytick={-5,0,5,10,15,20,25,30},
+yticklabels={
+  \(\displaystyle -5\),
+  \(\displaystyle 0\),
+  \(\displaystyle 5\),
+  \(\displaystyle 10\),
+  \(\displaystyle 15\),
+  \(\displaystyle 20\),
+  \(\displaystyle 25\),
+  \(\displaystyle 30\)
+}
 ]
 \path [draw=color0, fill=color0, opacity=0.25, line width=0.32pt]
 (axis cs:35,9)
@@ -38,10 +64,10 @@ ytick style={color=white!15!black}
 --(axis cs:50,1)
 --(axis cs:51,1)
 --(axis cs:52,1)
---(axis cs:53,1)
+--(axis cs:53,2)
 --(axis cs:54,2)
 --(axis cs:55,2)
---(axis cs:56,2)
+--(axis cs:56,3)
 --(axis cs:57,3)
 --(axis cs:58,3)
 --(axis cs:59,3)
@@ -52,22 +78,22 @@ ytick style={color=white!15!black}
 --(axis cs:64,5)
 --(axis cs:64,28)
 --(axis cs:64,28)
---(axis cs:63,27)
+--(axis cs:63,25)
 --(axis cs:62,25)
---(axis cs:61,24)
---(axis cs:60,23)
+--(axis cs:61,23)
+--(axis cs:60,21.5250000000001)
 --(axis cs:59,21)
 --(axis cs:58,20)
 --(axis cs:57,19)
---(axis cs:56,19)
+--(axis cs:56,18)
 --(axis cs:55,18)
---(axis cs:54,16)
---(axis cs:53,16)
+--(axis cs:54,17)
+--(axis cs:53,16.5250000000001)
 --(axis cs:52,15)
---(axis cs:51,15)
---(axis cs:50,15)
+--(axis cs:51,16)
+--(axis cs:50,14)
 --(axis cs:49,14)
---(axis cs:48,13)
+--(axis cs:48,14)
 --(axis cs:47,13)
 --(axis cs:46,12)
 --(axis cs:45,12)
@@ -78,7 +104,7 @@ ytick style={color=white!15!black}
 --(axis cs:40,10)
 --(axis cs:39,10)
 --(axis cs:38,10)
---(axis cs:37,9)
+--(axis cs:37,9.52500000000009)
 --(axis cs:36,9)
 --(axis cs:35,9)
 --cycle;
@@ -91,15 +117,15 @@ ytick style={color=white!15!black}
 --(axis cs:36,0)
 --(axis cs:37,0)
 --(axis cs:38,0)
---(axis cs:39,0)
---(axis cs:40,0)
+--(axis cs:39,1)
+--(axis cs:40,1)
 --(axis cs:41,1)
 --(axis cs:42,1)
 --(axis cs:43,1)
 --(axis cs:44,1)
 --(axis cs:45,1)
 --(axis cs:46,1)
---(axis cs:47,1)
+--(axis cs:47,2)
 --(axis cs:48,2)
 --(axis cs:49,2)
 --(axis cs:50,2)
@@ -119,13 +145,13 @@ ytick style={color=white!15!black}
 --(axis cs:64,7)
 --(axis cs:64,24)
 --(axis cs:64,24)
---(axis cs:63,23)
---(axis cs:62,21)
+--(axis cs:63,22)
+--(axis cs:62,22)
 --(axis cs:61,20)
 --(axis cs:60,19)
 --(axis cs:59,18)
---(axis cs:58,18)
---(axis cs:57,16)
+--(axis cs:58,17)
+--(axis cs:57,16.625)
 --(axis cs:56,16)
 --(axis cs:55,15)
 --(axis cs:54,15)
@@ -134,19 +160,19 @@ ytick style={color=white!15!black}
 --(axis cs:51,13)
 --(axis cs:50,12)
 --(axis cs:49,12)
---(axis cs:48,11)
+--(axis cs:48,12)
 --(axis cs:47,11)
 --(axis cs:46,10)
 --(axis cs:45,10)
 --(axis cs:44,10)
---(axis cs:43,9)
+--(axis cs:43,10)
 --(axis cs:42,9)
 --(axis cs:41,9)
---(axis cs:40,8)
+--(axis cs:40,9)
 --(axis cs:39,8)
 --(axis cs:38,8)
 --(axis cs:37,8)
---(axis cs:36,7)
+--(axis cs:36,8)
 --(axis cs:35,7)
 --cycle;
 \addlegendimage{area legend, draw=color0, fill=color0, opacity=0.35, line width=0.32pt}
@@ -158,41 +184,41 @@ ytick style={color=white!15!black}
 --(axis cs:36,1)
 --(axis cs:37,1)
 --(axis cs:38,1)
---(axis cs:39,1)
+--(axis cs:39,2)
 --(axis cs:40,2)
 --(axis cs:41,2)
 --(axis cs:42,2)
 --(axis cs:43,2)
 --(axis cs:44,2)
---(axis cs:45,2)
+--(axis cs:45,3)
 --(axis cs:46,3)
 --(axis cs:47,3)
 --(axis cs:48,3)
---(axis cs:49,3)
+--(axis cs:49,4)
 --(axis cs:50,4)
 --(axis cs:51,4)
 --(axis cs:52,4)
---(axis cs:53,4)
+--(axis cs:53,5)
 --(axis cs:54,5)
 --(axis cs:55,5)
 --(axis cs:56,6)
 --(axis cs:57,6)
---(axis cs:58,6)
+--(axis cs:58,7)
 --(axis cs:59,7)
 --(axis cs:60,7)
 --(axis cs:61,8)
 --(axis cs:62,8)
 --(axis cs:63,9)
---(axis cs:64,10)
+--(axis cs:64,9)
 --(axis cs:64,19)
 --(axis cs:64,19)
 --(axis cs:63,18)
---(axis cs:62,18)
---(axis cs:61,17)
+--(axis cs:62,17)
+--(axis cs:61,16)
 --(axis cs:60,16)
 --(axis cs:59,15)
 --(axis cs:58,14)
---(axis cs:57,13)
+--(axis cs:57,14)
 --(axis cs:56,13)
 --(axis cs:55,12)
 --(axis cs:54,12)
@@ -205,7 +231,7 @@ ytick style={color=white!15!black}
 --(axis cs:47,9)
 --(axis cs:46,8)
 --(axis cs:45,8)
---(axis cs:44,7)
+--(axis cs:44,8)
 --(axis cs:43,7)
 --(axis cs:42,7)
 --(axis cs:41,7)
@@ -213,13 +239,13 @@ ytick style={color=white!15!black}
 --(axis cs:39,6)
 --(axis cs:38,6)
 --(axis cs:37,6)
---(axis cs:36,5)
+--(axis cs:36,6)
 --(axis cs:35,5)
 --cycle;
 \addlegendimage{area legend, draw=color0, fill=color0, opacity=0.6, line width=0.32pt}
 \addlegendentry{75% Interval}
 
-\addplot [draw=white!10!black, fill=white!10!black, forget plot, mark=*, only marks]
+\addplot [draw=white, fill=white!10!black, mark=*, only marks]
 table{%
 x  y
 35 3
@@ -253,39 +279,41 @@ x  y
 63 6
 64 10
 };
-\addplot [ultra thick, white!10!black, opacity=0.7, forget plot]
+\addlegendentry{Observations}
+\addplot [ultra thick, white!10!black, opacity=0.7]
 table {%
-35 2.954345703125
-36 3.178955078125
-37 3.3017578125
-38 3.50439453125
-39 3.6826171875
-40 3.855224609375
-41 4.04052734375
-42 4.27880859375
-43 4.5078125
-44 4.739013671875
-45 5.025390625
-46 5.2958984375
-47 5.698974609375
-48 5.933349609375
-49 6.182861328125
-50 6.6279296875
-51 7.022216796875
-52 7.36376953125
-53 7.839111328125
-54 8.230712890625
-55 8.695556640625
-56 9.270263671875
-57 9.7138671875
-58 10.321533203125
-59 10.9482421875
-60 11.535400390625
-61 12.266357421875
-62 12.98828125
-63 13.637451171875
-64 14.397216796875
+35 3.181396484375
+36 3.295166015625
+37 3.479248046875
+38 3.71826171875
+39 3.85302734375
+40 4.015380859375
+41 4.262451171875
+42 4.51171875
+43 4.74951171875
+44 4.970947265625
+45 5.24658203125
+46 5.474853515625
+47 5.838623046875
+48 6.13720703125
+49 6.446044921875
+50 6.787109375
+51 7.227294921875
+52 7.513671875
+53 7.851806640625
+54 8.397705078125
+55 8.800537109375
+56 9.30810546875
+57 9.724853515625
+58 10.349853515625
+59 10.875732421875
+60 11.5087890625
+61 12.117431640625
+62 12.701416015625
+63 13.41162109375
+64 14.21533203125
 };
+\addlegendentry{Mean}
 \end{axis}
 
 \end{tikzpicture}

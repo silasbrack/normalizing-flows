@@ -24,7 +24,8 @@ train_result = train(
     model,
     guide,
     epochs=5000,
-    adam_params={"lr": 5e-3}
+    gradient_mc_samples=16,
+    adam_params={"lr": 5e-3},
 )
 
 n_samples = 4096

@@ -4,7 +4,7 @@ import seaborn as sns
 def setup():
     sns.set_theme(
         context="paper",
-        style="ticks",
+        style="ticks", # Using white breaks tikzplotlib ticks
         font="serif",
         rc={
             "text.usetex": True,

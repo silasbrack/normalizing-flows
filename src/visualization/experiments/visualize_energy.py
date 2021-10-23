@@ -8,23 +8,32 @@ from src.visualization.visualize_distribution import plot_pdf, plot_samples
 import tikzplotlib
 import numpy as np
 import pickle
+import pandas as pd
 
-final_elbos = {"planar": [], "radial": []}
+final_elbos = {"Planar": [], "Radial": []}
+idx = pd.MultiIndex.from_product([['Planar','Radial'], [2,8,32]])
+df : pd.DataFrame = pd.DataFrame(np.random.randn(4,6), columns=idx, index=["U1", "U2", "U3", "U4"])
 
 plt.figure(figsize=(5,4))
-dist_name = "U1"
-for name in ["planar", "radial"]:
-    for n_flows in [2, 8, 32]:
-        with open("results/energy/" + f"{dist_name}_{name}_{n_flows}.pkl", "rb") as f:
-            results = pickle.load(f)
+for dist_name in ["U1", "U2", "U3", "U4"]:
+    for name in ["Planar", "Radial"]:
+        for n_flows in [2, 8, 32]:
+            with open("results/energy/" + f"{dist_name}_{name}_{n_flows}.pkl", "rb") as f:
+                results = pickle.load(f)
 
-        flow_samples = results["samples"]
-        intermediate_samples = results["intermediate_samples"]
-        losses = results["losses"]
-        average_final_elbo = -np.mean(losses[-1000:])
-        final_elbos[name].append(average_final_elbo)
+            flow_samples = results["samples"]
+            intermediate_samples = results["intermediate_samples"]
+            losses = results["losses"]
+            average_final_elbo = -np.mean(losses[-1000:])
+            df[name][n_flows][dist_name] = average_final_elbo
 
-        plt.plot(-losses, label=f"{n_flows} {name} flows", linewidth=0.5)
+            if dist_name == "U1":
+                final_elbos[name].append(average_final_elbo)
+                plt.plot(-losses, label=f"{n_flows} {name.lower()} flows", linewidth=0.5)
+
+df.index = ["$U1(z)$", "$U2(z)$", "$U3(z)$", "$U4(z)$"]
+with open("figures/energy/energy_results_table.tex", "w") as f:
+    df.to_latex(f, float_format="{:0.2f}".format)
 
 plt.ylabel("ELBO")
 plt.xlabel("Iteration")
@@ -41,10 +50,10 @@ plt.savefig(f"figures/energy/energy_training_curves_{dist_name}.pgf",
 )
 
 plt.figure(figsize=(3,2.5))
-ax = sns.scatterplot(x=[0,1,2], y=final_elbos["planar"], color="r", s=30, label="Planar")
-sns.lineplot(x=[0,1,2], y=final_elbos["planar"], color="r", linewidth=2, linestyle="--")
-sns.scatterplot(x=[0,1,2], y=final_elbos["radial"], color="b", s=30, label="Radial")
-sns.lineplot(x=[0,1,2], y=final_elbos["radial"], color="b", linewidth=2, linestyle="--")
+ax = sns.scatterplot(x=[0,1,2], y=final_elbos["Planar"], color="r", s=30, label="Planar")
+sns.lineplot(x=[0,1,2], y=final_elbos["Planar"], color="r", linewidth=2, linestyle="--")
+sns.scatterplot(x=[0,1,2], y=final_elbos["Radial"], color="b", s=30, label="Radial")
+sns.lineplot(x=[0,1,2], y=final_elbos["Radial"], color="b", linewidth=2, linestyle="--")
 plt.ylabel("ELBO")
 plt.xlabel("Number of flows")
 plt.xticks([0,1,2], ["2","8","32"])
@@ -84,55 +93,54 @@ plt.savefig(f"figures/energy/{dist_name}.pgf",
 tikzplotlib.save(f"figures/energy/{dist_name}.tex")
 
 
-# """
-# We want to recreate figure 3 from Rezende et al, 2015.
-# """
-#
-# # plt.figure(figsize=(20, 10))
-# plt.figure(figsize=(10, 5))
-# # plt.figure(figsize=(5, 2.5))
-#
-# index = 1
-# for dist_name in ["U1", "U2", "U3", "U4"]:
-#     # pyro.get_param_store().load(f"models/energy/{}.save")
-#
-#     dist = EnergyPosteriorProblem.get_dist(dist_name)
-#
-#     # ax = plt.subplot(4, 9, index)
-#     ax = plt.subplot(5, 7, index)
-#     plot_pdf(dist, ax=ax, how="contour").set(
-#         # title=dist_name,
-#         ylabel=dist_name,
-#         xticks=[],
-#         yticks=[],
-#     )
-#     # index += 2
-#     index += 1
-#
-#     for flow_type, name in [(planar, "planar"), (radial, "radial")]:
-#         for n_flows in [2, 8, 32]:
-#             results = np.load("results/energy/" + f"{dist_name}_{name}_{n_flows}.npy")
-#             flow_samples = results
-#             # with open("results/energy/" + f"{dist_name}_{name}_{n_flows}.pkl", "rb") as f:
-#             #     results = pickle.load(f)
-#             # flow_samples = results["samples"]
-#
-#             # ax = plt.subplot(4, 9, index)
-#             ax = plt.subplot(5, 7, index)
-#             plot_samples(samples=flow_samples, ax=ax, shade=False)
-#             ax.set(
-#                 title=f"K = {n_flows}" if dist_name == "U1" else None,
-#                 xticks=[],
-#                 yticks=[],
-#             )
-#
-#             index += 1
-#     #     index += 1
-#     # index -= 1
-# # plt.tight_layout()
-# # tikzplotlib.clean_figure()
-# # tikzplotlib.save("figures/energy/energy_grid.tex")
-# plt.savefig("figures/energy/energy_grid.pgf", backend="pgf") # backend="pgf"
-# plt.show()
+
+"""
+We want to recreate figure 3 from Rezende et al, 2015.
+"""
+
+# plt.figure(figsize=(20, 10))
+plt.figure(figsize=(10, 5))
+# plt.figure(figsize=(5, 2.5))
+
+index = 1
+for dist_name in ["U1", "U2", "U3", "U4"]:
+    # pyro.get_param_store().load(f"models/energy/{}.save")
+
+    dist = EnergyPosteriorProblem.get_dist(dist_name)
+
+    # ax = plt.subplot(4, 9, index)
+    ax = plt.subplot(5, 7, index)
+    plot_pdf(dist, ax=ax, how="contour").set(
+        # title=dist_name,
+        ylabel=dist_name,
+        xticks=[],
+        yticks=[],
+    )
+    # index += 2
+    index += 1
+
+    for flow_type, name in [(planar, "planar"), (radial, "radial")]:
+        for n_flows in [2, 8, 32]:
+            with open("results/energy/" + f"{dist_name}_{name}_{n_flows}.pkl", "rb") as f:
+                results = pickle.load(f)
+            flow_samples = results["samples"]
+
+            # ax = plt.subplot(4, 9, index)
+            ax = plt.subplot(5, 7, index)
+            plot_samples(samples=flow_samples, ax=ax, shade=False)
+            ax.set(
+                title=f"K = {n_flows}" if dist_name == "U1" else None,
+                xticks=[],
+                yticks=[],
+            )
+
+            index += 1
+    #     index += 1
+    # index -= 1
+# plt.tight_layout()
+# tikzplotlib.clean_figure()
+# tikzplotlib.save("figures/energy/energy_grid.tex")
+plt.savefig("figures/energy/energy_grid.pgf", backend="pgf")
+plt.savefig("figures/energy/energy_grid.pdf", backend="pgf")
 
 plt.show()

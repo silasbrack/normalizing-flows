@@ -68,27 +68,45 @@ def plot_predictions(ax, x, s, num_samples=100, sample_color='k', sample_alpha=0
 problem = PoissonRegression()
 data = problem.get_data()
 
+with open("results/poisson/poisson.pkl", "rb") as f:
+    results = pickle.load(f)
+prediction = results["predictive_samples"]
+losses = results["losses"]
+
+plt.figure(figsize=(4,2.5))
+sns.lineplot(
+    x=range(len(losses)),
+    y=-losses,
+).set(
+    xlabel="Iteration",
+    ylabel="ELBO",
+)
+# plt.ylim([-500, 400])
+sns.despine()
+plt.savefig(f"figures/poisson/training_curve.pgf",
+            backend="pgf",
+            dpi=1000,
+            bbox_inches='tight',
+)
+plt.savefig(f"figures/poisson/training_curve.pdf",
+            backend="pgf",
+            dpi=1000,
+            bbox_inches='tight',
+)
+
+fig, ax = plt.subplots(1,1, figsize=(3, 2.5))
+plot_predictions(ax, data["age"], prediction.detach().numpy(), num_samples=0, legend=True)
 sns.scatterplot(
     x=data["age"],
     y=data["deaths"],
-    color="black",
+    color="k",
+    label="Observations",
 ).set(
     xlabel="Age",
     ylabel="Number of deaths",
 )
-tikzplotlib.save("figures/poisson/data.tex")
-# plt.show()
-
-
-
-with open("results/poisson/poisson.pkl", "rb") as f:
-    results = pickle.load(f)
-prediction = results["predictive_samples"]
-
-
-fig, ax = plt.subplots(1,1)
-plot_predictions(ax, data["age"], prediction.detach().numpy(), num_samples=0, legend=True)
-ax.scatter(data["age"], data["deaths"], c="k")
-plt.savefig("figures/poisson/posterior_predictive.pgf")
+plt.savefig("figures/poisson/posterior_predictive.pgf", backend="pgf")
+plt.savefig("figures/poisson/posterior_predictive.pdf", backend="pgf")
+tikzplotlib.save("figures/poisson/posterior_predictive.tex")
 
 plt.show()
