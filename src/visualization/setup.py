@@ -4,7 +4,7 @@ import seaborn as sns
 def setup():
     sns.set_theme(
         context="paper",
-        style="white",
+        style="ticks",
         font="serif",
         rc={
             "text.usetex": True,

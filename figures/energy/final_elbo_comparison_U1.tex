@@ -1,0 +1,69 @@
+% This file was created with tikzplotlib v0.9.15.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.768627450980392,0.305882352941176,0.32156862745098}
+\definecolor{color1}{rgb}{0.298039215686275,0.447058823529412,0.690196078431373}
+
+\begin{axis}[
+axis line style={white!15!black},
+legend cell align={left},
+legend style={
+  fill opacity=0.8,
+  draw opacity=1,
+  text opacity=1,
+  at={(0.97,0.03)},
+  anchor=south east,
+  draw=white!80!black
+},
+tick align=outside,
+tick pos=left,
+x grid style={white!80!black},
+xlabel=\textcolor{white!15!black}{Number of flows},
+xmin=-0.128874468445396, xmax=2.1288744684454,
+xtick style={color=white!15!black},
+xtick={0,1,2},
+xticklabels={2,8,32},
+y grid style={white!80!black},
+ylabel=\textcolor{white!15!black}{ELBO},
+ymin=-82.2775140119368, ymax=296.468823821018,
+ytick style={color=white!15!black},
+ytick={-100,0,100,200,300},
+yticklabels={
+  \(\displaystyle -100\),
+  \(\displaystyle 0\),
+  \(\displaystyle 100\),
+  \(\displaystyle 200\),
+  \(\displaystyle 300\)
+}
+]
+\addplot [draw=white, fill=color0, mark=*, only marks]
+table{%
+x  y
+0 73.4987974243164
+1 256.244560638428
+2 279.237431976318
+};
+\addlegendentry{Planar}
+\addplot [draw=white, fill=color1, mark=*, only marks]
+table{%
+x  y
+0 -61.8416332702637
+1 236.320770004272
+2 272.284679321289
+};
+\addlegendentry{Radial}
+\addplot [thick, color0, dashed, forget plot]
+table {%
+0 73.4987974243164
+1 256.244560638428
+2 279.237431976318
+};
+\addplot [thick, color1, dashed, forget plot]
+table {%
+0 -61.8416332702637
+1 236.320770004272
+2 272.284679321289
+};
+\end{axis}
+
+\end{tikzpicture}

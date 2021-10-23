@@ -33,7 +33,7 @@ def plot_pdf(dist, ax=None, x_min=-4, x_max=4, y_min=-4, y_max=4, point_density=
     return ax
 
 
-def plot_samples(dist=None, samples=None, n=500, title="", ax=None, shade=True):
+def plot_samples(dist=None, samples=None, n=500, title="", ax=None, shade=False):
     if ax is None:
         fig, ax = plt.subplots(1, 1)
     if dist is None and samples is None:
@@ -53,4 +53,4 @@ def plot_samples(dist=None, samples=None, n=500, title="", ax=None, shade=True):
         ylim=(-4, 4),
         title=title,
     )
-    return ax
+    return ax, samples
