@@ -100,9 +100,11 @@ class EnergyPosteriorProblem:  # nn.Module
 
     def train(self, epochs, gradient_mc_samples=1, n_samples=256, adam_params={"lr": 3e-4}, plot=True):
         optim = Adam(adam_params)
-        loss = Trace_ELBO(num_particles=gradient_mc_samples)  # Have to fix stuff to use vectorize_particles=True
+        loss = Trace_ELBO(num_particles=gradient_mc_samples, vectorize_particles=True)  # Have to fix stuff to use vectorize_particles=True
         svi = SVI(self.model, self.guide, optim, loss=loss)
         pyro.clear_param_store()
+
+        intermediate_samples = {}
 
         losses = np.zeros(epochs)
         for i in tqdm.tqdm(range(epochs)):
@@ -110,7 +112,8 @@ class EnergyPosteriorProblem:  # nn.Module
             losses[i] = svi.step(z0)
 
             if plot and i % 1000 == 0:
-                self.plot_flow_samples(title=f"$z_{{{self.n_flows}}}$ for iteration {i}")
+                _, samples = self.plot_flow_samples(title=f"$z_{{{self.n_flows}}}$ for iteration {i}")
+                intermediate_samples[i] = samples
                 plt.show()
 
         if plot:
@@ -121,14 +124,14 @@ class EnergyPosteriorProblem:  # nn.Module
             )
             plt.show()
 
-        return {"losses": losses}
+        return {"losses": losses, "intermediate_samples": intermediate_samples}
 
     def plot_flow_samples(self, f=None, title="", ax=None):
         if f is None:
             f = self.n_flows
         intermediate_nf = dist.TransformedDistribution(self.base_dist, self.nfs[:f])
-        ax = plot_samples(intermediate_nf, title=title, ax=ax)
-        return ax
+        ax, samples = plot_samples(intermediate_nf, title=title, ax=ax)
+        return ax, samples
 
     @staticmethod
     def get_dist(dist_name):
