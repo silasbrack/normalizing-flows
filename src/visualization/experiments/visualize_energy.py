@@ -2,6 +2,7 @@ from src.visualization.setup import setup
 setup()
 import matplotlib.pyplot as plt
 import seaborn as sns
+# sns.set_theme("paper", "ticks")
 from src.problems.energy import EnergyPosteriorProblem
 from pyro.distributions.transforms import planar, radial
 from src.visualization.visualize_distribution import plot_pdf, plot_samples
@@ -14,7 +15,7 @@ final_elbos = {"Planar": [], "Radial": []}
 idx = pd.MultiIndex.from_product([['Planar','Radial'], [2,8,32]])
 df : pd.DataFrame = pd.DataFrame(np.random.randn(4,6), columns=idx, index=["U1", "U2", "U3", "U4"])
 
-plt.figure(figsize=(5,4))
+# plt.figure(figsize=(5,4))
 for dist_name in ["U1", "U2", "U3", "U4"]:
     for name in ["Planar", "Radial"]:
         for n_flows in [2, 8, 32]:
@@ -29,43 +30,44 @@ for dist_name in ["U1", "U2", "U3", "U4"]:
 
             if dist_name == "U1":
                 final_elbos[name].append(average_final_elbo)
-                plt.plot(-losses, label=f"{n_flows} {name.lower()} flows", linewidth=0.5)
+                # plt.plot(-losses, label=f"{n_flows} {name.lower()} flows", linewidth=0.5)
 
-df.index = ["$U1(z)$", "$U2(z)$", "$U3(z)$", "$U4(z)$"]
+df.index = ["$U_1(z)$", "$U_2(z)$", "$U_3(z)$", "$U_4(z)$"]
 with open("figures/energy/energy_results_table.tex", "w") as f:
     df.to_latex(f, float_format="{:0.2f}".format)
 
-plt.ylabel("ELBO")
-plt.xlabel("Iteration")
-plt.ylim([-500, 400]) # U1
-# plt.ylim([-400, 800]) # U2
-# plt.ylim([-200, 1000]) # U3
-sns.despine()
-plt.legend()
-# plt.tight_layout()
-plt.savefig(f"figures/energy/energy_training_curves_{dist_name}.pgf",
-            backend="pgf",
-            dpi=1000,
-            bbox_inches='tight',
-)
+# plt.ylabel("ELBO")
+# plt.xlabel("Iteration")
+# plt.ylim([-500, 400]) # U1
+# # plt.ylim([-400, 800]) # U2
+# # plt.ylim([-200, 1000]) # U3
+# sns.despine()
+# plt.legend()
+# # plt.tight_layout()
+# plt.savefig(f"figures/energy/energy_training_curves_{dist_name}.pgf",
+#             backend="pgf",
+#             dpi=1000,
+#             bbox_inches='tight',
+# )
+#
 
-plt.figure(figsize=(3,2.5))
-ax = sns.scatterplot(x=[0,1,2], y=final_elbos["Planar"], color="r", s=30, label="Planar")
-sns.lineplot(x=[0,1,2], y=final_elbos["Planar"], color="r", linewidth=2, linestyle="--")
-sns.scatterplot(x=[0,1,2], y=final_elbos["Radial"], color="b", s=30, label="Radial")
-sns.lineplot(x=[0,1,2], y=final_elbos["Radial"], color="b", linewidth=2, linestyle="--")
-plt.ylabel("ELBO")
-plt.xlabel("Number of flows")
+df = df.reset_index().rename(columns={"index": "type"}) \
+       .melt(id_vars="type", value_name="ELBO", var_name=["flow", "n_flows"]) \
+       .assign(idx=lambda df: df["n_flows"].map({2: 0, 8: 1, 32: 2}))
+g = sns.FacetGrid(df, col="type",  col_wrap=2, sharey=False, height=2.5, aspect=3/2.5)
+g.map(sns.scatterplot, "idx", "ELBO", "flow", palette=["r", "b"])
+g.map(sns.lineplot, "idx", "ELBO", "flow", palette=["r", "b"], linewidth=2, linestyle="--")
+g.set_titles(col_template="{col_name}", row_template="{row_name}")
+g.add_legend()
+g.set_axis_labels("Number of flows", "ELBO")
 plt.xticks([0,1,2], ["2","8","32"])
 sns.despine()
-plt.legend()
-# plt.tight_layout()
-plt.savefig(f"figures/energy/final_elbo_comparison_{dist_name}.pgf",
+plt.savefig(f"figures/energy/final_elbo_comparison.pgf",
             backend="pgf",
             dpi=1000,
             bbox_inches='tight',
 )
-tikzplotlib.save(f"figures/energy/final_elbo_comparison_{dist_name}.tex")
+tikzplotlib.save(f"figures/energy/final_elbo_comparison.tex")
 
 fig, ax = plt.subplots(figsize=(3,2.5))
 dist_name = "U1"
