@@ -112,8 +112,15 @@ class EnergyPosteriorProblem:  # nn.Module
             losses[i] = svi.step(z0)
 
             if plot and i % 1000 == 0:
-                _, samples = self.plot_flow_samples(title=f"$z_{{{self.n_flows}}}$ for iteration {i}")
-                intermediate_samples[i] = samples
+                samples = self.sample(1024)
+                log_prob = self.log_prob(samples)
+                ax = sns.scatterplot(x=samples[:,0], y=samples[:,1], c=log_prob, cmap=sns.color_palette("rocket", as_cmap=True))
+                ax.set(
+                    title=f"$z_{{{self.n_flows}}}$ for iteration {i}",
+                    xlim=[-4,4],
+                    ylim=[-4,4],
+                )
+                intermediate_samples[i] = {"samples": samples, "log_prob": log_prob}
                 plt.show()
 
         if plot:
@@ -131,7 +138,8 @@ class EnergyPosteriorProblem:  # nn.Module
             f = self.n_flows
         intermediate_nf = dist.TransformedDistribution(self.base_dist, self.nfs[:f])
         ax, samples = plot_samples(intermediate_nf, title=title, ax=ax)
-        return ax, samples
+        log_prob = intermediate_nf.log_prob(samples)
+        return ax, samples, log_prob
 
     @staticmethod
     def get_dist(dist_name):

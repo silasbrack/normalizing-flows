@@ -26,7 +26,7 @@ for dist_name in ["U1", "U2", "U3", "U4"]:
             intermediate_samples = results["intermediate_samples"]
             losses = results["losses"]
             average_final_elbo = -np.mean(losses[-1000:])
-            df[name][n_flows][dist_name] = average_final_elbo
+            df.loc[dist_name][name][n_flows] = average_final_elbo
 
             if dist_name == "U1":
                 final_elbos[name].append(average_final_elbo)
@@ -129,9 +129,12 @@ for dist_name in ["U1", "U2", "U3", "U4"]:
 
             # ax = plt.subplot(4, 9, index)
             ax = plt.subplot(5, 7, index)
-            plot_samples(samples=flow_samples, ax=ax, shade=False)
+            # plot_samples(samples=flow_samples, ax=ax, shade=False)
+            sns.scatterplot(x=flow_samples[:,0], y=flow_samples[:,1], cmap=sns.color_palette("rocket", as_cmap=True), ax=ax)
             ax.set(
                 title=f"K = {n_flows}" if dist_name == "U1" else None,
+                xlim=[-4,4],
+                ylim=[-4,4],
                 xticks=[],
                 yticks=[],
             )

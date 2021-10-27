@@ -8,9 +8,9 @@ import tqdm
 import seaborn as sns
 
 
-def train(data, model, guide, epochs, gradient_mc_samples=1, adam_params={"lr": 3e-4}, plot=True):
+def train(data, model, guide, epochs, gradient_mc_samples=1, vectorize_particles=True, adam_params={"lr": 3e-4}, plot=True):
     optim = Adam(adam_params)
-    loss = Trace_ELBO(num_particles=gradient_mc_samples) # Have to fix stuff to use vectorize_particles=True
+    loss = Trace_ELBO(num_particles=gradient_mc_samples, vectorize_particles=vectorize_particles) # Have to fix stuff to use vectorize_particles=True
     svi = SVI(model, guide, optim, loss=loss)
     pyro.clear_param_store()
 

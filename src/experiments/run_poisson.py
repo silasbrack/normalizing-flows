@@ -7,6 +7,7 @@ from src.guides import normalizing_flow
 from src.problems.poisson_regression import PoissonRegression
 from src.experiments.setup import set_seeds
 from pyro.infer import Predictive
+from pyro.infer.importance import psis_diagnostic
 import pickle
 set_seeds()
 
@@ -24,14 +25,17 @@ train_result = train(
     model,
     guide,
     epochs=5000,
-    gradient_mc_samples=16,
+    gradient_mc_samples=1, # Increasing this doesn't work very well, have to rewrite the linearity
     adam_params={"lr": 5e-3},
 )
 
 n_samples = 4096
 posterior_predictive = Predictive(model, guide=guide, num_samples=n_samples)
 predictive_samples = posterior_predictive.get_samples(data["design_matrix"]) # Just remember that this breaks the log_prob of the posterior samples
-prediction = predictive_samples["y"].squeeze()#.reshape(torch.Size([N*n_samples, 2]))
+prediction = predictive_samples["obs"].squeeze()#.reshape(torch.Size([N*n_samples, 2]))
+
+# k = psis_diagnostic(model, guide, data["design_matrix"], data["deaths"]) # Also depends on vectorize_particles
+# print(k)
 
 train_result["predictive_samples"] = prediction
 
