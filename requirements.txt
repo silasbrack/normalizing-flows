@@ -9,3 +9,4 @@ tqdm
 setuptools
 tikzplotlib
 arviz
+pandas

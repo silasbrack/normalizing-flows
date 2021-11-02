@@ -54,3 +54,12 @@ def plot_samples(dist=None, samples=None, n=500, title="", ax=None, shade=False)
         title=title,
     )
     return ax, samples
+
+
+def visualize_flow_as_gif(model, to_save):
+    path_to_visualizations = "figures/"
+    _save_to_gif(None, path_to_visualizations, f"{model}.gif")
+
+
+def _save_to_gif(animation, path_to_visualizations, filename):
+    return animation, path_to_visualizations, filename

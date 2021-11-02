@@ -1,9 +1,6 @@
 import torch
 import pyro
 from pyro import distributions as dist
-from sklearn.preprocessing import scale
-from torch import nn
-from pyro.nn import PyroSample, PyroModule
 
 
 class LinearRegression:
@@ -32,7 +29,7 @@ class LinearRegression:
         x = torch.randn(self.N, self.dim)
         y = alpha_true + x @ beta_true + eps
 
-        x = x.to(device)
-        y = y.unsqueeze(0).to(device)
+        x = x.to(self.device)
+        y = y.unsqueeze(0).to(self.device)
 
-        return {"X": x, "y": y, "train": (X, y), "test": (X,)}
+        return {"X": x, "y": y, "train": (x, y), "test": (x,)}

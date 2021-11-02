@@ -7,7 +7,7 @@ import numpy as np
 import tqdm
 import seaborn as sns
 import matplotlib.pyplot as plt
-from src.visualization.visualize_distribution import plot_samples
+from src.visualization.visualize import plot_samples
 
 
 class EnergyDistribution(dist.TorchDistribution):

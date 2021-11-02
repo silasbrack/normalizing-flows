@@ -5,7 +5,7 @@ import seaborn as sns
 # sns.set_theme("paper", "ticks")
 from src.problems.energy import EnergyPosteriorProblem
 from pyro.distributions.transforms import planar, radial
-from src.visualization.visualize_distribution import plot_pdf, plot_samples
+from src.visualization.visualize import plot_pdf, plot_samples
 import tikzplotlib
 import numpy as np
 import pickle
