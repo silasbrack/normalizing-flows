@@ -2,10 +2,9 @@ from src.problems.energy import EnergyPosteriorProblem
 import pyro
 import torch
 from pyro.distributions.transforms import planar, radial
-from src.experiments.setup import set_seeds
+from src.experiments.setup import setup
 import pickle
-set_seeds()
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+device = setup()
 
 
 """

@@ -5,10 +5,10 @@ from pyro.distributions.transforms import planar
 from src.experiments.train import train
 from src.guides import normalizing_flow
 from src.problems.poisson_regression import PoissonRegression
-from src.experiments.setup import set_seeds
+from src.experiments.setup import setup
 from pyro.infer import Predictive
 import pickle
-set_seeds()
+setup()
 
 pyro.get_param_store().load("models/poisson/poisson.save")
 

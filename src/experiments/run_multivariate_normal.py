@@ -2,8 +2,8 @@ import seaborn as sns
 from src.problems.multivariate_normal import MultivariateNormal
 from src.guides import mean_field
 from src.experiments import train
-from src.experiments.setup import set_seeds
-set_seeds()
+from src.experiments.setup import setup
+setup()
 
 problem = MultivariateNormal()
 data = problem.get_data()
