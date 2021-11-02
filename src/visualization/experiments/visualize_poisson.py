@@ -1,12 +1,13 @@
-from src.visualization.setup import setup
+from src.visualization.setup import setup, save_plot
 setup()
 from src.problems.poisson_regression import PoissonRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
-import tikzplotlib
 import pickle
 import numpy as np
 import arviz as az
+
+figure_path = "figures/poisson"
 
 
 problem = PoissonRegression(device="cpu")
@@ -27,7 +28,6 @@ sns.lineplot(
 )
 # plt.ylim([-500, 400])
 sns.despine()
-
 
 # Create summary for latent variables
 data_dict = {
@@ -52,8 +52,6 @@ ax.set(
     ylabel="Deaths",
 )
 sns.despine()
-plt.savefig("figures/poisson/posterior_predictive.pgf", backend="pgf")
-plt.savefig("figures/poisson/posterior_predictive.pdf", backend="pgf")
-tikzplotlib.save("figures/poisson/posterior_predictive.tex")
+save_plot(figure_path, "posterior_predictive")
 
 plt.show()

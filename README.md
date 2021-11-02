@@ -12,6 +12,7 @@ pip install -r requirements.txt
 python src/experiments/run_energy.py
 python src/visualization/experiments/visualize_energy.py
 ```
+Substitute "energy" with any of the experiments.
 
 ## Structure
 
