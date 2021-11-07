@@ -1,0 +1,51 @@
+\tikz{
+    % nodes
+    \node[obs] (y) {$y$};
+    \node[obs,above=of y] (x) {$\vec x$};
+    \node[latent,left=of y] (w) {$\vec{w}$};
+    \node[latent,above=of w,fill] (kappa2) {$\kappa^2$};
+    % plate
+    \plate [inner sep=.25cm,yshift=.2cm] {P} {(w)} {$P$};
+    \plate [inner sep=.25cm,yshift=.2cm] {N} {(y)(x)} {$N$};
+    % edges
+    \edge {kappa2} {w}
+    \edge {x, w} {y}
+    
+    \node [right=of N, anchor=west] {
+    $\begin{aligned}
+        \kappa^2 & \sim \mathrm{LogNormal}(0, 1) \\
+        \vec{w} & \sim \normal(0, \kappa^2) \\
+         y & \sim \mathrm{Poisson}(\exp(\vec w\T \vec x))
+    \end{aligned}$
+    };  
+
+}
+
+% \tikz{
+%     % nodes
+%     \node[obs] (y) {$y$};
+%     \node[latent,above=of y] (mu) {$\vec{\mu}$};
+%     \node[latent,above=of mu] (lambda) {$\vec{\lambda}$};
+%     \node[obs,above=of lambda] (x) {$\vec x$};
+%     \node[latent,left=of lambda] (w) {$\vec{w}$};
+%     \node[latent,above=of w,fill] (kappa2) {$\kappa^2$};
+%     % plate
+%     \plate [inner sep=.25cm,yshift=.2cm] {P} {(w)} {$P$};
+%     \plate [inner sep=.25cm,yshift=.2cm] {N} {(y)(x)(lambda)(mu)} {$N$};
+%     % edges
+%     \edge {kappa2} {w}
+%     \edge {x, w} {lambda}
+%     \edge {lambda} {mu}
+%     \edge {mu} {y}
+    
+%     \node [right=of N, anchor=west] {
+%     $\begin{aligned}
+%         \kappa^2 & \sim \mathrm{LogNormal}(0, 1) \\
+%         \vec{w} & \sim \normal(0, \kappa^2) \\
+%         \vec \lambda & = \vec w\T \vec x \\
+%         \vec \mu & = \exp(\vec \lambda) \\
+%          y & \sim \mathrm{Poisson}(\vec \mu)
+%     \end{aligned}$
+%     };  
+
+% }

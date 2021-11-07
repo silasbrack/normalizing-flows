@@ -1,0 +1,22 @@
+\tikz{
+    % nodes
+    \node[obs] (y) {$y$};
+    \node[latent,above=of y,fill] (theta) {$\theta$};
+    \node[obs,left=of y,fill] (sigma) {$\sigma$};
+    \node[latent,above=of theta,xshift=-1cm] (mu) {$\mu$};
+    \node[latent,above=of theta,xshift=1cm] (tau) {$\tau$};
+    % plate
+    \plate [inner sep=.25cm,yshift=.2cm] {J} {(y)(theta)} {$J = 8$};
+    % edges
+    \edge {theta, sigma} {y}
+    \edge {mu, tau} {theta}
+    
+    \node [right=of J, anchor=west] {
+    $\begin{aligned}
+        A & \sim \mathrm{HalfNormal}() \\
+        B & \sim \mathrm{HalfNormal}() \\
+        x & \sim \normal(\vec A \vec B, \sigma^2)
+    \end{aligned}$
+    };  
+
+}

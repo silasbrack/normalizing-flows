@@ -1,10 +1,10 @@
 \appendix
 \section{Appendix}
 
-\subsection{The Reparametrization Trick}
-To elaborate a bit on the reparameterization trick used in (\ref{Ch:Opt}): if we let $q_0=\normal(\mu,\Sigma)$ and thus let $\lambda=\{\mu,\Sigma\}$ we can express $q_0$ as 
+\subsection{The Reparameterization Trick}\label{app:reparameterization}
+To elaborate a bit on the reparameterization trick used in (\ref{Ch:Opt}): if we let $q_0=\normal(\mu,\sigma)$ and thus let $\lambda=\{\mu,\sigma\}$ we can express $z_0 \sim q_0$ as 
 \begin{align*}
-    q_0 = L\varepsilon + \mu, \ \ \varepsilon \sim \normal(0,\identity) 
+    z_0 = \mu + \sigma \varepsilon, \quad \varepsilon \sim \normal(0, 1) 
 \end{align*}
 where 
 

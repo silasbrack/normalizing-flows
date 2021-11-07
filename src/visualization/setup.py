@@ -16,14 +16,14 @@ import seaborn as sns  # Need to import after setting mpl.rcParams
 def setup():
     sns.set_theme(
         context="paper",
-        style="ticks",  # Using white breaks tikzplotlib ticks, use ticks or darkgrid
+        style="ticks",  # Using white breaks tikzplotlib ticks
         font="serif",
         rc=rc,
     )
     return use_latex
 
 
-def save_plot(location, name, use=["pdf", "tikz", "pgf"]):
+def save_plot(location, name, use=["pdf", "tikz", "pgf"], axis_height = '\\figureheight', axis_width = '\\figurewidth'):
     full_path_without_ext = os.path.join(location, name)
 
     backend = None
@@ -38,4 +38,5 @@ def save_plot(location, name, use=["pdf", "tikz", "pgf"]):
         plt.savefig(full_path_without_ext + ".pdf", backend=backend)
     if "tikz" in use and use_latex:
         # print(f"Saving {full_path_without_ext}.tex.")
-        tikzplotlib.save(full_path_without_ext + ".tex")
+        tikzplotlib.clean_figure()
+        tikzplotlib.save(full_path_without_ext + ".tex", axis_height=axis_height, axis_width=axis_width)

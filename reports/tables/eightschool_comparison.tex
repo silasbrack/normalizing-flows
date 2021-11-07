@@ -1,0 +1,28 @@
+% \begin{tabular}{ccccccccccc} 
+% \toprule
+% \multirow{2}{*}{} & \multirow{2}{*}{Mean-field} & \multirow{2}{*}{Full-rank} & \multicolumn{4}{c}{Planar}            & \multicolumn{4}{c}{Radial}             \\
+%                                                                               \cmidrule(lr){4-7}                      \cmidrule(lr){8-11}
+%                   &                             &                            & 4       & 8       & 16      & 32      & 4       & 8       & 16      & 32       \\ 
+% \midrule
+% ELBO              & -33.406                     & -32.598                    & -33.297 & -32.728 & -32.412 & -31.791 & -37.756 & -37.683 & -35.904 & -33.292  \\
+% $\hat{k}$         & 0.8710                      & 0.8226                     & 0.8329  & 0.8066  & 0.7700  & 0.6379  & 0.9209  & 0.8979  & 0.8760  & 0.8203   \\
+% \bottomrule
+% \end{tabular}
+
+
+\begin{tabular}{lrrr} 
+\toprule
+      &                         & ELBO    & $\hat{k}$  \\
+\midrule
+\multicolumn{2}{l}{Mean-field}   & -33.406 & 0.8710                        \\\addlinespace
+\multicolumn{2}{l}{Full-rank}    & -32.598 & 0.8226                        \\\addlinespace
+Planar & 4                       & -33.297 & 0.8329                        \\
+      & 8                       & -32.728 & 0.8066                        \\
+      & 16                      & -32.412 & 0.7700                        \\
+      & 32                      & -31.791 & 0.6379                        \\\addlinespace
+Radial & 4                       & -37.756 & 0.9209                        \\
+      & 8                       & -37.683 & 0.8979                        \\
+      & 16                      & -35.904 & 0.8760                        \\
+      & 32                      & -33.292 & 0.8203                        \\
+\bottomrule
+\end{tabular}

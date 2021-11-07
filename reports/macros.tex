@@ -15,3 +15,14 @@
 \newcommand{\contains}{\supseteq}
 \newcommand{\intersect}{\cap}
 \newcommand{\union}{\cup}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+
+\newcommand*{\T}{^{\mkern-1.5mu\mathsf{T}}}
+
+\DeclarePairedDelimiterX{\infdivx}[2]{(}{)}{%
+  #1\;\delimsize|\delimsize|\;#2%
+}
+\newcommand{\kld}[2]{\ensuremath{D_{\mathrm{KL}}\infdivx{#1}{#2}}\xspace}
+

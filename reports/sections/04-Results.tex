@@ -1,36 +1,205 @@
 \section{Results}
 
-% meh, a bit funky -- used tikzplotlib in python
+Pyro\cite{bingham2019pyro} was used to perform stochastic variational inference automatically and ArviZ\cite{kumar2019arviz} was used to generate simple statistics, summaries and visualizations for the inference results.
+
 \begin{figure}
     \centering
-    \input{figures/U1}
-    \caption{Caption}
+    \includegraphics[scale=0.6]{figures/Mean_Var_really_accurate.PNG}
+\caption{Experimentation on fitting planar flows on Gaussian Mixture Model with increasing variance and comparing mean (red) and variance (blue) of the two. Here the x-axis denotes the difference in variance $\sigma^2_{\mathrm{NF}}-\sigma^2_{\mathrm{gmm}}$ and the y-axis denotes the difference in mean $|\mu_{\mathrm{gmm}}-\mu_{\mathrm{NF}}|$ }
     \label{fig:my_label}
 \end{figure}
 
-\begin{table}[htb]
-\centering
-\caption{Fefjfiewjfoewjf for seed $0$.}
-\begin{tabular}{@{}cllllllll@{}}
-\toprule
-\multirow{2}{*}{}                       & \multicolumn{1}{c}{\multirow{2}{*}{Mean-field}} & \multicolumn{1}{c}{\multirow{2}{*}{Full-rank}} & \multicolumn{3}{c}{Planar} & \multicolumn{3}{c}{Radial} \\ \cmidrule(l){4-9} 
-                                        & \multicolumn{1}{c}{}                            & \multicolumn{1}{c}{}                           & 4       & 8      & 16      & 4       & 8      & 16      \\ \midrule
-ELBO                                    &                                                 &                                                &         &        &         &         &        &         \\
-$\mu - \hat{\mu}$           &                                                 &                                                &         &        &         &         &        &         \\
-$\sigma^2 - \hat{\sigma}^2$ &                                                 &                                                &         &        &         &         &        &         \\
-$\hat{k}$                               &                                                 &                                                &         &        &         &         &        &         \\ \bottomrule
-\end{tabular}
+\subsection{Multivatiate normal}
+
+\lipsum[3]
+
+With covariance matrix
+
+\begin{figure}
+    \centering
+    % \input{figures/multivariatenormal/PlanarVsRadial}
+    \caption{Final ELBO of normalizing flow as a function of number of flows for correlated multivariate Normal posterior. The final ELBO was calculated as the mean of the ELBOs of the last 500 iterations from training.}
+    \label{fig:planarvsradial}
+\end{figure}
+
+\subsection{Energy functions}
+
+\lipsum[1]
+
+\begin{table}
+    \caption{Final ELBO for different potential energy posteriors from \textcite{rezende2015variational} (\cref{tab:test_energy_functions}).}
+    \label{tab:energyresults}
+    \centering
+    \input{tables/energy_results_table}
 \end{table}
 
-% num_flows = [4, 8, 16]
-% gradient_samples = [1, 4, 8]
+The normalizing flows were trained for 10000 epochs with an ADAM learning rate of $0.005$, 16 Markov Chain gradient estimation samples and 256 base distribution samples ($\Vec z_0 \sim q_0\left(\bullet |\Vec x\right)$).
 
-% {'elbo': [-17886.721237182617,
-%   -18000.507843613625,
-%   -17948.60223340988,
-%   -17902.622589111328,
-%   -17880.530441880226,
-%   -17874.11350044608,
-%   -17869.44455718994,
-%   -19573.12942624092,
-%   -17874.11769157648]}
+\begin{figure}
+    \centering
+    % \resizebox{\textwidth}{!}{
+    %     \input{figures/energy/final_elbo_comparison.pgf}
+    % }
+    \caption{Average ELBO of the last 1000 iterations for ...}
+\end{figure}
+
+\textcite{rezende2015variational} used normalizing flows for variational inference on four target posterior distributions, defined as in \cref{tab:test_energy_functions}.
+
+\begin{table}
+\caption{Test energy functions.}
+\label{tab:test_energy_functions}
+\input{tables/energy_functions}
+\end{table}
+
+\begin{figure}
+    \centering
+    % \resizebox{\textwidth}{!}{
+    %     \input{figures/energy/energy_grid.pgf}
+    % }
+    \caption{\the\textwidth}
+\end{figure}
+
+\lipsum[2]
+
+\lipsum[3]
+
+\begin{table}[htb]
+    \centering
+    \caption{Metrics}
+    \label{tab:efawf}
+    \begin{tabular}{lccccccccc} 
+    \toprule
+    Number of flows             &    & 2   &     &    & 8   &     &    & 32  &      \\ 
+    \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(l){8-10}
+    ELBO samples                & 32 & 128 & 512 & 32 & 128 & 512 & 32 & 128 & 512  \\ 
+    \midrule
+    ELBO                        &    &     &     &    &     &     &    &     &      \\
+    $\mu - \hat{\mu}$           &    &     &     &    &     &     &    &     &      \\
+    $\sigma^2 - \hat{\sigma}^2$ &    &     &     &    &     &     &    &     &      \\
+    $\hat{k}$                   &    &     &     &    &     &     &    &     &      \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\lipsum[4]
+
+% (move stuff here from caption of \ref{fig:training_curve_elbow_example})
+% This can be seen in \cref{fig:elbow_example_9000,fig:elbow_example_11000}
+
+\setlength\figureheight{5in}
+\setlength\figurewidth{5in}
+
+% \begin{figure}
+%     \begin{adjustwidth}{-2cm}{-2cm}
+%     \centering
+%      \input{figures/elbow_example/elbow.pgf}
+%     %  \includegraphics{figures/elbow_example/elbow.pdf}
+%     \caption{Three simple graphs}
+%     \label{fig:three graphs}
+%     \end{adjustwidth}
+% \end{figure}
+
+% \begin{figure}
+%     \begin{adjustwidth}{-2cm}{-2cm}
+%     \centering
+%     \begin{subfigure}[t!]{0.3\linewidth}
+%         \centering
+%          \input{figures/elbow_example/training_curve}
+%         \caption{Training curve}
+%         \label{fig:elbow_example_9000}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[t!]{0.3\linewidth}
+%         \centering
+%          \input{figures/elbow_example/posterior_plot_5000}
+%         \caption{$y=3sinx$}
+%         \label{fig:elbow_example_10000}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[t!]{0.3\linewidth}
+%         \centering
+%         \input{figures/elbow_example/posterior_plot_6000}
+%         \caption{$y=5/x$}
+%         \label{fig:elbow_example_11000}
+%     \end{subfigure}
+%     \caption{\the\linewidth}
+%     \label{fig:three graphs}
+%     \end{adjustwidth}
+% \end{figure}
+
+\begin{figure}
+    \begin{adjustwidth}{-2cm}{-2cm}
+    \centering
+     \input{figures/elbow_example/elbow.pgf}
+    %  \includegraphics{figures/elbow_example/elbow.pdf}
+    \caption{Training curve for a normalizing flow with 4 planar flows. When variational inference is performed on this bi-modal target distribution, an `elbow' forms in the ELBO as the variational approximation changes shape to `snap' to the new mode\cite{blei2017variational}.}
+    \label{fig:training_curve_elbow_example}    
+    \end{adjustwidth}
+\end{figure}
+
+\begin{figure}
+    \begin{adjustwidth}{-2.5cm}{-2.5cm}
+    \centering
+     \includegraphics{figures/elbow_example/elbow.pdf}
+    \caption{Training curve for a normalizing flow with 4 planar flows. When variational inference is performed on this bi-modal target distribution, an `elbow' forms in the ELBO as the variational approximation changes shape to `snap' to the new mode\cite{blei2017variational}.}
+    % \label{fig:training_curve_elbow_example}   
+    \end{adjustwidth}
+\end{figure}
+
+From the log term in \cref{eq:kl_divergence} it is clear that minimizing the KL-divergence heavily penalizes candidate distributions $q$ for which the probability at $z$, $q(z)$, is high and $p(z|x)$ is low.
+This is why it takes some time for the second mode to be fitted --- the space between the two modes has a low $p(z)$, leading to a penalization on the ELBO for approximations which traverse this space.
+Indeed, it can be seen in \cref{fig:elbow_example_10000} that in iteration 10000, the variational approximation deviates from a uni-modal approximation, and this iteration corresponds to the area in the training curve in \cref{fig:training_curve_elbow_example} where the ELBO drops, before in the second mode is captured and the ELBO rises again in iteration 11000.
+
+\subsection{Poisson regression}
+
+\begin{figure}
+    \centering
+    % \input{figures/poisson/pgm}
+    \caption{Probabilistic graphical model for Poisson regression problem.}
+    \label{fig:poisson-pgm}
+\end{figure}
+
+\begin{figure}
+    \centering
+    % \input{figures/poisson/posterior_predictive}
+    \caption{Posterior predictive distribution $t_{*}|\mathbf{t}$}
+\end{figure}
+
+\subsection{Eight schools}
+
+The eight schools problem\cite{rubin1981estimation} is a classic test problem in Bayesian statistics\cite{gelman2013bayesian, carpenter2017stan}.
+
+\begin{figure}
+    \centering
+    % \input{figures/eightschools/pgm}
+    \caption{Probabilistic graphical model for eight schools problem.}
+    \label{fig:8s-pgm}
+\end{figure}
+
+The results in \cref{tab:poi} were generated for different variational approximations for 10k iterations, an \textsc{Adam} \cite{kingma2014adam} learning rate of $10^{-2}$, and 256 Monte Carlo ELBO gradient estimation samples.
+
+\begin{table}
+\centering
+\caption{ELBO and $\hat{k}$-statistic\cite{yao2018yes} for different variational inference algorithms trained on the eight schools test problem. It can be seen that there is a loosely monotonic relationship between the ELBO and the $\hat{k}$-statistic.}
+\label{tab:poi}
+\input{tables/eightschool_comparison}
+\end{table}
+
+A normalizing flow variational approximation with 32 planar flows which was trained for 1000 iterations achieved a final ELBO of -32.746 and a $\hat{k}$-statistic of 0.7723, which means this approximation performs worse than a fully-converged full-rank family.
+This suggests that a more complex model whose training is terminated before convergence generally performs worse than a simpler model which has been trained to convergence.
+
+\subsection{Non-negative matrix factorization}
+
+\begin{figure}
+    \centering
+    % \input{figures/nnmf/pgm}
+    \caption{Probabilistic graphical model for non-negative matrix factorization.}
+    \label{fig:nnmf-pgm}
+\end{figure}
+
+\subsection{Radon}
+
+\subsection{Bayesian neural network}
+
+
+

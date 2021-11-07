@@ -1,5 +1,5 @@
 \section{Introduction}
-In this project we will apply normalizing flows in the realm of variational inference.
+In this project we will apply normalizing flows\cite{rezende2015variational,papamakarios2019normalizing} in the realm of variational inference.
 So to give some context to our endeavour we will start out by motivating variational inference and normalizing flows.\footnote{\url{https://github.com/silasbrack/normalizing-flows}}
 
 \subsection{Variational inference}
@@ -37,11 +37,10 @@ As previously mentioned a normalizing flow can be defined by a sampleable base d
 and well denote the $z_0$s image through $f_{(n)}$ as $z_n$, ie $f_{(n)}(z_0)=z_n$.\\
 We can then recursively apply the change of variable formula:
 \begin{align*}
-    p(z')=p(z)|\det(J(f^{-1}))|=p(z)|\det(J(f\circ z))|^{-1} \ \ \ \  \text{where} \ \ \ \ z'=f(z)
+    p(z')=p(z)\abs{\det(J(f^{-1}))}=p(z)\abs{\det(J(f\circ z))}^{-1} \quad \text{where} \quad z'=f(z)
 \end{align*}
 to derive $q(z_n)$, here the last equality is due to the choice of diffeomorphisms. Through recursive application over all $f_i$ we derive:
 \begin{align*}
-    q(z_n)=q(z_0)\prod_k|\det J(f_k \circ z_{k-1})|^{-1}.
+    q(z_n)=q(z_0)\prod_k\abs{\det J(f_k \circ z_{k-1})}^{-1}.
 \end{align*}
 This can be viewed as parametric distributional family parameterized by the choice of $q(z_0)$ as well as the choice of $f_{(n)}$ whose parameters we will denote $\theta=\{\theta_n,\theta_{n-1},\cdots,\theta_1\}$
-\cite{gelman2013bayesian}

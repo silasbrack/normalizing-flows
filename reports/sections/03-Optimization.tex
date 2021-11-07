@@ -1,30 +1,67 @@
 \section{Optimization}\label{Ch:Opt}
-When we then to fit the posterior to the variational family we need an objective function. Ie how do we determine what is a good fit. A common chioce is the KL-divergence:
-\begin{align*}
-    KL[q_\theta || p] & = \int p(z) \ln \frac{p(z)}{q_\theta(z)}dz\\
-    & = \ln p(x) - L[q_\theta]
-\end{align*}
+When we then to fit the posterior to the variational family we need an objective function. I.e., how do we determine what is a good fit. A common choice is the KL-divergence:
+\begin{align}  
+    \kld{q_\theta}{p} & = \int q_\theta\left(z\right)  \ln \frac{q_\theta\left(z\right)}{p\left(z\right)}dz \label{eq:kl_divergence} \\
+    & = \ln p\left(x\right) - L\left[q_\theta\right] \nonumber
+\end{align}
 Thus we get:
 \begin{align*}
-    \ln p(x)= KL[q_\theta||p] + L[q_\theta]
+    \ln p\left(x\right)=\kld{q_\theta}{p} + L\left[q_\theta\right]
 \end{align*}
-Here $\ln p(x)$ is the marginal likelihood and thus does not does not depend on $q_\theta$ and is thus a constant w.r.t. $\theta$ as such maximizing $L[q_\theta]$ over $\theta$, minimizes $KL[q_\theta||p]$ so we will resort to maximizing $L[q_\theta]$ due to their equivalence.
+Here $\ln p\left(x\right)$ is the marginal likelihood and thus does not does not depend on $q_\theta$ and is thus a constant w.r.t. $\theta$ as such maximizing $L\left[q_\theta\right]$ over $\theta$, minimizes $\kld{q_\theta}{p}$ so we will resort to maximizing $L\left[q_\theta\right]$ due to their equivalence.
 \begin{align*}
-    L[q_\theta] & = \E{q_\phi(z_n)}{\ln q_\theta(z_n)}-\E{q_\phi(z_n)}{\ln p(x,z_n)}\\
-    & = \E{q_0(z_0)}{\ln q_\theta(f_{(n)}\circ z_0)}-\E{q_0(z_0)}{\ln p(x,f_{(n)}\circ z_0)}\\
-    & = \E{q_0(z_0)}{\ln q(z_0)}-\sum_k\E{q_0(z_0)}{\ln|\det J(f_k \circ f_{(k-1)}\circ z_0)|} \\&-\E{q_0(z_0)}{\ln p(x,f_{(n)}\circ z_0)}
+    L\left[q_\theta\right] & = \E{q_\phi\left(z_n\right)}{\ln q_\theta\left(z_n\right)}-\E{q_\phi\left(z_n\right)}{\ln p\left(x,z_n\right)}\\
+    & = \E{q_0\left(z_0\right)}{\ln q_\theta\left(f_{\left(n\right)}\circ z_0\right)}-\E{q_0\left(z_0\right)}{\ln p\left(x,f_{\left(n\right)}\circ z_0\right)}\\
+    & = \E{q_0\left(z_0\right)}{\ln q\left(z_0\right)}-\sum_k\E{q_0\left(z_0\right)}{\ln\abs{\det J\left(f_k \circ f_{\left(k-1\right)}\circ z_0\right)}} \\&-\E{q_0\left(z_0\right)}{\ln p\left(x,f_{\left(n\right)}\circ z_0\right)}
 \end{align*}
-As $\E{q_0(z_0)}{\ln q(z_0)}\perp\phi$ we can leave it out as it will not effect the optimization, we can furthere apply the reparametrization trick to $z_0\sim q_0$, and then estimate the gradients using that:
+As $\E{q_0\left(z_0\right)}{\ln q\left(z_0\right)}\perp\phi$ we can leave it out as it will not effect the optimization, we can further apply the reparameterization trick to $z_0\sim q_0$, and then estimate the gradients using that:
 \begin{align*}
-     L[q_\theta] = & -\sum_k\E{q_0(z_0)}{\ln|\det J(f_k \circ f_{(k-1)}\circ z_0)|} 
-     \\&-\E{q_0(z_0)}{\ln p(x,f_{(n)}\circ z_0)}\\
-     = & -\sum_k\E{q(\varepsilon)}{\ln|\det J(f_k \circ f_{(k-1)}\circ g(\lambda,\varepsilon))|} 
-     \\&-\E{q(\varepsilon)}{\ln p(x,f_{(n)}\circ g(\lambda,\varepsilon))}\\
-     \nabla_\phi L[q_\theta] = & -\sum_k\int q(\varepsilon)\nabla_\phi \ln|\det J(f^{\phi_k}_k \circ f^{(\phi_{k-1})}_{(k-1)}\circ g(\lambda,\varepsilon))|d\varepsilon \\ & -\int q(\varepsilon)\nabla_\phi \ln p(x,f^\phi_{(n)}\circ g(\lambda,\varepsilon))d\varepsilon\\
-     \approx & -\sum_k\sum_{n\in N}\nabla_\phi \ln|\det J(f^{\phi_k}_k \circ f^{(\phi_{k-1})}_{(k-1)}\circ g(\lambda,\varepsilon_n))| \\ 
-     & -\sum_{n \in N}\nabla_\phi \ln p(x,f^\phi_{(n)}\circ g(\lambda,\varepsilon_n)), \ \ \{\varepsilon_n\}^{|N|} \sim q(\varepsilon)
+     L\left[q_\theta\right] = & -\sum_k\E{q_0\left(z_0\right)}{\ln\abs{\det J\left(f_k \circ f_{\left(k-1\right)}\circ z_0\right)}} 
+     \\&-\E{q_0\left(z_0\right)}{\ln p\left(x,f_{\left(n\right)}\circ z_0\right)}\\
+     = & -\sum_k\E{q\left(\varepsilon\right)}{\ln\abs{\det J\left(f_k \circ f_{\left(k-1\right)}\circ g\left(\lambda,\varepsilon\right)\right)}} 
+     \\&-\E{q\left(\varepsilon\right)}{\ln p\left(x,f_{\left(n\right)}\circ g\left(\lambda,\varepsilon\right)\right)}\\
+    \nabla_\phi L\left[q_\theta\right] = & -\sum_k\int q\left(\varepsilon\right)\nabla_\phi \ln\abs{\det J\left(f^{\phi_k}_k \circ f^{\phi_{k-1}}_{k-1}\circ g\left(\lambda,\varepsilon\right)\right)}d\varepsilon \\ & -\int q\left(\varepsilon\right)\nabla_\phi \ln p\left(x,f^\phi_{\left(n\right)}\circ g\left(\lambda,\varepsilon\right)\right)d\varepsilon\\
+     \approx & -\sum_k\sum_{n\in N}\nabla_\phi \ln\abs{\det J\left(f^{\phi_k}_k \circ f^{\phi_{k-1}}_{k-1}\circ g\left(\lambda,\varepsilon_n\right)\right)} \\ 
+     & -\sum_{n \in N}\nabla_\phi \ln p\left(x,f^\phi_{\left(n\right)}\circ g\left(\lambda,\varepsilon_n\right)\right), \quad \{\varepsilon_n\}^{\abs{N}} \sim q\left(\varepsilon\right)
 \end{align*}
-Where we will use autograd to evaluate  $\nabla_\phi \ln|\det J(f^{\phi_k}_k \circ f^{(\phi_{k-1})}_{(k-1)}\circ g(\lambda,\varepsilon_n))|$ and \\  $ \nabla_\phi \ln p(x,f^\phi_{(n)}\circ g(\lambda,\varepsilon_n))$ at $\varepsilon_n$, this will allow us to recursively approximate the direction of greatest ascent and we can then use something like the Adam algorithm to fit the flow our posterior.
+Where we will use autograd to evaluate $\nabla_\phi \ln\abs{\det J\left(f^{\phi_k}_k \circ f^{\phi_{k-1}}_{k-1}\circ g\left(\lambda,\varepsilon_n\right)\right)}$ and $\nabla_\phi \ln p\left(x,f^\phi_{\left(n\right)}\circ g\left(\lambda,\varepsilon_n\right)\right)$ at $\varepsilon_n$, this will allow us to recursively approximate the direction of greatest ascent and we can then use something like the Adam algorithm to fit the flow our posterior.
 
-\subsection{Optimation of planar flows}
+\begin{algorithm}
+\caption{Variational Inf. with Normalizing Flows}\label{alg:vinf}
+\begin{algorithmic}
+\State Parameters: $\Vec\phi$ variational, $\Vec\theta$ generative
+\While{not converged}
+    \State $\Vec x \gets \{ \text{Get mini-batch} \}$
+    \State $\Vec z_0 \sim q_0\left(\bullet |\Vec x\right)$
+    \State $\Vec z_k \gets f_K \circ f_{K-1} \circ \ldots \circ f_1 \left(\Vec z_0\right)$
+    \State $\mathcal{F}\left(\Vec x\right) \approx \mathcal{F}\left(\Vec x, \Vec z_K\right)$
+    \State $\Delta \Vec \theta \propto - \nabla_\theta \mathcal{F}\left(\Vec x\right)$
+    \State $\Delta \Vec \phi \propto - \nabla_\phi \mathcal{F}\left(\Vec x\right)$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Optimization of planar flows}
+
 from the derived formula above we can easily find the 
+
+\subsection{Training}
+
+Furthermore, for Planar and Radial flows training is limited by a single entry point ...
+\cite{berg2019sylvester, kingma2016improved}
+
+\subsection{Metrics}
+
+- ELBO / KL divergence
+- difference of means
+- difference of variance
+- k-hat
+
+\begin{equation*}
+    \norm{\Sigma^{-1} (\mu - \hat{\mu})}
+\end{equation*}
+\begin{equation*}
+    \norm{I - \Sigma^{-1} \hat{\Sigma}}_F
+\end{equation*}
+
+

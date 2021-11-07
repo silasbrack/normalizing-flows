@@ -1,0 +1,59 @@
+% This file was created with tikzplotlib v0.9.13.
+\begin{tikzpicture}
+
+\begin{axis}[
+legend cell align={left},
+legend style={
+  fill opacity=0.8,
+  draw opacity=1,
+  text opacity=1,
+  at={(0.97,0.03)},
+  anchor=south east,
+  draw=white!80!black
+},
+tick align=outside,
+tick pos=left,
+x grid style={white!69.0196078431373!black},
+xlabel={Number of flows},
+xmin=2.6, xmax=33.4,
+xtick style={color=black},
+y grid style={white!69.0196078431373!black},
+ylabel={ELBO},
+ymin=-18107.9666384118, ymax=-17870.5896779011,
+ytick style={color=black}
+]
+\addplot [draw=blue, fill=blue, mark=*, only marks]
+table{%
+x  y
+4 -18097.1767765704
+8 -17904.5776323087
+16 -17888.9819208821
+32 -17881.3795397425
+};
+\addlegendentry{Planar}
+\addplot [draw=red, fill=red, mark=*, only marks]
+table{%
+x  y
+4 -18038.6877921755
+8 -17931.7873051845
+16 -17915.0520597312
+32 -17885.7323459633
+};
+\addlegendentry{Radial}
+\addplot [semithick, blue, dashed, forget plot]
+table {%
+4 -18097.1767765704
+8 -17904.5776323087
+16 -17888.9819208821
+32 -17881.3795397425
+};
+\addplot [semithick, red, dashed, forget plot]
+table {%
+4 -18038.6877921755
+8 -17931.7873051845
+16 -17915.0520597312
+32 -17885.7323459633
+};
+\end{axis}
+
+\end{tikzpicture}
