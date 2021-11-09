@@ -66,51 +66,60 @@ save_plot(figure_path, "final_elbo_comparison")
 # save_plot(figure_path, dist_name)
 
 
-# """
-# We want to recreate figure 3 from Rezende et al, 2015.
-# """
-#
-# plt.figure(figsize=(10, 5))
-# index = 1
-# for dist_name in ["U1", "U2", "U3", "U4"]:
-#     # pyro.get_param_store().load(f"models/energy/{}.save")
-#
-#     dist = EnergyPosteriorProblem.get_dist(dist_name)
-#
-#     # ax = plt.subplot(4, 9, index)
-#     ax = plt.subplot(5, 7, index)
-#     plot_pdf(dist, ax=ax, how="contour").set(
-#         # title=dist_name,
-#         ylabel=dist_name,
-#         xticks=[],
-#         yticks=[],
-#     )
-#     # index += 2
-#     index += 1
-#
-#     for flow_type, name in [(planar, "planar"), (radial, "radial")]:
-#         for n_flows in [2, 8, 32]:
-#             with open("results/energy/" + f"{dist_name}_{name}_{n_flows}.pkl", "rb") as f:
-#                 results = pickle.load(f)
-#             flow_samples = results["samples"]["samples"]
-#             log_prob = results["samples"]["log_prob"]
-#
-#             # ax = plt.subplot(4, 9, index)
-#             ax = plt.subplot(5, 7, index)
-#             # plot_samples(samples=flow_samples, ax=ax, shade=False)
-#             sns.scatterplot(x=flow_samples[:, 0], y=flow_samples[:, 1], cmap=sns.color_palette("rocket", as_cmap=True), ax=ax)
-#             ax.set(
-#                 title=f"K = {n_flows}" if dist_name == "U1" else None,
-#                 xlim=[-4, 4],
-#                 ylim=[-4, 4],
-#                 xticks=[],
-#                 yticks=[],
-#             )
-#
-#             index += 1
-#     #     index += 1
-#     # index -= 1
-# # plt.tight_layout()
+"""
+We want to recreate figure 3 from Rezende et al, 2015.
+"""
 
+plt.figure(figsize=(8, 4))
+index = 1
+for dist_name in ["U1", "U2", "U3", "U4"]:
+    # pyro.get_param_store().load(f"models/energy/{}.save")
+
+    dist = EnergyPosteriorProblem.get_dist(dist_name)
+
+    # ax = plt.subplot(4, 9, index)
+    ax = plt.subplot(4, 7, index)
+    plot_pdf(dist, ax=ax, how="contour").set(
+        # title=dist_name,
+        xlim=[-4, 4],
+        ylim=[-4, 4],
+        ylabel=dist_name,
+        xticks=[],
+        yticks=[],
+    )
+    # index += 2
+    index += 1
+
+    for flow_type, name in [(planar, "planar"), (radial, "radial")]:
+        for n_flows in [2, 8, 32]:
+            with open("results/energy/" + f"{dist_name}_{name}_{n_flows}.pkl", "rb") as f:
+                results = pickle.load(f)
+
+            flow_samples = results["samples"]["samples"]
+            log_prob = results["samples"]["log_prob"]
+
+            # ax = plt.subplot(4, 9, index)
+            ax = plt.subplot(4, 7, index)
+            # plot_samples(samples=flow_samples, ax=ax, shade=False)
+            sns.scatterplot(
+                x=flow_samples[:, 0],
+                y=flow_samples[:, 1],
+                hue=log_prob, palette="rocket",
+                size=3, legend=False,
+                ax=ax,
+            )
+            ax.set(
+                title=f"K = {n_flows}" if dist_name == "U1" else None,
+                xlim=[-4, 4],
+                ylim=[-4, 4],
+                xticks=[],
+                yticks=[],
+            )
+
+            index += 1
+    #     index += 1
+    # index -= 1
+plt.tight_layout()
+save_plot(figure_path, "energy_grid")
 
 plt.show()

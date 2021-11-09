@@ -15,10 +15,10 @@ results_path = "results/energy/"
 model_path = "models/energy/"
 
 epochs = 10000
-n_samples = 256
-for dist_name in ["U1", "U2", "U3", "U4"]:
-    for flow_type, name in [(planar, "planar"), (radial, "radial")]:
-        for n_flows in [2, 8, 32]:
+n_samples = 1024
+for dist_name in ["U3"]:
+    for flow_type, name in [(radial, "radial")]:
+        for n_flows in [32]:
             problem = EnergyPosteriorProblem(
                 dist_name=dist_name,
                 nfs=[flow_type(input_dim=2) for _ in range(n_flows)],
@@ -30,9 +30,13 @@ for dist_name in ["U1", "U2", "U3", "U4"]:
                 gradient_mc_samples=16,
                 adam_params={"lr": 5e-3},
             )
-            samples = problem.sample(n_samples).cpu().detach().numpy()
+            samples = problem.sample(n_samples)
+            log_prob = problem.log_prob(samples)
 
-            train_result["samples"] = samples
+            train_result["samples"] = {
+                "samples": samples.cpu().detach().numpy(),
+                "log_prob": log_prob.cpu().detach().numpy(),
+            }
 
             file_name = f"{dist_name}_{name}_{n_flows}"
             with open(results_path + file_name + ".pkl", "wb") as f:

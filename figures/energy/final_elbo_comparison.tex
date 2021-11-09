@@ -14,20 +14,20 @@ tick pos=left,
 title={\(\displaystyle U_1(z)\)},
 width=\figurewidth,
 x grid style={white!80!black},
-xmin=-0.124527433386634, xmax=2.12452743338663,
+xmin=-0.1, xmax=2.1,
 xtick style={color=white!15!black},
 xticklabels={},
 y grid style={white!80!black},
 ylabel=\textcolor{white!15!black}{ELBO},
-ymin=-76.7018741509696, ymax=294.956793264129,
+ymin=-76.6874851371765, ymax=294.942404250336,
 ytick style={color=white!15!black},
 ytick={-100,0,100,200,300},
 yticklabels={
-  \(\displaystyle -100\),
-  \(\displaystyle 0\),
-  \(\displaystyle 100\),
-  \(\displaystyle 200\),
-  \(\displaystyle 300\)
+  \(\displaystyle {−100}\),
+  \(\displaystyle {0}\),
+  \(\displaystyle {100}\),
+  \(\displaystyle {200}\),
+  \(\displaystyle {300}\)
 }
 ]
 \addplot [
@@ -87,20 +87,20 @@ tick pos=left,
 title={\(\displaystyle U_2(z)\)},
 width=\figurewidth,
 x grid style={white!80!black},
-xmin=-0.124527433386634, xmax=2.12452743338663,
+xmin=-0.1, xmax=2.1,
 xtick style={color=white!15!black},
 xticklabels={},
 y grid style={white!80!black},
-ymin=-133.11443164685, ymax=635.27440341809,
+ymin=-133.100042633057, ymax=635.260014404297,
 ytick style={color=white!15!black},
 ytick={-200,0,200,400,600,800},
 yticklabels={
-  \(\displaystyle -200\),
-  \(\displaystyle 0\),
-  \(\displaystyle 200\),
-  \(\displaystyle 400\),
-  \(\displaystyle 600\),
-  \(\displaystyle 800\)
+  \(\displaystyle {−200}\),
+  \(\displaystyle {0}\),
+  \(\displaystyle {200}\),
+  \(\displaystyle {400}\),
+  \(\displaystyle {600}\),
+  \(\displaystyle {800}\)
 }
 ]
 \addplot [
@@ -160,22 +160,22 @@ title={\(\displaystyle U_3(z)\)},
 width=\figurewidth,
 x grid style={white!80!black},
 xlabel=\textcolor{white!15!black}{Number of flows},
-xmin=-0.124527433386634, xmax=2.12452743338663,
+xmin=-0.1, xmax=2.1,
 xtick style={color=white!15!black},
 xtick={0,1,2},
 xticklabels={2,8,32},
 y grid style={white!80!black},
 ylabel=\textcolor{white!15!black}{ELBO},
-ymin=188.661762420056, ymax=908.92612557471,
+ymin=188.676151433849, ymax=908.911736560917,
 ytick style={color=white!15!black},
 ytick={0,200,400,600,800,1000},
 yticklabels={
-  \(\displaystyle 0\),
-  \(\displaystyle 200\),
-  \(\displaystyle 400\),
-  \(\displaystyle 600\),
-  \(\displaystyle 800\),
-  \(\displaystyle 1000\)
+  \(\displaystyle {0}\),
+  \(\displaystyle {200}\),
+  \(\displaystyle {400}\),
+  \(\displaystyle {600}\),
+  \(\displaystyle {800}\),
+  \(\displaystyle {1000}\)
 }
 ]
 \addplot [
@@ -203,7 +203,7 @@ x  y  fill
 2 876.173755418777 196,78,82
 0 221.414132575989 76,114,176
 1 537.424900092781 76,114,176
-2 761.586918352455 76,114,176
+2 735.232269059461 76,114,176
 };
 \addplot [draw=color0, fill=color0, mark=*, only marks]
 table{%
@@ -223,7 +223,7 @@ table {%
 table {%
 0 221.414138793945
 1 537.424926757812
-2 761.5869140625
+2 735.232238769531
 };
 
 \nextgroupplot[
@@ -235,22 +235,24 @@ title={\(\displaystyle U_4(z)\)},
 width=\figurewidth,
 x grid style={white!80!black},
 xlabel=\textcolor{white!15!black}{Number of flows},
-xmin=-0.124527433386634, xmax=2.12452743338663,
+xmin=-0.1, xmax=2.1,
 xtick style={color=white!15!black},
 xtick={0,1,2},
 xticklabels={2,8,32},
 y grid style={white!80!black},
-ymin=203.102962886784, ymax=776.849494817759,
+ymin=194.712879419268, ymax=855.341366800226,
 ytick style={color=white!15!black},
-ytick={200,300,400,500,600,700,800},
+ytick={100,200,300,400,500,600,700,800,900},
 yticklabels={
-  \(\displaystyle 200\),
-  \(\displaystyle 300\),
-  \(\displaystyle 400\),
-  \(\displaystyle 500\),
-  \(\displaystyle 600\),
-  \(\displaystyle 700\),
-  \(\displaystyle 800\)
+  \(\displaystyle {100}\),
+  \(\displaystyle {200}\),
+  \(\displaystyle {300}\),
+  \(\displaystyle {400}\),
+  \(\displaystyle {500}\),
+  \(\displaystyle {600}\),
+  \(\displaystyle {700}\),
+  \(\displaystyle {800}\),
+  \(\displaystyle {900}\)
 }
 ]
 \addplot [
@@ -273,12 +275,12 @@ yticklabels={
 ]
 table{%
 x  y  fill
-0 473.854327150345 196,78,82
-1 638.387901689529 196,78,82
-2 750.757026081085 196,78,82
-0 229.195431623459 76,114,176
-1 462.356986659527 76,114,176
-2 648.311467428684 76,114,176
+0 445.35388581173 196,78,82
+1 692.004135376709 196,78,82
+2 825.312799192001 196,78,82
+0 224.741447027493 76,114,176
+1 512.977713230211 76,114,176
+2 782.002933649707 76,114,176
 };
 \addplot [draw=color0, fill=color0, mark=*, only marks]
 table{%
@@ -290,15 +292,15 @@ x  y
 };
 \addplot [thick, color0, dashed]
 table {%
-0 473.854339599609
-1 638.387878417969
-2 750.757019042969
+0 445.353881835938
+1 692.004150390625
+2 825.312805175781
 };
 \addplot [thick, color1, dashed]
 table {%
-0 229.195434570312
-1 462.356994628906
-2 648.311462402344
+0 224.741439819336
+1 512.977722167969
+2 782.0029296875
 };
 \end{groupplot}
 

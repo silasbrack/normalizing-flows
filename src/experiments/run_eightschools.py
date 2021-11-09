@@ -8,8 +8,6 @@ from src.experiments.train import train
 from src.guides import normalizing_flow
 from src.problems.eightschools import EightSchools
 from src.experiments.setup import setup
-import seaborn as sns
-import matplotlib.pyplot as plt
 import pickle
 device = setup()
 
@@ -89,9 +87,6 @@ def main():
         adam_params={"lr": args.lr},
     )
 
-    # sns.lineplot(x=range(args.epochs), y=train_result["losses"])
-    plt.show()
-
     # Sample from posterior
     posterior_predictive = Predictive(model=model, guide=guide, num_samples=1024)
     predictive_samples = posterior_predictive.get_samples(*data["test"])
@@ -121,6 +116,7 @@ def main():
     with open(args.results_path + args.file_name + ".pkl", "wb") as f:
         pickle.dump(train_result, f)
     pyro.get_param_store().save(args.model_path + args.file_name + ".save")
+
 
 if __name__ == "__main__":
     main()

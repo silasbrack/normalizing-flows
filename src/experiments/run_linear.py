@@ -34,7 +34,7 @@ train_result = train(
 
 # Sample from posterior
 posterior_predictive = Predictive(model=model, guide=guide, num_samples=1024)
-predictive_samples = posterior_predictive.get_samples(*data["test"])
+predictive_samples = posterior_predictive(*data["test"])
 predictive_samples = {k: v.cpu().detach().numpy() for k, v in predictive_samples.items()}
 train_result["samples"] = predictive_samples
 
