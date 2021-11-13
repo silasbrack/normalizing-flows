@@ -39,9 +39,9 @@ def save_plot(location, name, use=None, axis_height="\\figureheight", axis_width
     if "pdf" in use:
         print(f"Saving {full_path_without_ext}.pdf.")
         plt.savefig(full_path_without_ext + ".pdf", backend=backend)
-    if "tikz" in use and use_latex:
+    if "tikz" in use:
         print(f"Saving {full_path_without_ext}.tex.")
-        tikzplotlib.clean_figure()
+        # tikzplotlib.clean_figure()
         tikzplotlib.save(full_path_without_ext + ".tex", axis_height=axis_height, axis_width=axis_width)
     if "png" in use:
         plt.savefig(full_path_without_ext + ".png", backend=backend)

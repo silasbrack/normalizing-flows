@@ -1,16 +1,7 @@
 import pickle
 import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
-from plotnine import *
 import pandas as pd
-import pyro
-from pyro.distributions.transforms import planar
-from pyro.infer import Predictive
-from pyro.infer.importance import psis_diagnostic
-from src.guides import normalizing_flow
-from src.problems import EightSchools
-import arviz as az
 from src.visualization.setup import setup, save_plot
 setup()
 
@@ -45,64 +36,101 @@ df = pd.read_csv(
     "results/eightschools/number_of_flows.csv",
     # dtype={"type": "category", "n_flows": "Int64", "ELBO": float, "k_hat": float},
 )
-print(df)
 
-df_flows = df.query("type in ['Planar', 'Radial']")
-df_other = df.query("type in ['Mean-field', 'Full-rank']")
-
-df_other.loc[df_other["type"] == "Mean-field", "n_flows"] = 6
-df_other.loc[df_other["type"] == "Full-rank", "n_flows"] = 15
-p = (
-    ggplot(df_flows, aes(x="n_flows", y="k_hat", color="factor(type)")) +
-    geom_point() + geom_line(linetype="dashed") +
-    geom_text(aes(label="type"), y=[0.79, 0.91], data=df_flows.query("n_flows == 8")) +
-    geom_hline(aes(yintercept="k_hat"), data=df_other, linetype="dashed", color="grey") +
-    geom_label(aes(label="type"), data=df_other, label_size=0, color="grey") +
-    geom_hline(yintercept=0.7, linetype="dashed", color="red") +
-    scale_x_continuous(trans="log2") +
-    labs(x="Number of flows", y="k-hat statistic") +
-    theme_seaborn(style="ticks") +
-    theme(legend_position="none")
+fig, axs = plt.subplots(ncols=2)
+ax = axs[0]
+ax.scatter(
+    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "k_hat"],
 )
-fig = p.draw()
-fig.show()
-p.save(figure_path + "k_hat.pdf", width=4, height=4)
-
-df_other.loc[df_other["type"] == "Mean-field", "n_flows"] = 12
-df_other.loc[df_other["type"] == "Full-rank", "n_flows"] = 25
-p = (
-    ggplot(df_flows, aes(x="n_flows", y="ELBO", color="factor(type)")) +
-    geom_point() + geom_line(linetype="dashed") +
-    geom_text(aes(label="type"), y=[-32.1, -36.35], data=df_flows.query("n_flows == 16")) +
-    geom_hline(aes(yintercept="ELBO"), data=df_other, linetype="dashed", color="grey") +
-    geom_label(aes(label="type"), data=df_other, label_size=0, color="grey") +
-    scale_x_continuous(trans="log2") +
-    labs(x="Number of flows", y="ELBO") +
-    theme_seaborn(style="ticks") +
-    theme(legend_position="none")
+ax.plot(
+    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "k_hat"],
+    linestyle="--", linewidth=2,
 )
-fig = p.draw()
-fig.show()
-p.save(figure_path + "elbo.pdf", width=4, height=4)
-# ax = sns.scatterplot(
-#     data=df_flows,
-#     x="n_flows",
-#     y="k_hat",
-#     hue="type",
-#     s=75,
-# )
-# ax = sns.lineplot(
-#     data=df_flows,
-#     x="n_flows",
-#     y="k_hat",
-#     hue="type",
-#     linestyle="--", linewidth=3,
-#     ax=ax,
-# )
-# ax.axhline(df_other.query("type == 'Mean-field'")["k_hat"].values, ls='--', linewidth=3, color='grey')
-# ax.axhline(df_other.query("type == 'Full-rank'")["k_hat"].values, ls='--', linewidth=3, color='grey')
-# ax.get_legend().remove()
-# save_plot(figure_path, "number_of_flows")
+ax.annotate(
+    text="Planar",
+    xy=(12, 0.66),
+)
+ax.scatter(
+    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "k_hat"],
+)
+ax.plot(
+    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "k_hat"],
+    linestyle="--", linewidth=2,
+)
+ax.annotate(
+    text="Radial",
+    xy=(37, 0.80),
+)
+k_hat_mf = df.query("type == 'Mean-field'")["k_hat"].values.item()
+ax.axhline(k_hat_mf, ls='--', linewidth=2, color='grey')
+ax.annotate(
+    text="Mean-field",
+    xy=(60, k_hat_mf),
+    va="center",
+    backgroundcolor='white',
+    color="grey",
+)
+k_hat_fr = df.query("type == 'Full-rank'")["k_hat"].values.item()
+ax.axhline(k_hat_fr, ls='--', linewidth=2, color='grey')
+ax.annotate(
+    text="Full-rank",
+    xy=(70, k_hat_fr),
+    va="center",
+    backgroundcolor='white',
+    color="grey",
+)
+ax.axhline(0.7, ls='--', linewidth=2, color='red')
+
+ax = axs[1]
+ax.scatter(
+    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "ELBO"],
+)
+ax.plot(
+    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "ELBO"],
+    linestyle="--", linewidth=2,
+)
+ax.annotate(
+    text="Planar",
+    xy=(12, -35),
+)
+ax.scatter(
+    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "ELBO"],
+)
+ax.plot(
+    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "ELBO"],
+    linestyle="--", linewidth=2,
+)
+ax.annotate(
+    text="Radial",
+    xy=(37, -35),
+)
+ELBO_mf = df.query("type == 'Mean-field'")["ELBO"].values.item()
+ax.axhline(ELBO_mf, ls='--', linewidth=2, color='grey')
+ax.annotate(
+    text="Mean-field",
+    xy=(60, ELBO_mf),
+    va="center",
+    backgroundcolor='white',
+    color="grey",
+)
+ELBO_fr = df.query("type == 'Full-rank'")["ELBO"].values.item()
+ax.axhline(ELBO_fr, ls='--', linewidth=2, color='grey')
+ax.annotate(
+    text="Full-rank",
+    xy=(70, ELBO_fr),
+    va="center",
+    backgroundcolor='white',
+    color="grey",
+)
+save_plot(figure_path, "eightschools")
 
 
 with open("results/eightschools/eightschools.pkl", "rb") as f:
@@ -112,21 +140,20 @@ with open("results/eightschools/eightschools_hmc.pkl", "rb") as f:
 
 # print(results["losses"][-500:].mean())
 
-plt.figure(figsize=(4, 4))
-ax = sns.scatterplot(
-    x=results_hmc["samples"]["tau"].log().cpu().detach().numpy(),
-    y=results_hmc["samples"]["theta"][:, 0].cpu().detach().numpy(),
+fig, ax = plt.subplots(figsize=(4, 4))
+ax.scatter(
+    results_hmc["samples"]["tau"].log().cpu().detach().numpy(),
+    results_hmc["samples"]["theta"][:, 0].cpu().detach().numpy(),
     label="NUTS",
     color="k",
     alpha=0.25,
 )
-ax = sns.scatterplot(
-    x=np.log(results["samples"]["tau"].squeeze()),
-    y=results["samples"]["theta"][:, 0],
+ax.scatter(
+    np.log(results["samples"]["tau"].squeeze()),
+    results["samples"]["theta"][:, 0],
     label="VI with 16 Planar flows",
     alpha=0.25,
     color="blue",
-    ax=ax,
 )
 ax.set(
     xlabel="log $\\tau$",
@@ -135,6 +162,7 @@ ax.set(
     ylim=[-20, 45],
     # title="Joints of $\\tau$ and $\\theta_1$",
 )
+ax.legend()
 save_plot(figure_path, "log_tau_vs_theta")
 
 plt.show()

@@ -1,5 +1,3 @@
-from src.visualization.setup import setup, save_plot
-setup()
 import matplotlib.pyplot as plt
 import seaborn as sns
 from src.problems.energy import EnergyPosteriorProblem
@@ -8,11 +6,15 @@ from src.visualization.visualize import plot_pdf
 import numpy as np
 import pickle
 import pandas as pd
+import tikzplotlib
+from src.visualization.setup import setup, save_plot
+setup()
 
-figure_path = "figures/energy"
+
+figure_path = "figures/energy/"
 
 final_elbos = {"Planar": [], "Radial": []}
-idx = pd.MultiIndex.from_product([['Planar', 'Radial'], [2,8,32]])
+idx = pd.MultiIndex.from_product([['Planar', 'Radial'], [2, 8, 32]])
 df = pd.DataFrame(np.random.randn(4, 6), columns=idx, index=["U1", "U2", "U3", "U4"])
 
 for dist_name in ["U1", "U2", "U3", "U4"]:
@@ -32,38 +34,35 @@ df.index = ["$U_1(z)$", "$U_2(z)$", "$U_3(z)$", "$U_4(z)$"]
 with open("figures/energy/energy_results_table.tex", "w") as f:
     df.to_latex(f, float_format="{:0.2f}".format)
 
-df = df.reset_index().rename(columns={"index": "type"}) \
-       .melt(id_vars="type", value_name="ELBO", var_name=["flow", "n_flows"]) \
-       .assign(idx=lambda df: df["n_flows"].map({2: 0, 8: 1, 32: 2}))
-g = sns.FacetGrid(df, col="type",  col_wrap=2, sharey=False, height=2.5, aspect=3/2.5, despine=False)
-g.map(sns.scatterplot, "idx", "ELBO", "flow", palette=["r", "b"])
-g.map(sns.lineplot, "idx", "ELBO", "flow", palette=["r", "b"], linewidth=2, linestyle="--")
-g.set_titles(col_template="{col_name}", row_template="{row_name}")
-g.add_legend()
-g.set_axis_labels("Number of flows", "ELBO")
-plt.xticks([0,1,2], ["2","8","32"])
-save_plot(figure_path, "final_elbo_comparison")
+fig, axs = plt.subplots(nrows=2, ncols=2)
+i = 0
+for row in axs:
+    for col in row:
+        planar_vals = df.loc["$U_" + str(i+1) + "(z)$", ("Planar")]
+        radial_vals = df.loc["$U_" + str(i+1) + "(z)$", ("Radial")]
+        col.scatter(range(3), planar_vals.values)
+        col.plot(range(3), planar_vals.values, linestyle="--", linewidth=2)
+        col.scatter(range(3), radial_vals.values)
+        col.plot(range(3), radial_vals.values, linestyle="--", linewidth=2)
+        col.set_xticks(range(3))
+        col.set_xticklabels(planar_vals.index.values)
+        col.set_title(df.index.values[i])
+        col.set_xlabel("Number of flows")
+        col.set_ylabel("ELBO")
+        i = i + 1
+axs[0, 0].annotate(
+    text="Planar",
+    xy=(0.1, 190),
+)
+axs[0, 0].annotate(
+    text="Radial",
+    xy=(0.5, 50),
+)
 
-# fig, ax = plt.subplots(figsize=(3,2.5))
-# dist_name = "U1"
-# name = "planar"
-# n_flows = 32
-# with open("results/energy/" + f"{dist_name}_{name}_{n_flows}.pkl", "rb") as f:
-#     results = pickle.load(f)
-# flow_samples = results["samples"]["samples"]
-# dist = EnergyPosteriorProblem.get_dist(dist_name)
-# ax = sns.scatterplot(
-#     x=flow_samples[:, 0],
-#     y=flow_samples[:, 1],
-#     color="k",
-#     ax=ax,
-# )
-# plot_pdf(dist, ax=ax, how="contour").set(
-#     title=dist_name,
-#     xticks=[],
-#     yticks=[],
-#     )
-# save_plot(figure_path, dist_name)
+plt.tight_layout()
+tikzplotlib.clean_figure()
+tikzplotlib.save(figure_path + "final_elbo_comparison" + ".tex", axis_height="\\figureheight", axis_width="\\figurewidth")
+
 
 
 """
@@ -101,12 +100,11 @@ for dist_name in ["U1", "U2", "U3", "U4"]:
             # ax = plt.subplot(4, 9, index)
             ax = plt.subplot(4, 7, index)
             # plot_samples(samples=flow_samples, ax=ax, shade=False)
-            sns.scatterplot(
+            ax.scatter(
                 x=flow_samples[:, 0],
                 y=flow_samples[:, 1],
-                hue=log_prob, palette="rocket",
-                size=3, legend=False,
-                ax=ax,
+                c=log_prob, cmap="rocket",
+                s=3,
             )
             ax.set(
                 title=f"K = {n_flows}" if dist_name == "U1" else None,
@@ -119,6 +117,7 @@ for dist_name in ["U1", "U2", "U3", "U4"]:
             index += 1
     #     index += 1
     # index -= 1
+
 plt.tight_layout()
 save_plot(figure_path, "energy_grid")
 

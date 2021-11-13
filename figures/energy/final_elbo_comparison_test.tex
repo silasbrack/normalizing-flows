@@ -1,0 +1,201 @@
+% This file was created with tikzplotlib v0.9.15.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.298039215686275,0.447058823529412,0.690196078431373}
+\definecolor{color1}{rgb}{0.866666666666667,0.517647058823529,0.32156862745098}
+
+\begin{groupplot}[group style={group size=2 by 2}]
+\nextgroupplot[
+axis line style={white!15!black},
+height=\figureheight,
+tick align=outside,
+tick pos=left,
+title={\(\displaystyle U_1(z)\)},
+width=\figurewidth,
+x grid style={white!80!black},
+xlabel=\textcolor{white!15!black}{Number of flows},
+xmin=-0.1, xmax=2.1,
+xtick style={color=white!15!black},
+xtick={0,1,2},
+xticklabels={2,8,32},
+y grid style={white!80!black},
+ylabel=\textcolor{white!15!black}{ELBO},
+ymin=-76.6874851371765, ymax=294.942404250336,
+ytick style={color=white!15!black}
+]
+\addplot [draw=color0, fill=color0, mark=*, only marks]
+table{%
+x  y
+0 74.7211869659424
+1 269.657831069946
+2 278.050136550903
+};
+\addplot [draw=color1, fill=color1, mark=*, only marks]
+table{%
+x  y
+0 -59.7952174377441
+1 229.703316177368
+2 262.646484176636
+};
+\addplot [thick, color0, dashed]
+table {%
+0 74.7211837768555
+1 269.657836914062
+2 278.050140380859
+};
+\addplot [thick, color1, dashed]
+table {%
+0 -59.7952156066895
+1 229.703323364258
+2 262.646484375
+};
+\draw (axis cs:0.1,190) node[
+  scale=0.48,
+  anchor=base west,
+  text=white!15!black,
+  rotate=0.0
+]{Planar};
+\draw (axis cs:0.5,50) node[
+  scale=0.48,
+  anchor=base west,
+  text=white!15!black,
+  rotate=0.0
+]{Radial};
+
+\nextgroupplot[
+axis line style={white!15!black},
+height=\figureheight,
+tick align=outside,
+tick pos=left,
+title={\(\displaystyle U_2(z)\)},
+width=\figurewidth,
+x grid style={white!80!black},
+xlabel=\textcolor{white!15!black}{Number of flows},
+xmin=-0.1, xmax=2.1,
+xtick style={color=white!15!black},
+xtick={0,1,2},
+xticklabels={2,8,32},
+y grid style={white!80!black},
+ylabel=\textcolor{white!15!black}{ELBO},
+ymin=-133.100042633057, ymax=635.260014404297,
+ytick style={color=white!15!black}
+]
+\addplot [draw=color0, fill=color0, mark=*, only marks]
+table{%
+x  y
+0 272.110365280151
+1 526.724150352478
+2 600.334557266235
+};
+\addplot [draw=color1, fill=color1, mark=*, only marks]
+table{%
+x  y
+0 -98.1745854949951
+1 177.554359573364
+2 529.821500488281
+};
+\addplot [thick, color0, dashed]
+table {%
+0 272.1103515625
+1 526.72412109375
+2 600.334533691406
+};
+\addplot [thick, color1, dashed]
+table {%
+0 -98.1745834350586
+1 177.55436706543
+2 529.821472167969
+};
+
+\nextgroupplot[
+axis line style={white!15!black},
+height=\figureheight,
+tick align=outside,
+tick pos=left,
+title={\(\displaystyle U_3(z)\)},
+width=\figurewidth,
+x grid style={white!80!black},
+xlabel=\textcolor{white!15!black}{Number of flows},
+xmin=-0.1, xmax=2.1,
+xtick style={color=white!15!black},
+xtick={0,1,2},
+xticklabels={2,8,32},
+y grid style={white!80!black},
+ylabel=\textcolor{white!15!black}{ELBO},
+ymin=188.676151433849, ymax=908.911736560917,
+ytick style={color=white!15!black}
+]
+\addplot [draw=color0, fill=color0, mark=*, only marks]
+table{%
+x  y
+0 530.808597518116
+1 692.818518078431
+2 876.173755418777
+};
+\addplot [draw=color1, fill=color1, mark=*, only marks]
+table{%
+x  y
+0 221.414132575989
+1 537.424900092781
+2 740.612538242314
+};
+\addplot [thick, color0, dashed]
+table {%
+0 530.80859375
+1 692.818542480469
+2 876.173767089844
+};
+\addplot [thick, color1, dashed]
+table {%
+0 221.414138793945
+1 537.424926757812
+2 740.612548828125
+};
+
+\nextgroupplot[
+axis line style={white!15!black},
+height=\figureheight,
+tick align=outside,
+tick pos=left,
+title={\(\displaystyle U_4(z)\)},
+width=\figurewidth,
+x grid style={white!80!black},
+xlabel=\textcolor{white!15!black}{Number of flows},
+xmin=-0.1, xmax=2.1,
+xtick style={color=white!15!black},
+xtick={0,1,2},
+xticklabels={2,8,32},
+y grid style={white!80!black},
+ylabel=\textcolor{white!15!black}{ELBO},
+ymin=194.743787387181, ymax=845.570850848867,
+ytick style={color=white!15!black}
+]
+\addplot [draw=color0, fill=color0, mark=*, only marks]
+table{%
+x  y
+0 445.35388581173
+1 660.302288727291
+2 815.987802509699
+};
+\addplot [draw=color1, fill=color1, mark=*, only marks]
+table{%
+x  y
+0 224.326835726349
+1 382.157593208797
+2 631.775371951788
+};
+\addplot [thick, color0, dashed]
+table {%
+0 445.353881835938
+1 660.302307128906
+2 815.98779296875
+};
+\addplot [thick, color1, dashed]
+table {%
+0 224.326843261719
+1 382.157592773438
+2 631.775390625
+};
+\end{groupplot}
+
+\end{tikzpicture}
