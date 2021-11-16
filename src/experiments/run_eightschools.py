@@ -9,7 +9,6 @@ from src.guides import normalizing_flow
 from src.problems.eightschools import EightSchools
 from src.experiments.setup import setup
 import pickle
-device = setup()
 
 
 def parse_args():
@@ -65,11 +64,18 @@ def parse_args():
         default=16,
         help="Number of flows (default: 16)",
     )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Seed (default: None)",
+    )
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
+    device = setup(args.seed)
 
     problem = EightSchools(device=device)
     data = problem.get_data()
