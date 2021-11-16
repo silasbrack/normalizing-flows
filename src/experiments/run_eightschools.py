@@ -1,7 +1,7 @@
 import argparse
 import pandas as pd
 import pyro
-from pyro.distributions.transforms import planar, radial
+from pyro.distributions.transforms import planar, radial, neural_autoregressive
 from pyro.infer import Predictive
 from pyro.infer.importance import psis_diagnostic
 from src.experiments.train import train
@@ -57,7 +57,7 @@ def parse_args():
         "--flow-type",
         type=str,
         default="planar",
-        help="Type of flow, planar or radial (default: planar)",
+        help="Type of flow, planar, radial or neural_autoregressive (default: planar)",
     )
     parser.add_argument(
         "--num-flows",
@@ -74,7 +74,7 @@ def main():
     problem = EightSchools(device=device)
     data = problem.get_data()
 
-    flow_type = {"planar": planar, "radial": radial}[args.flow_type]
+    flow_type = {"planar": planar, "radial": radial, "neural_autoregressive": neural_autoregressive}[args.flow_type]
 
     model = problem.model
     guide = normalizing_flow(model, flow_type=flow_type, num_flows=args.num_flows)
@@ -86,6 +86,8 @@ def main():
         gradient_mc_samples=args.mc_samples,
         adam_params={"lr": args.lr},
     )
+
+    print(train_result["losses"][-500:].mean())
 
     # Sample from posterior
     posterior_predictive = Predictive(model=model, guide=guide, num_samples=1024)

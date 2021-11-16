@@ -13,3 +13,7 @@ Radial,16,-35.904,0.876
 Radial,32,-33.292,0.8203
 Radial,64,-32.003,0.6482
 Radial,128,-32.016,0.6494
+Inverse Autoregressive,4,-31.476,0.58
+Inverse Autoregressive,8,-31.548,0.6419
+Inverse Autoregressive,16,-31.674,0.5494
+Inverse Autoregressive,32,-31.712,0.4818
