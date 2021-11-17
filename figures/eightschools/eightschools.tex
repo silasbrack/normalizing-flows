@@ -3,42 +3,51 @@
 
 \definecolor{color0}{rgb}{0.298039215686275,0.447058823529412,0.690196078431373}
 \definecolor{color1}{rgb}{0.866666666666667,0.517647058823529,0.32156862745098}
+\definecolor{color2}{rgb}{0.333333333333333,0.658823529411,0.407843137254902}
 
 \begin{groupplot}[group style={group size=2 by 1}]
 \nextgroupplot[
-axis line style={white!15!black},
+axis line style={white!12.5!black},
 height=\figureheight,
+log basis x={2},
 tick align=outside,
 tick pos=left,
 width=\figurewidth,
-x grid style={white!80!black},
-xmin=-2.2, xmax=134.2,
-xtick style={color=white!15!black},
-y grid style={white!80!black},
-ymin=0.57062, ymax=0.93758,
-ytick style={color=white!15!black}
+x grid style={white!69.0196078431373!black},
+xlabel=\textcolor{white!12.5!black}{Number of flows},
+xmin=3.36358566101486, xmax=152.218510720348,
+xmode=log,
+xtick style={color=white!12.5!black},
+xtick={4,8,16,32,64,128},
+xticklabels={
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{5}}\),
+  \(\displaystyle {2^{6}}\),
+  \(\displaystyle {2^{7}}\)
+},
+y grid style={white!69.0196078431373!black},
+ylabel=\textcolor{white!12.5!black}{\(\displaystyle \hat{k}\)-statistic},
+ymin=0.459845, ymax=0.942855,
+ytick style={color=white!12.5!black}
 ]
-\addplot [draw=color0, fill=color0, mark=*, only marks]
-table{%
-x  y
-4 0.8329
-8 0.8066
-16 0.77
-32 0.6379
-64 0.601
-128 0.5873
+\addplot [thick, white!50.1960784313725!black, dotted]
+table {%
+3.36358566101486 0.871
+152.218510720348 0.871
 };
-\addplot [draw=color1, fill=color1, mark=*, only marks]
-table{%
-x  y
-4 0.9209
-8 0.8979
-16 0.876
-32 0.8203
-64 0.6482
-128 0.6494
+\addplot [thick, white!50.1960784313725!black, dotted]
+table {%
+3.36358566101486 0.8226
+152.218510720348 0.8226
 };
-\addplot [thick, color0, dashed]
+\addplot [thick, red, opacity=0.5, dotted]
+table {%
+3.36358566101486 0.7
+152.218510720348 0.7
+};
+\addplot [thick, color0, dotted, mark=*, mark size=3.5, mark options={solid,draw=white!12.5!black}]
 table {%
 4 0.8329
 8 0.8066
@@ -47,7 +56,7 @@ table {%
 64 0.601
 128 0.5873
 };
-\addplot [thick, color1, dashed]
+\addplot [thick, color1, dotted, mark=*, mark size=3.5, mark options={solid,draw=white!12.5!black}]
 table {%
 4 0.9209
 8 0.8979
@@ -56,88 +65,91 @@ table {%
 64 0.6482
 128 0.6494
 };
-\addplot [thick, white!50.1960784313725!black, dashed]
+\addplot [thick, color2, dotted, mark=*, mark size=3.5, mark options={solid,draw=white!12.5!black}]
 table {%
--2.2 0.871
-134.2 0.871
+4 0.58
+8 0.6419
+16 0.5494
+32 0.4818
 };
-\addplot [thick, white!50.1960784313725!black, dashed]
-table {%
--2.2 0.8226
-134.2 0.8226
-};
-\addplot [thick, red, dashed]
-table {%
--2.2 0.7
-134.2 0.7
-};
-\draw (axis cs:12,0.66) node[
-  scale=0.48,
-  anchor=base west,
-  text=white!15!black,
-  rotate=0.0
-]{Planar};
-\draw (axis cs:37,0.8) node[
-  scale=0.48,
-  anchor=base west,
-  text=white!15!black,
-  rotate=0.0
-]{Radial};
-\draw (axis cs:60,0.871) node[
-  scale=0.48,
+\draw (axis cs:40,0.871) node[
+  scale=0.7,
   fill=white,
   draw=white,
-  line width=0.32pt,
-  inner sep=4.2pt,
+  line width=0.4pt,
+  inner sep=4pt,
   anchor=west,
   text=white!50.1960784313725!black,
   rotate=0.0
 ]{Mean-field};
-\draw (axis cs:70,0.8226) node[
-  scale=0.48,
+\draw (axis cs:50,0.8226) node[
+  scale=0.7,
   fill=white,
   draw=white,
-  line width=0.32pt,
-  inner sep=4.2pt,
+  line width=0.4pt,
+  inner sep=4pt,
   anchor=west,
   text=white!50.1960784313725!black,
   rotate=0.0
 ]{Full-rank};
+\draw (axis cs:7,0.73) node[
+  scale=0.7,
+  anchor=base west,
+  text=color0,
+  rotate=0.0
+]{Planar};
+\draw (axis cs:45,0.75) node[
+  scale=0.7,
+  anchor=base west,
+  text=color1,
+  rotate=0.0
+]{Radial};
+\draw (axis cs:4,0.47) node[
+  scale=0.7,
+  anchor=base west,
+  text=color2,
+  rotate=0.0,
+  align=left
+]{Inverse
+Autoregressive};
 
 \nextgroupplot[
-axis line style={white!15!black},
+axis line style={white!12.5!black},
 height=\figureheight,
+log basis x={2},
 tick align=outside,
 tick pos=left,
 width=\figurewidth,
-x grid style={white!80!black},
-xmin=-2.2, xmax=134.2,
-xtick style={color=white!15!black},
-y grid style={white!80!black},
-ymin=-38.05425, ymax=-31.49275,
-ytick style={color=white!15!black}
+x grid style={white!69.0196078431373!black},
+xlabel=\textcolor{white!12.5!black}{Number of flows},
+xmin=3.36358566101486, xmax=152.218510720348,
+xmode=log,
+xtick style={color=white!12.5!black},
+xtick={4,8,16,32,64,128},
+xticklabels={
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{5}}\),
+  \(\displaystyle {2^{6}}\),
+  \(\displaystyle {2^{7}}\)
+},
+y grid style={white!69.0196078431373!black},
+ylabel=\textcolor{white!12.5!black}{ELBO},
+ymin=-38.07, ymax=-31.162,
+ytick style={color=white!12.5!black}
 ]
-\addplot [draw=color0, fill=color0, mark=*, only marks]
-table{%
-x  y
-4 -33.297
-8 -32.728
-16 -32.412
-32 -31.791
-64 -32.097
-128 -32.152
+\addplot [thick, white!50.1960784313725!black, dotted]
+table {%
+3.36358566101486 -33.406
+152.218510720348 -33.406
 };
-\addplot [draw=color1, fill=color1, mark=*, only marks]
-table{%
-x  y
-4 -37.756
-8 -37.683
-16 -35.904
-32 -33.292
-64 -32.003
-128 -32.016
+\addplot [thick, white!50.1960784313725!black, dotted]
+table {%
+3.36358566101486 -32.598
+152.218510720348 -32.598
 };
-\addplot [thick, color0, dashed]
+\addplot [thick, color0, dotted, mark=*, mark size=3.5, mark options={solid,draw=white!12.5!black}]
 table {%
 4 -33.297
 8 -32.728
@@ -146,7 +158,7 @@ table {%
 64 -32.097
 128 -32.152
 };
-\addplot [thick, color1, dashed]
+\addplot [thick, color1, dotted, mark=*, mark size=3.5, mark options={solid,draw=white!12.5!black}]
 table {%
 4 -37.756
 8 -37.683
@@ -155,48 +167,45 @@ table {%
 64 -32.003
 128 -32.016
 };
-\addplot [thick, white!50.1960784313725!black, dashed]
+\addplot [thick, color2, dotted, mark=*, mark size=3.5, mark options={solid,draw=white!12.5!black}]
 table {%
--2.20000000000002 -33.406
-134.2 -33.406
+4 -31.476
+8 -31.548
+16 -31.674
+32 -31.712
 };
-\addplot [thick, white!50.1960784313725!black, dashed]
-table {%
--2.20000000000002 -32.598
-134.2 -32.598
-};
-\draw (axis cs:12,-35) node[
-  scale=0.48,
-  anchor=base west,
-  text=white!15!black,
-  rotate=0.0
-]{Planar};
-\draw (axis cs:37,-35) node[
-  scale=0.48,
-  anchor=base west,
-  text=white!15!black,
-  rotate=0.0
-]{Radial};
-\draw (axis cs:60,-33.406) node[
-  scale=0.48,
+\draw (axis cs:50,-33.406) node[
+  scale=0.7,
   fill=white,
   draw=white,
-  line width=0.32pt,
-  inner sep=4.2pt,
+  line width=0.4pt,
+  inner sep=4pt,
   anchor=west,
   text=white!50.1960784313725!black,
   rotate=0.0
 ]{Mean-field};
-\draw (axis cs:70,-32.598) node[
-  scale=0.48,
+\draw (axis cs:60,-32.598) node[
+  scale=0.7,
   fill=white,
   draw=white,
-  line width=0.32pt,
-  inner sep=4.2pt,
+  line width=0.4pt,
+  inner sep=4pt,
   anchor=west,
   text=white!50.1960784313725!black,
   rotate=0.0
 ]{Full-rank};
+\draw (axis cs:8,-32) node[
+  scale=0.7,
+  anchor=base west,
+  text=color0,
+  rotate=0.0
+]{Planar};
+\draw (axis cs:32,-34.5) node[
+  scale=0.7,
+  anchor=base west,
+  text=color1,
+  rotate=0.0
+]{Radial};
 \end{groupplot}
 
 \end{tikzpicture}

@@ -34,11 +34,168 @@ figure_path = "figures/eightschools/"
 #     print(f"k hat = {k_hat:.3f} > 0.7: VI approximation is NOT reliable.")
 
 df = pd.read_csv(
+    "results/eightschools/number_of_flows_new.csv",
+    # dtype={"type": "category", "n_flows": "Int64", "ELBO": float, "k_hat": float},
+)
+
+df_summary = df.groupby(["type", "n_flows"]).agg({"ELBO": [np.mean, np.std], "k_hat": [np.mean, np.std]}).reset_index()
+with open("figures/eightschools/eightschools_error.tex", "w") as f:
+    df_summary.to_latex(f, float_format="{:0.2f}".format)
+
+fig, axs = plt.subplots(ncols=2, figsize=(9, 4))
+plt.subplots_adjust(wspace=0.3)
+ax = axs[0]
+ax.axhline(0.7, ls=":", linewidth=LINE_WIDTH, color="red", alpha=0.5)
+ax.axhline(0.5, ls=":", linewidth=LINE_WIDTH, color="red", alpha=0.3)
+ax.scatter(
+    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "k_hat"],
+    color=PLANAR_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
+)
+ax.errorbar(
+    df_summary.loc[df_summary["type"] == "Planar", "n_flows"],
+    df_summary.loc[df_summary["type"] == "Planar", ("k_hat", "mean")],
+    yerr=df_summary.loc[df_summary["type"] == "Planar", ("k_hat", "std")], capsize=5,
+    fmt=":o", markersize=5,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=PLANAR_COLOR,
+)
+ax.annotate(
+    text="Planar",
+    xy=(7, 0.75),
+    color=PLANAR_COLOR,
+    size=LABEL_SIZE,
+)
+ax.scatter(
+    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "k_hat"],
+    color=RADIAL_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
+)
+ax.errorbar(
+    df_summary.loc[df_summary["type"] == "Radial", "n_flows"],
+    df_summary.loc[df_summary["type"] == "Radial", ("k_hat", "mean")],
+    yerr=df_summary.loc[df_summary["type"] == "Radial", ("k_hat", "std")], capsize=5,
+    fmt=":o", markersize=5,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=RADIAL_COLOR,
+)
+ax.annotate(
+    text="Radial",
+    xy=(20, 0.83),
+    color=RADIAL_COLOR,
+    size=LABEL_SIZE,
+)
+ax.scatter(
+    df.loc[df["type"] == "Inverse Autoregressive", "n_flows"],
+    df.loc[df["type"] == "Inverse Autoregressive", "k_hat"],
+    color=IAF_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
+)
+ax.errorbar(
+    df_summary.loc[df_summary["type"] == "Inverse Autoregressive", "n_flows"],
+    df_summary.loc[df_summary["type"] == "Inverse Autoregressive", ("k_hat", "mean")],
+    yerr=df_summary.loc[df_summary["type"] == "Inverse Autoregressive", ("k_hat", "std")], capsize=5,
+    fmt=":o", markersize=5,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=IAF_COLOR,
+)
+ax.annotate(
+    text="Inverse\nAutoregressive",
+    xy=(10, 0.60),
+    color=IAF_COLOR,
+    size=LABEL_SIZE,
+)
+ax.set_xlabel("Number of flows")
+ax.set_ylabel("$\\hat{k}$-statistic")
+ax.set_xscale("log", base=2)
+ax.set_xticks(df.loc[df["type"] == "Radial", "n_flows"])
+finalize(ax)
+adjust_spines(ax, ["left", "bottom"])
+
+ax = axs[1]
+ax.scatter(
+    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "ELBO"],
+    color=PLANAR_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
+)
+ax.errorbar(
+    df_summary.loc[df_summary["type"] == "Planar", "n_flows"],
+    df_summary.loc[df_summary["type"] == "Planar", ("ELBO", "mean")],
+    yerr=df_summary.loc[df_summary["type"] == "Planar", ("ELBO", "std")], capsize=5,
+    fmt=":o", markersize=5,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=PLANAR_COLOR,
+)
+ax.annotate(
+    text="Planar",
+    xy=(8, -33.5),
+    color=PLANAR_COLOR,
+    size=LABEL_SIZE,
+)
+ax.scatter(
+    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "ELBO"],
+    color=RADIAL_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
+)
+ax.errorbar(
+    df_summary.loc[df_summary["type"] == "Radial", "n_flows"],
+    df_summary.loc[df_summary["type"] == "Radial", ("ELBO", "mean")],
+    yerr=df_summary.loc[df_summary["type"] == "Radial", ("ELBO", "std")], capsize=5,
+    fmt=":o", markersize=5,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=RADIAL_COLOR,
+)
+ax.annotate(
+    text="Radial",
+    xy=(20, -34.5),
+    color=RADIAL_COLOR,
+    size=LABEL_SIZE,
+)
+ax.scatter(
+    df.loc[df["type"] == "Inverse Autoregressive", "n_flows"],
+    df.loc[df["type"] == "Inverse Autoregressive", "ELBO"],
+    color=IAF_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
+)
+ax.errorbar(
+    df_summary.loc[df_summary["type"] == "Inverse Autoregressive", "n_flows"],
+    df_summary.loc[df_summary["type"] == "Inverse Autoregressive", ("ELBO", "mean")],
+    yerr=df_summary.loc[df_summary["type"] == "Inverse Autoregressive", ("ELBO", "std")], capsize=5,
+    fmt=":o", markersize=5,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=IAF_COLOR,
+)
+ax.annotate(
+    text="Inverse Autoregressive",
+    xy=(4, -32.2),
+    color=IAF_COLOR,
+    size=LABEL_SIZE,
+)
+ax.set_xlabel("Number of flows")
+ax.set_ylabel("ELBO")
+ax.set_xscale("log", base=2)
+ax.set_xticks(df.loc[df["type"] == "Radial", "n_flows"])
+finalize(ax)
+adjust_spines(ax, ["left", "bottom"])
+fig.tight_layout()
+save_plot(figure_path, "eightschools_replicates")
+
+
+
+
+
+
+
+df = pd.read_csv(
     "results/eightschools/number_of_flows.csv",
     # dtype={"type": "category", "n_flows": "Int64", "ELBO": float, "k_hat": float},
 )
 
-fig, axs = plt.subplots(ncols=2, figsize=(8, 4))
+fig, axs = plt.subplots(ncols=2, figsize=(9, 4))
 plt.subplots_adjust(wspace=0.3)
 ax = axs[0]
 k_hat_mf = df.query("type == 'Mean-field'")["k_hat"].values.item()
@@ -69,11 +226,6 @@ ax.plot(
     linewidth=LINE_WIDTH, color=PLANAR_COLOR,
 
 )
-# ax.scatter(
-#     df.loc[df["type"] == "Planar", "n_flows"],
-#     df.loc[df["type"] == "Planar", "k_hat"],
-#     color=PLANAR_COLOR,
-# )
 ax.annotate(
     text="Planar",
     xy=(7, 0.73),
@@ -136,11 +288,6 @@ ax.annotate(
     color="grey",
     size=LABEL_SIZE,
 )
-# ax.scatter(
-#     df.loc[df["type"] == "Planar", "n_flows"],
-#     df.loc[df["type"] == "Planar", "ELBO"],
-#     color=PLANAR_COLOR,
-# )
 ax.plot(
     df.loc[df["type"] == "Planar", "n_flows"],
     df.loc[df["type"] == "Planar", "ELBO"],
@@ -154,11 +301,6 @@ ax.annotate(
     color=PLANAR_COLOR,
     size=LABEL_SIZE,
 )
-# ax.scatter(
-#     df.loc[df["type"] == "Radial", "n_flows"],
-#     df.loc[df["type"] == "Radial", "ELBO"],
-#     color=RADIAL_COLOR,
-# )
 ax.plot(
     df.loc[df["type"] == "Radial", "n_flows"],
     df.loc[df["type"] == "Radial", "ELBO"],
@@ -185,7 +327,9 @@ ax.set_xscale("log", base=2)
 ax.set_xticks(df.loc[df["type"] == "Radial", "n_flows"])
 finalize(ax)
 adjust_spines(ax, ["left", "bottom"])
+fig.tight_layout()
 save_plot(figure_path, "eightschools")
+
 
 
 with open("results/eightschools/eightschools_iaf_4_1.pkl", "rb") as f:
@@ -214,7 +358,7 @@ ax.scatter(
 ax.scatter(
     np.log(results["samples"]["tau"].squeeze()),
     results["samples"]["theta"][:, 0],
-    label="VI with 32 Inverse Autoregressive flows",
+    label="VI with 4 Inverse Autoregressive flows",
     alpha=0.50,
     color=IAF_COLOR,
 )
@@ -226,8 +370,10 @@ ax.set(
     # title="Joints of $\\tau$ and $\\theta_1$",
 )
 ax.legend()
-# adjust_spines(ax, ["left", "bottom"])
+adjust_spines(ax, ["left", "bottom"])
 finalize(ax)
+# fig.subplots_adjust(left=0.25, right=0.75, bottom=0.2)
+fig.tight_layout()
 save_plot(figure_path, "log_tau_vs_theta")
 
 plt.show()

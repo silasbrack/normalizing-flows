@@ -3,7 +3,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(cowplot)
 library(dplyr)
-library(tikzDevice)
+# library(tikzDevice)
 
 dt.loss <- data.table(read.csv("C:\\Users\\s174433\\Documents\\normalizing-flows\\results\\energy\\losses.csv"))
 dt.int <- data.table(read.csv("C:\\Users\\s174433\\Documents\\normalizing-flows\\results\\energy\\test.csv"))
@@ -47,6 +47,32 @@ p3 <- ggplot(dt.int %>% filter(iters==6000), aes(x=x, y=y, color=log_prob)) +
     legend.pos="none"
   )
 
-tikz(file="test.tex",width = 9, height = 3)
+# tikz(file="test.tex",width = 9, height = 3)
 plot_grid(p1, p2, p3, labels="AUTO", ncol=3)
-dev.off()
+# dev.off()
+
+
+
+dt <- read_csv("C:\\Users\\s174433\\Documents\\normalizing-flows\\results\\eightschools\\number_of_flows_new.csv")
+dt$type <- as.factor(dt$type)
+
+p1 <- ggplot(dt, aes(x=n_flows, y=k_hat, color=type)) +
+  geom_point() +
+  geom_smooth(aes(fill=type), alpha=0.15, method="loess") +
+  geom_hline(yintercept=0.7, linetype="dashed", color="red", alpha=0.7) +
+  geom_hline(yintercept=0.5, linetype="dashed", color="red", alpha=0.5) +
+  scale_x_continuous(trans='log2') +
+  labs(
+    x="Number of flows",
+    y="k-hat statistic",
+  )
+p2 <- ggplot(dt, aes(x=n_flows, y=ELBO, color=type)) +
+  geom_point() +
+  geom_smooth(aes(fill=type), alpha=0.15, method="loess") +
+  scale_x_continuous(trans='log2') +
+  labs(
+    x="Number of flows",
+    y="ELBO",
+  )
+plot_grid(p1, p2, labels="AUTO", ncol=2)
+

@@ -1,0 +1,442 @@
+% This file was created with tikzplotlib v0.9.15.
+\begin{tikzpicture}
+
+\definecolor{color0}{rgb}{0.298039215686275,0.447058823529412,0.690196078431373}
+\definecolor{color1}{rgb}{0.866666666666667,0.517647058823529,0.32156862745098}
+\definecolor{color2}{rgb}{0.333333333333333,0.658823529411,0.407843137254902}
+
+\begin{groupplot}[group style={group size=2 by 1}]
+\nextgroupplot[
+axis line style={white!12.5!black},
+height=\figureheight,
+log basis x={2},
+tick align=outside,
+tick pos=left,
+width=\figurewidth,
+x grid style={white!69.0196078431373!black},
+xlabel=\textcolor{white!12.5!black}{Number of flows},
+xmin=3.60500185044332, xmax=35.506223106171,
+xmode=log,
+xtick style={color=white!12.5!black},
+xtick={4,4,4,8,8,8,16,16,16,32,32,32},
+xticklabels={
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{5}}\),
+  \(\displaystyle {2^{5}}\),
+  \(\displaystyle {2^{5}}\)
+},
+y grid style={white!69.0196078431373!black},
+ylabel=\textcolor{white!12.5!black}{\(\displaystyle \hat{k}\)-statistic},
+ymin=0.453377462424074, ymax=0.938000311313139,
+ytick style={color=white!12.5!black}
+]
+\addplot [draw=white!12.5!black, fill=color0, mark=*, only marks, opacity=0.3]
+table{%
+x  y
+4 0.854041
+4 0.83078
+4 0.83613
+8 0.799618
+8 0.805192
+8 0.79955
+16 0.703415
+16 0.71753
+16 0.759693
+32 0.702182
+32 0.618027
+32 0.630491
+};
+\addplot [draw=white!12.5!black, fill=color1, mark=*, only marks, opacity=0.3]
+table{%
+x  y
+4 0.894571
+4 0.887873
+4 0.915972
+8 0.881464
+8 0.902192
+8 0.900527
+16 0.888573
+16 0.762895
+16 0.863568
+32 0.665602
+32 0.778441
+32 0.786368
+};
+\addplot [draw=white!12.5!black, fill=color2, mark=*, only marks, opacity=0.3]
+table{%
+x  y
+4 0.58
+4 0.590819
+4 0.529222
+8 0.6419
+8 0.589571
+8 0.545997
+16 0.5494
+16 0.532136
+16 0.524531
+32 0.4818
+32 0.48694
+32 0.520459
+};
+\addplot [thick, red, opacity=0.5, dotted]
+table {%
+3.60500185044332 0.7
+35.5062231061711 0.7
+};
+\addplot [thick, red, opacity=0.3, dotted]
+table {%
+3.60500185044332 0.5
+35.5062231061711 0.5
+};
+\path [draw=color0, thick]
+(axis cs:4,0.828134358373489)
+--(axis cs:4,0.852499641626511);
+
+\path [draw=color0, thick]
+(axis cs:8,0.798215374511277)
+--(axis cs:8,0.80469129215539);
+
+\path [draw=color0, thick]
+(axis cs:16,0.697598608507378)
+--(axis cs:16,0.756160058159289);
+
+\path [draw=color0, thick]
+(axis cs:32,0.604814881132346)
+--(axis cs:32,0.69565178553432);
+
+\addplot [thick, color0, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 0.828134358373489
+8 0.798215374511277
+16 0.697598608507378
+32 0.604814881132346
+};
+\addplot [thick, color0, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 0.852499641626511
+8 0.80469129215539
+16 0.756160058159289
+32 0.69565178553432
+};
+\path [draw=color1, thick]
+(axis cs:4,0.884795375694663)
+--(axis cs:4,0.914148624305337);
+
+\path [draw=color1, thick]
+(axis cs:8,0.883210866054807)
+--(axis cs:8,0.906244467278526);
+
+\path [draw=color1, thick]
+(axis cs:16,0.771818067446831)
+--(axis cs:16,0.904872599219835);
+
+\path [draw=color1, thick]
+(axis cs:32,0.675918002993564)
+--(axis cs:32,0.811022663673103);
+
+\addplot [thick, color1, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 0.884795375694663
+8 0.883210866054807
+16 0.771818067446831
+32 0.675918002993564
+};
+\addplot [thick, color1, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 0.914148624305337
+8 0.906244467278526
+16 0.904872599219835
+32 0.811022663673103
+};
+\path [draw=color2, thick]
+(axis cs:4,0.533792527959102)
+--(axis cs:4,0.599568138707565);
+
+\path [draw=color2, thick]
+(axis cs:8,0.544471275747324)
+--(axis cs:8,0.640507390919343);
+
+\path [draw=color2, thick]
+(axis cs:16,0.52261237508508)
+--(axis cs:16,0.548098958248253);
+
+\path [draw=color2, thick]
+(axis cs:32,0.475405773737214)
+--(axis cs:32,0.51739355959612);
+
+\addplot [thick, color2, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 0.533792527959102
+8 0.544471275747324
+16 0.52261237508508
+32 0.475405773737214
+};
+\addplot [thick, color2, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 0.599568138707565
+8 0.640507390919343
+16 0.548098958248253
+32 0.51739355959612
+};
+\addplot [thick, color0, dotted, mark=*, mark size=2.5, mark options={solid}]
+table {%
+4 0.840317
+8 0.801453333333333
+16 0.726879333333333
+32 0.650233333333333
+};
+\addplot [thick, color1, dotted, mark=*, mark size=2.5, mark options={solid}]
+table {%
+4 0.899472
+8 0.894727666666667
+16 0.838345333333333
+32 0.743470333333333
+};
+\addplot [thick, color2, dotted, mark=*, mark size=2.5, mark options={solid}]
+table {%
+4 0.566680333333333
+8 0.592489333333333
+16 0.535355666666667
+32 0.496399666666667
+};
+\draw (axis cs:7,0.75) node[
+  scale=0.7,
+  anchor=base west,
+  text=color0,
+  rotate=0.0
+]{Planar};
+\draw (axis cs:20,0.83) node[
+  scale=0.7,
+  anchor=base west,
+  text=color1,
+  rotate=0.0
+]{Radial};
+\draw (axis cs:10,0.6) node[
+  scale=0.7,
+  anchor=base west,
+  text=color2,
+  rotate=0.0,
+  align=left
+]{Inverse
+Autoregressive};
+
+\nextgroupplot[
+axis line style={white!12.5!black},
+height=\figureheight,
+log basis x={2},
+tick align=outside,
+tick pos=left,
+width=\figurewidth,
+x grid style={white!69.0196078431373!black},
+xlabel=\textcolor{white!12.5!black}{Number of flows},
+xmin=3.60500185044332, xmax=35.506223106171,
+xmode=log,
+xtick style={color=white!12.5!black},
+xtick={4,4,4,8,8,8,16,16,16,32,32,32},
+xticklabels={
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{2}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{3}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{4}}\),
+  \(\displaystyle {2^{5}}\),
+  \(\displaystyle {2^{5}}\),
+  \(\displaystyle {2^{5}}\)
+},
+y grid style={white!69.0196078431373!black},
+ylabel=\textcolor{white!12.5!black}{ELBO},
+ymin=-38.0612145894719, ymax=-31.118096661091,
+ytick style={color=white!12.5!black}
+]
+\addplot [draw=white!12.5!black, fill=color0, mark=*, only marks, opacity=0.3]
+table{%
+x  y
+4 -33.333678
+4 -33.29017
+4 -33.295423
+8 -33.0021179
+8 -33.02491025
+8 -32.75483677
+16 -32.15886257
+16 -32.20699044
+16 -32.37607504
+32 -31.90787394
+32 -31.81322487
+32 -31.79322684
+};
+\addplot [draw=white!12.5!black, fill=color1, mark=*, only marks, opacity=0.3]
+table{%
+x  y
+4 -37.73093813
+4 -37.72334264
+4 -37.74561832
+8 -37.68271814
+8 -37.64903258
+8 -37.66266767
+16 -35.87710003
+16 -32.54235862
+16 -34.95783808
+32 -32.10427305
+32 -32.45335997
+32 -32.52813079
+};
+\addplot [draw=white!12.5!black, fill=color2, mark=*, only marks, opacity=0.3]
+table{%
+x  y
+4 -31.476
+4 -31.63075689
+4 -31.46880864
+8 -31.548
+8 -31.52316263
+8 -31.53251312
+16 -31.674
+16 -31.58847985
+16 -31.56938859
+32 -31.712
+32 -31.66330176
+32 -31.64685996
+};
+\path [draw=color0, thick]
+(axis cs:4,-33.3301722985501)
+--(axis cs:4,-33.2826750347833);
+
+\path [draw=color0, thick]
+(axis cs:8,-33.0770698882401)
+--(axis cs:8,-32.7775067250932);
+
+\path [draw=color0, thick]
+(axis cs:16,-32.3613905717614)
+--(axis cs:16,-32.1332281282386);
+
+\path [draw=color0, thick]
+(axis cs:32,-31.8993489576763)
+--(axis cs:32,-31.7768681423237);
+
+\addplot [thick, color0, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 -33.3301722985501
+8 -33.0770698882401
+16 -32.3613905717614
+32 -31.8993489576763
+};
+\addplot [thick, color0, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 -33.2826750347833
+8 -32.7775067250932
+16 -32.1332281282386
+32 -31.7768681423237
+};
+\path [draw=color1, thick]
+(axis cs:4,-37.7446237519344)
+--(axis cs:4,-37.7219756413989);
+
+\path [draw=color1, thick]
+(axis cs:8,-37.6817504209709)
+--(axis cs:8,-37.6478618390291);
+
+\path [draw=color1, thick]
+(axis cs:16,-36.181504390037)
+--(axis cs:16,-32.736693429963);
+
+\path [draw=color1, thick]
+(axis cs:32,-32.5881614583679)
+--(axis cs:32,-32.1356810816321);
+
+\addplot [thick, color1, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 -37.7446237519344
+8 -37.6817504209709
+16 -36.181504390037
+32 -32.5881614583679
+};
+\addplot [thick, color1, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 -37.7219756413989
+8 -37.6478618390291
+16 -32.736693429963
+32 -32.1356810816321
+};
+\path [draw=color2, thick]
+(axis cs:4,-31.6166840894371)
+--(axis cs:4,-31.4336929305629);
+
+\path [draw=color2, thick]
+(axis cs:8,-31.5471029716132)
+--(axis cs:8,-31.5220141950535);
+
+\path [draw=color2, thick]
+(axis cs:16,-31.666332955089)
+--(axis cs:16,-31.5549126715777);
+
+\path [draw=color2, thick]
+(axis cs:32,-31.707928863438)
+--(axis cs:32,-31.6401789498954);
+
+\addplot [thick, color2, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 -31.6166840894371
+8 -31.5471029716132
+16 -31.666332955089
+32 -31.707928863438
+};
+\addplot [thick, color2, mark=-, mark size=5, mark options={solid}, only marks]
+table {%
+4 -31.4336929305629
+8 -31.5220141950535
+16 -31.5549126715777
+32 -31.6401789498954
+};
+\addplot [thick, color0, dotted, mark=*, mark size=2.5, mark options={solid}]
+table {%
+4 -33.3064236666667
+8 -32.9272883066667
+16 -32.24730935
+32 -31.83810855
+};
+\addplot [thick, color1, dotted, mark=*, mark size=2.5, mark options={solid}]
+table {%
+4 -37.7332996966667
+8 -37.66480613
+16 -34.45909891
+32 -32.36192127
+};
+\addplot [thick, color2, dotted, mark=*, mark size=2.5, mark options={solid}]
+table {%
+4 -31.52518851
+8 -31.5345585833333
+16 -31.6106228133333
+32 -31.6740539066667
+};
+\draw (axis cs:8,-33.5) node[
+  scale=0.7,
+  anchor=base west,
+  text=color0,
+  rotate=0.0
+]{Planar};
+\draw (axis cs:20,-34.5) node[
+  scale=0.7,
+  anchor=base west,
+  text=color1,
+  rotate=0.0
+]{Radial};
+\draw (axis cs:4,-32.2) node[
+  scale=0.7,
+  anchor=base west,
+  text=color2,
+  rotate=0.0
+]{Inverse Autoregressive};
+\end{groupplot}
+
+\end{tikzpicture}

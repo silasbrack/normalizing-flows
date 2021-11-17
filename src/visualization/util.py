@@ -37,9 +37,10 @@ ACCENT_COLOR_1 = np.array([255., 145., 48.]) / 255.
 # rcParams['pdf.use14corefonts'] = True
 # rcParams['ps.useafm'] = True
 # rcParams['text.latex.preamble'] = [r'\usepackage{sansmath}', r'\sansmath'] #Force sans-serif math mode (for axes labels)
-rcParams['font.family'] = 'serif'  # ... for regular text
+rcParams['font.family'] = 'sans-serif'  # ... for regular text
 # rcParams['font.sans-serif'] = ['Helvetica', 'Helvetica Neue',
 #                                'HelveticaNeue']  # , Avant Garde, Computer Modern Sans serif' # Choose a nice font here
+rcParams['font.sans-serif'] = "Arial"
 rcParams['pdf.fonttype'] = 42
 rcParams['ps.fonttype'] = 42
 rcParams['text.color'] = ALMOST_BLACK
