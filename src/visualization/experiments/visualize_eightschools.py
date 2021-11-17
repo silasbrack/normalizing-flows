@@ -45,10 +45,30 @@ with open("figures/eightschools/eightschools_error.tex", "w") as f:
 fig, axs = plt.subplots(ncols=2, figsize=(9, 4))
 plt.subplots_adjust(wspace=0.3)
 ax = axs[0]
+k_hat_mf = df.query("type == 'Mean-field'")["k_hat"].values.item()
+ax.axhline(k_hat_mf, ls=":", linewidth=LINE_WIDTH, color="grey")
+ax.annotate(
+    text="Mean-field",
+    xy=(20, k_hat_mf),
+    va="center",
+    backgroundcolor="white",
+    color="grey",
+    size=LABEL_SIZE,
+)
+k_hat_fr = df.query("type == 'Full-rank'")["k_hat"].values.item()
+ax.axhline(k_hat_fr, ls=":", linewidth=LINE_WIDTH, color="grey")
+ax.annotate(
+    text="Full-rank",
+    xy=(22, k_hat_fr),
+    va="center",
+    backgroundcolor="white",
+    color="grey",
+    size=LABEL_SIZE,
+)
 ax.axhline(0.7, ls=":", linewidth=LINE_WIDTH, color="red", alpha=0.5)
 ax.axhline(0.5, ls=":", linewidth=LINE_WIDTH, color="red", alpha=0.3)
 ax.scatter(
-    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "n_flows"] + 0.1*np.random.randn(3*4),
     df.loc[df["type"] == "Planar", "k_hat"],
     color=PLANAR_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
 )
@@ -68,7 +88,7 @@ ax.annotate(
     size=LABEL_SIZE,
 )
 ax.scatter(
-    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "n_flows"] + 0.1*np.random.randn(3*4),
     df.loc[df["type"] == "Radial", "k_hat"],
     color=RADIAL_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
 )
@@ -83,12 +103,12 @@ ax.errorbar(
 )
 ax.annotate(
     text="Radial",
-    xy=(20, 0.83),
+    xy=(18, 0.73),
     color=RADIAL_COLOR,
     size=LABEL_SIZE,
 )
 ax.scatter(
-    df.loc[df["type"] == "Inverse Autoregressive", "n_flows"],
+    df.loc[df["type"] == "Inverse Autoregressive", "n_flows"] + 0.1*np.random.randn(3*4),
     df.loc[df["type"] == "Inverse Autoregressive", "k_hat"],
     color=IAF_COLOR, alpha=0.3, edgecolors=ALMOST_BLACK,
 )
@@ -115,6 +135,26 @@ finalize(ax)
 adjust_spines(ax, ["left", "bottom"])
 
 ax = axs[1]
+ELBO_mf = df.query("type == 'Mean-field'")["ELBO"].values.item()
+ax.axhline(ELBO_mf, ls=":", linewidth=LINE_WIDTH, color="grey")
+# ax.annotate(
+#     text="Mean-field",
+#     xy=(50, ELBO_mf),
+#     va="center",
+#     backgroundcolor="white",
+#     color="grey",
+#     size=LABEL_SIZE,
+# )
+ELBO_fr = df.query("type == 'Full-rank'")["ELBO"].values.item()
+ax.axhline(ELBO_fr, ls=":", linewidth=LINE_WIDTH, color="grey")
+# ax.annotate(
+#     text="Full-rank",
+#     xy=(60, ELBO_fr),
+#     va="center",
+#     backgroundcolor="white",
+#     color="grey",
+#     size=LABEL_SIZE,
+# )
 ax.scatter(
     df.loc[df["type"] == "Planar", "n_flows"],
     df.loc[df["type"] == "Planar", "ELBO"],

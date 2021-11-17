@@ -1,4 +1,6 @@
 ﻿type,n_flows,replicate,ELBO,k_hat
+Mean-field,NaN,1,-33.406,0.871
+Full-rank,NaN,1,-32.598,0.8226
 Planar,4,1,-33.333678,0.854041
 Planar,4,2,-33.29017,0.83078
 Planar,4,3,-33.295423,0.83613
