@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from src.visualization.setup import setup, save_plot
-setup()
+# setup()
+from src.visualization.util import *
 
 figure_path = "figures/eightschools/"
 
@@ -37,108 +38,170 @@ df = pd.read_csv(
     # dtype={"type": "category", "n_flows": "Int64", "ELBO": float, "k_hat": float},
 )
 
-fig, axs = plt.subplots(ncols=2)
+fig, axs = plt.subplots(ncols=2, figsize=(8, 4))
+plt.subplots_adjust(wspace=0.3)
 ax = axs[0]
-ax.scatter(
-    df.loc[df["type"] == "Planar", "n_flows"],
-    df.loc[df["type"] == "Planar", "k_hat"],
-)
-ax.plot(
-    df.loc[df["type"] == "Planar", "n_flows"],
-    df.loc[df["type"] == "Planar", "k_hat"],
-    linestyle="--", linewidth=2,
-)
-ax.annotate(
-    text="Planar",
-    xy=(12, 0.66),
-)
-ax.scatter(
-    df.loc[df["type"] == "Radial", "n_flows"],
-    df.loc[df["type"] == "Radial", "k_hat"],
-)
-ax.plot(
-    df.loc[df["type"] == "Radial", "n_flows"],
-    df.loc[df["type"] == "Radial", "k_hat"],
-    linestyle="--", linewidth=2,
-)
-ax.annotate(
-    text="Radial",
-    xy=(37, 0.80),
-)
 k_hat_mf = df.query("type == 'Mean-field'")["k_hat"].values.item()
-ax.axhline(k_hat_mf, ls='--', linewidth=2, color='grey')
+ax.axhline(k_hat_mf, ls=":", linewidth=LINE_WIDTH, color="grey")
 ax.annotate(
     text="Mean-field",
-    xy=(60, k_hat_mf),
+    xy=(40, k_hat_mf),
     va="center",
-    backgroundcolor='white',
+    backgroundcolor="white",
     color="grey",
+    size=LABEL_SIZE,
 )
 k_hat_fr = df.query("type == 'Full-rank'")["k_hat"].values.item()
-ax.axhline(k_hat_fr, ls='--', linewidth=2, color='grey')
+ax.axhline(k_hat_fr, ls=":", linewidth=LINE_WIDTH, color="grey")
 ax.annotate(
     text="Full-rank",
-    xy=(70, k_hat_fr),
+    xy=(50, k_hat_fr),
     va="center",
-    backgroundcolor='white',
+    backgroundcolor="white",
     color="grey",
+    size=LABEL_SIZE,
 )
-ax.axhline(0.7, ls='--', linewidth=2, color='red')
-
-ax = axs[1]
-ax.scatter(
-    df.loc[df["type"] == "Planar", "n_flows"],
-    df.loc[df["type"] == "Planar", "ELBO"],
-)
+ax.axhline(0.7, ls=":", linewidth=LINE_WIDTH, color='red', alpha=0.5)
 ax.plot(
     df.loc[df["type"] == "Planar", "n_flows"],
-    df.loc[df["type"] == "Planar", "ELBO"],
-    linestyle="--", linewidth=2,
+    df.loc[df["type"] == "Planar", "k_hat"],
+    ":o", markersize=7, markeredgecolor=ALMOST_BLACK, markeredgewidth=.9,
+    linewidth=LINE_WIDTH, color=PLANAR_COLOR,
+
 )
+# ax.scatter(
+#     df.loc[df["type"] == "Planar", "n_flows"],
+#     df.loc[df["type"] == "Planar", "k_hat"],
+#     color=PLANAR_COLOR,
+# )
 ax.annotate(
     text="Planar",
-    xy=(12, -35),
-)
-ax.scatter(
-    df.loc[df["type"] == "Radial", "n_flows"],
-    df.loc[df["type"] == "Radial", "ELBO"],
+    xy=(7, 0.73),
+    color=PLANAR_COLOR,
+    size=LABEL_SIZE,
 )
 ax.plot(
     df.loc[df["type"] == "Radial", "n_flows"],
-    df.loc[df["type"] == "Radial", "ELBO"],
-    linestyle="--", linewidth=2,
+    df.loc[df["type"] == "Radial", "k_hat"],
+    ":o", markersize=7, markeredgecolor=ALMOST_BLACK, markeredgewidth=.9,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=RADIAL_COLOR,
 )
 ax.annotate(
     text="Radial",
-    xy=(37, -35),
+    xy=(45, 0.75),
+    color=RADIAL_COLOR,
+    size=LABEL_SIZE,
 )
+ax.plot(
+    df.loc[df["type"] == "Inverse Autoregressive", "n_flows"],
+    df.loc[df["type"] == "Inverse Autoregressive", "k_hat"],
+    ":o", markersize=7, markeredgecolor=ALMOST_BLACK, markeredgewidth=.9,
+    # linestyle=":",
+    linewidth=LINE_WIDTH,
+    color=IAF_COLOR,
+)
+ax.annotate(
+    text="Inverse\nAutoregressive",
+    xy=(4, 0.47),
+    color=IAF_COLOR,
+    size=LABEL_SIZE,
+)
+ax.set_xlabel("Number of flows")
+ax.set_ylabel("$\\hat{k}$-statistic")
+ax.set_xscale("log", base=2)
+ax.set_xticks(df.loc[df["type"] == "Radial", "n_flows"])
+finalize(ax)
+adjust_spines(ax, ["left", "bottom"])
+
+ax = axs[1]
 ELBO_mf = df.query("type == 'Mean-field'")["ELBO"].values.item()
-ax.axhline(ELBO_mf, ls='--', linewidth=2, color='grey')
+ax.axhline(ELBO_mf, ls=":", linewidth=LINE_WIDTH, color="grey")
 ax.annotate(
     text="Mean-field",
-    xy=(60, ELBO_mf),
+    xy=(50, ELBO_mf),
     va="center",
-    backgroundcolor='white',
+    backgroundcolor="white",
     color="grey",
+    size=LABEL_SIZE,
 )
 ELBO_fr = df.query("type == 'Full-rank'")["ELBO"].values.item()
-ax.axhline(ELBO_fr, ls='--', linewidth=2, color='grey')
+ax.axhline(ELBO_fr, ls=":", linewidth=LINE_WIDTH, color="grey")
 ax.annotate(
     text="Full-rank",
-    xy=(70, ELBO_fr),
+    xy=(60, ELBO_fr),
     va="center",
-    backgroundcolor='white',
+    backgroundcolor="white",
     color="grey",
+    size=LABEL_SIZE,
 )
+# ax.scatter(
+#     df.loc[df["type"] == "Planar", "n_flows"],
+#     df.loc[df["type"] == "Planar", "ELBO"],
+#     color=PLANAR_COLOR,
+# )
+ax.plot(
+    df.loc[df["type"] == "Planar", "n_flows"],
+    df.loc[df["type"] == "Planar", "ELBO"],
+    ":o", markersize=7, markeredgecolor=ALMOST_BLACK, markeredgewidth=.9,
+    # linestyle=":",
+    linewidth=LINE_WIDTH, color=PLANAR_COLOR,
+)
+ax.annotate(
+    text="Planar",
+    xy=(8, -32),
+    color=PLANAR_COLOR,
+    size=LABEL_SIZE,
+)
+# ax.scatter(
+#     df.loc[df["type"] == "Radial", "n_flows"],
+#     df.loc[df["type"] == "Radial", "ELBO"],
+#     color=RADIAL_COLOR,
+# )
+ax.plot(
+    df.loc[df["type"] == "Radial", "n_flows"],
+    df.loc[df["type"] == "Radial", "ELBO"],
+    ":o", markersize=7, markeredgecolor=ALMOST_BLACK, markeredgewidth=.9,
+    # linestyle=":",
+    linewidth=LINE_WIDTH, color=RADIAL_COLOR,
+)
+ax.annotate(
+    text="Radial",
+    xy=(32, -34.5),
+    color=RADIAL_COLOR,
+    size=LABEL_SIZE,
+)
+ax.plot(
+    df.loc[df["type"] == "Inverse Autoregressive", "n_flows"],
+    df.loc[df["type"] == "Inverse Autoregressive", "ELBO"],
+    ":o", markersize=7, markeredgecolor=ALMOST_BLACK, markeredgewidth=.9,
+    # linestyle=":",
+    linewidth=LINE_WIDTH, color=IAF_COLOR,
+)
+ax.set_xlabel("Number of flows")
+ax.set_ylabel("ELBO")
+ax.set_xscale("log", base=2)
+ax.set_xticks(df.loc[df["type"] == "Radial", "n_flows"])
+finalize(ax)
+adjust_spines(ax, ["left", "bottom"])
 save_plot(figure_path, "eightschools")
 
 
-with open("results/eightschools/eightschools.pkl", "rb") as f:
+with open("results/eightschools/eightschools_iaf_4_1.pkl", "rb") as f:
     results = pickle.load(f)
 with open("results/eightschools/eightschools_hmc.pkl", "rb") as f:
     results_hmc = pickle.load(f)
 
 # print(results["losses"][-500:].mean())
+# fig, ax = plt.subplots(figsize=(8, 4))
+# ax.plot(-results["losses"])
+# ax.set(
+#     xlabel="Iteration",
+#     ylabel="ELBO",
+#     xlim=[950, 1000],
+#     ylim=[-30, -34],
+# )
 
 fig, ax = plt.subplots(figsize=(4, 4))
 ax.scatter(
@@ -151,9 +214,9 @@ ax.scatter(
 ax.scatter(
     np.log(results["samples"]["tau"].squeeze()),
     results["samples"]["theta"][:, 0],
-    label="VI with 16 Planar flows",
-    alpha=0.25,
-    color="blue",
+    label="VI with 32 Inverse Autoregressive flows",
+    alpha=0.50,
+    color=IAF_COLOR,
 )
 ax.set(
     xlabel="log $\\tau$",
@@ -163,6 +226,8 @@ ax.set(
     # title="Joints of $\\tau$ and $\\theta_1$",
 )
 ax.legend()
+# adjust_spines(ax, ["left", "bottom"])
+finalize(ax)
 save_plot(figure_path, "log_tau_vs_theta")
 
 plt.show()
