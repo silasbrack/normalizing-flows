@@ -131,7 +131,7 @@ dmypy.json
 .pyre/
 
 # Data
-data/
+#data/
 
 # IDE
 .vscode/
