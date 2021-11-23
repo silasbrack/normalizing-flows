@@ -37,10 +37,10 @@ ACCENT_COLOR_1 = np.array([255., 145., 48.]) / 255.
 # rcParams['pdf.use14corefonts'] = True
 # rcParams['ps.useafm'] = True
 # rcParams['text.latex.preamble'] = [r'\usepackage{sansmath}', r'\sansmath'] #Force sans-serif math mode (for axes labels)
-rcParams['font.family'] = 'sans-serif'  # ... for regular text
+# rcParams['font.family'] = 'sans-serif'  # ... for regular text
 # rcParams['font.sans-serif'] = ['Helvetica', 'Helvetica Neue',
 #                                'HelveticaNeue']  # , Avant Garde, Computer Modern Sans serif' # Choose a nice font here
-rcParams['font.sans-serif'] = "Arial"
+# rcParams['font.sans-serif'] = "Arial"
 rcParams['pdf.fonttype'] = 42
 rcParams['ps.fonttype'] = 42
 rcParams['text.color'] = ALMOST_BLACK
@@ -142,10 +142,10 @@ def color_bp(bp, color):
         plt.setp(x, color=c)
 
 
-def adjust_spines(ax, spines):
+def adjust_spines(ax, spines, adjust_loc=True):
     """ From http://matplotlib.org/examples/pylab_examples/spine_placement_demo.html """
     for loc, spine in ax.spines.items():
-        if loc in spines:
+        if loc in spines and adjust_loc:
             spine.set_position(('outward', 10))  # outward by 10 points
             # spine.set_smart_bounds(True)
         else:

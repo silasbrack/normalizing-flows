@@ -6,39 +6,40 @@ from pyro.infer import Predictive
 from pyro.infer.importance import psis_diagnostic
 from src.experiments.train import train
 from src.guides import normalizing_flow
-from src.problems.eightschools import EightSchools
+from src.problems import Leukemia
+from src.guides import mean_field, full_rank
 from src.experiments.setup import setup
 import pickle
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Eight schools problem"
+        description="Leukemia sparse linear regression problem"
     )
     parser.add_argument(
         "--epochs",
         type=int,
-        default=10000,
+        default=5000,
         metavar="N",
-        help="number of epochs to train (default: 10000)",
+        help="number of epochs to train (default: 1000)",
     )
     parser.add_argument(
         "--results-path",
         type=str,
-        default='results/eightschools/',
-        help="Path to results (default: results/eightschools/)",
+        default='results/leukemia/',
+        help="Path to results (default: results/leukemia/)",
     )
     parser.add_argument(
         "--model-path",
         type=str,
-        default="models/eightschools/",
-        help="Path to model file (default: models/eightschools/)",
+        default="models/leukemia/",
+        help="Path to model file (default: models/leukemia/)",
     )
     parser.add_argument(
         "--file-name",
         type=str,
-        default="eightschools",
-        help="Name of output files (default: eightschools)",
+        default="leukemia",
+        help="Name of output files (default: leukemia)",
     )
     parser.add_argument(
         "--lr",
@@ -77,14 +78,14 @@ def main():
     args = parse_args()
     device = setup(args.seed)
 
-    problem = EightSchools(device=device)
+    problem = Leukemia(device=device)
     data = problem.get_data()
 
     flow_type = {"planar": planar, "radial": radial, "neural_autoregressive": neural_autoregressive}[args.flow_type]
 
     model = problem.model
-    guide = normalizing_flow(model, flow_type=flow_type, num_flows=args.num_flows)
-
+    # guide = normalizing_flow(model, flow_type=flow_type, num_flows=args.num_flows)
+    guide = mean_field(model)
     train_result = train(
         data["train"],
         model,
