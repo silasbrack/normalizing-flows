@@ -2,7 +2,9 @@ import pickle
 import matplotlib.pyplot as plt
 import pandas as pd
 from src.visualization.setup import setup, save_plot
-setup()
+# setup()
+from src.visualization.util import *
+
 
 figure_path = "figures/energy"
 

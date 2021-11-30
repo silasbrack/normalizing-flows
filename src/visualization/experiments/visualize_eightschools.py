@@ -136,7 +136,7 @@ df_summary = df.groupby(["type", "n_flows"]).agg({"ELBO": [np.mean, np.std], "k_
 with open("figures/eightschools/eightschools_error.tex", "w") as f:
     df_summary.to_latex(f, float_format="{:0.2f}".format)
 
-fig, axs = plt.subplots(ncols=2, figsize=(9, 4))
+fig, axs = plt.subplots(ncols=2, figsize=(9, 5))
 plt.subplots_adjust(wspace=0.3)
 ax = axs[0]
 k_hat_mf = df.query("type == 'Mean-field'")["k_hat"].values.item()
@@ -150,7 +150,7 @@ ax.annotate(
     size=LABEL_SIZE,
 )
 k_hat_fr = df.query("type == 'Full-rank'")["k_hat"].values.item()
-ax.axhline(k_hat_fr, ls=":", linewidth=LINE_WIDTH, color="grey")
+ax.axhline(k_hat_fr, ls=":", linewidth=LINE_WIDTH, color="grey", zorder=-2)
 ax.annotate(
     text="Full-rank",
     xy=(22, k_hat_fr),
@@ -158,6 +158,7 @@ ax.annotate(
     backgroundcolor="white",
     color="grey",
     size=LABEL_SIZE,
+    zorder=-1,
 )
 ax.axhline(0.7, ls=":", linewidth=LINE_WIDTH, color="red", alpha=0.5)
 ax.axhline(0.5, ls=":", linewidth=LINE_WIDTH, color="red", alpha=0.3)
@@ -230,25 +231,25 @@ adjust_spines(ax, ["left", "bottom"])
 
 ax = axs[1]
 ELBO_mf = df.query("type == 'Mean-field'")["ELBO"].values.item()
-ax.axhline(ELBO_mf, ls=":", linewidth=LINE_WIDTH, color="grey")
-# ax.annotate(
-#     text="Mean-field",
-#     xy=(50, ELBO_mf),
-#     va="center",
-#     backgroundcolor="white",
-#     color="grey",
-#     size=LABEL_SIZE,
-# )
+ax.axhline(ELBO_mf, ls=":", linewidth=LINE_WIDTH, color="grey", label="Mean-Field")
+ax.annotate(
+    text="Mean-field",
+    xy=(8, ELBO_mf),
+    va="center",
+    backgroundcolor="white",
+    color="grey",
+    size=LABEL_SIZE,
+)
 ELBO_fr = df.query("type == 'Full-rank'")["ELBO"].values.item()
-ax.axhline(ELBO_fr, ls=":", linewidth=LINE_WIDTH, color="grey")
-# ax.annotate(
-#     text="Full-rank",
-#     xy=(60, ELBO_fr),
-#     va="center",
-#     backgroundcolor="white",
-#     color="grey",
-#     size=LABEL_SIZE,
-# )
+ax.axhline(ELBO_fr, ls=":", linewidth=LINE_WIDTH, color="grey", label="Full-Rank")
+ax.annotate(
+    text="Full-rank",
+    xy=(4, ELBO_fr),
+    va="center",
+    backgroundcolor="white",
+    color="grey",
+    size=LABEL_SIZE,
+)
 ax.scatter(
     df.loc[df["type"] == "Planar", "n_flows"],
     df.loc[df["type"] == "Planar", "ELBO"],
@@ -262,10 +263,11 @@ ax.errorbar(
     # linestyle=":",
     linewidth=LINE_WIDTH,
     color=PLANAR_COLOR,
+    label="Planar",
 )
 ax.annotate(
     text="Planar",
-    xy=(8, -33.5),
+    xy=(4, -34),
     color=PLANAR_COLOR,
     size=LABEL_SIZE,
 )
@@ -282,6 +284,7 @@ ax.errorbar(
     # linestyle=":",
     linewidth=LINE_WIDTH,
     color=RADIAL_COLOR,
+    label="Radial",
 )
 ax.annotate(
     text="Radial",
@@ -302,6 +305,7 @@ ax.errorbar(
     # linestyle=":",
     linewidth=LINE_WIDTH,
     color=IAF_COLOR,
+    label="Inverse Autoregressive",
 )
 ax.annotate(
     text="Inverse Autoregressive",
@@ -313,7 +317,8 @@ ax.set_xlabel("Number of flows")
 ax.set_ylabel("ELBO")
 ax.set_xscale("log", base=2)
 ax.set_xticks(df.loc[df["type"] == "Radial", "n_flows"])
-finalize(ax)
+finalize(ax, ignore_legend=True)
+# my_legend(ax)
 adjust_spines(ax, ["left", "bottom"])
 fig.tight_layout()
 save_plot(figure_path, "eightschools_replicates")

@@ -8,7 +8,8 @@ import pickle
 import pandas as pd
 import tikzplotlib
 from src.visualization.setup import setup, save_plot
-setup()
+# setup()
+from src.visualization.util import *
 
 
 figure_path = "figures/energy/"

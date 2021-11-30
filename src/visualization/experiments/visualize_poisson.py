@@ -1,11 +1,13 @@
 from src.visualization.setup import setup, save_plot
-setup()
+# setup()
 from src.problems.poisson_regression import PoissonRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pickle
 import numpy as np
 import arviz as az
+from src.visualization.util import *
+
 
 figure_path = "figures/poisson"
 
@@ -18,16 +20,17 @@ with open("results/poisson/poisson.pkl", "rb") as f:
 predictive_samples = results["samples"]
 losses = results["losses"]
 
-plt.figure(figsize=(4, 2.5))
-sns.lineplot(
-    x=range(len(losses)),
-    y=-losses,
-).set(
+fig, ax = plt.subplots(figsize=(4, 2.5))
+ax.plot(
+    range(len(losses)),
+    -losses,
+)
+ax.set(
     xlabel="Iteration",
     ylabel="ELBO",
 )
+fig.tight_layout()
 # plt.ylim([-500, 400])
-sns.despine()
 
 # Create summary for latent variables
 data_dict = {
@@ -43,15 +46,15 @@ print(summary)
 obs_data = az.dict_to_dataset({"obs": np.expand_dims(predictive_samples["obs"], 0)})
 obs_summary = az.summary(obs_data, round_to=4, kind="stats")
 
-plt.figure(figsize=(3, 2.5))
-ax = sns.lineplot(x=data["age"], y=obs_summary['mean'].values, linewidth=3, color="r", label="Mean")
-ax.fill_between(data["age"], obs_summary["hdi_97%"], obs_summary["hdi_3%"], color="r", alpha=0.5, label="94% HDI")
+fig, ax = plt.subplots(figsize=(3, 2.5))
+ax.plot(data["age"], obs_summary['mean'].values, linewidth=3, color="r", label="Mean")
+ax.fill_between(data["age"], obs_summary["hdi_97%"], obs_summary["hdi_3%"], color="r", alpha=0.33)
 sns.scatterplot(x=data["age"], y=data["deaths"], color="k", ax=ax, label="Observations")
 ax.set(
     xlabel="Age",
     ylabel="Deaths",
 )
-sns.despine()
+fig.tight_layout()
 save_plot(figure_path, "posterior_predictive")
 
 plt.show()

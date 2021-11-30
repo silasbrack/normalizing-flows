@@ -10,7 +10,15 @@ figure_path = "figures/leukemia/"
 
 with open("results/leukemia/leukemia_mf_lr.pkl", "rb") as f:
     results = pickle.load(f)
-elbo = -results["losses"][-5000:]
+
+print(results["samples"].keys())
+print(results["samples"]["y"].shape)
+
+# results["samples"].pop("beta")
+# with open("results/leukemia/test.pkl", "wb") as f:
+#     pickle.dump(results, f)
+
+elbo = -results["losses"][-500:]
 print("Final ELBO:", elbo[-500:].mean())
 
 fig, ax = plt.subplots(figsize=(4, 4), ncols=1)

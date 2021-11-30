@@ -55,6 +55,119 @@ rcParams['ytick.color'] = ALMOST_BLACK
 rcParams['text.color'] = ALMOST_BLACK
 rcParams['lines.solid_capstyle'] = 'butt'
 
+import math
+import matplotlib.pyplot as plt
+import os
+import subprocess
+import tempfile
+
+
+ALMOST_BLACK = '0.125'
+
+
+def get_fig_size(fig_width_cm, fig_height_cm=None):
+    """Convert dimensions in centimeters to inches.
+    If no height is given, it is computed using the golden ratio.
+    """
+    if not fig_height_cm:
+        golden_ratio = (1 + math.sqrt(5))/2
+        fig_height_cm = fig_width_cm / golden_ratio
+
+    size_cm = (fig_width_cm, fig_height_cm)
+    return map(lambda x: x/2.54, size_cm)
+
+
+"""
+The following functions can be used by scripts to get the sizes of
+the various elements of the figures.
+"""
+
+
+def label_size():
+    """Size of axis labels
+    """
+    return 10
+
+
+def font_size():
+    """Size of all texts shown in plots
+    """
+    return 10
+
+
+def ticks_size():
+    """Size of axes' ticks
+    """
+    return 8
+
+
+def axis_lw():
+    """Line width of the axes
+    """
+    return 0.6
+
+
+def plot_lw():
+    """Line width of the plotted curves
+    """
+    return 1.5
+
+
+params = {
+    'text.usetex': False,
+    'figure.dpi': 200,
+    'font.size': font_size(),
+    'axes.labelsize': label_size(),
+    'axes.titlesize': font_size(),
+    'axes.linewidth': axis_lw(),
+    'legend.fontsize': font_size(),
+    'xtick.labelsize': ticks_size(),
+    'ytick.labelsize': ticks_size(),
+    'font.serif': 'TeX Gyre Schola',
+    'font.sans-serif': 'Fira Sans Condensed',
+    'font.monospace': 'TeX Gyre Cursor',
+    'font.cursive': 'TeX Gyre Chorus',
+    'font.fantasy': 'TeX Gyre Adventor',
+    'legend.frameon': False,
+    'axes.spines.bottom': True,
+    'axes.spines.left': True,
+    'axes.spines.right': False,
+    'axes.spines.top': False,
+    'axes.facecolor': 'ffffff',  # f9f9f9
+    'axes.ymargin': 0.1,
+    'axes.grid': False,
+    'grid.color': ALMOST_BLACK,
+    'grid.linewidth': .1,
+    'xtick.bottom': True,
+    'xtick.top': False,
+    'xtick.direction': 'out',
+    'xtick.major.size': 5,
+    'xtick.major.width': 1,
+    'xtick.minor.size': 3,
+    'xtick.minor.width': .5,
+    'xtick.minor.visible': True,
+    'ytick.left': True,
+    'ytick.right': False,
+    'ytick.direction': 'out',
+    'ytick.major.size': 5,
+    'ytick.major.width': 1,
+    'ytick.minor.size': 3,
+    'ytick.minor.width': .5,
+    'ytick.minor.visible': True,
+    'lines.linewidth': 1, #2
+    'lines.markersize': 5,
+    'figure.edgecolor': ALMOST_BLACK,
+    'figure.facecolor': 'ffffff',  # f9f9f9
+    'axes.edgecolor': ALMOST_BLACK,
+    'axes.labelcolor': ALMOST_BLACK,
+    'lines.color': ALMOST_BLACK,
+    'xtick.color': ALMOST_BLACK,
+    'ytick.color': ALMOST_BLACK,
+    'text.color': ALMOST_BLACK,
+
+}
+plt.rcParams.update(params)
+
 # rcParams['axes.labelweight'] = 'bold'
 
 # Imports
@@ -236,3 +349,73 @@ def lighten_color(color, amount=0.5):
         c = color
     c = colorsys.rgb_to_hls(*mc.to_rgb(c))
     return colorsys.hls_to_rgb(c[0], 1 - amount * (1 - c[1]), c[2])
+
+
+
+
+
+
+
+from scipy import ndimage
+
+
+def my_legend(axis = None):
+
+    if axis == None:
+        axis = plt.gca()
+
+    N = 32
+    Nlines = len(axis.lines)
+    print(Nlines)
+
+    xmin, xmax = axis.get_xlim()
+    ymin, ymax = axis.get_ylim()
+
+    # the 'point of presence' matrix
+    pop = np.zeros((Nlines, N, N), dtype=np.float)
+
+    for l in range(Nlines):
+        # get xy data and scale it to the NxN squares
+        xy = axis.lines[l].get_xydata()
+        xy = (xy - [xmin,ymin]) / ([xmax-xmin, ymax-ymin]) * N
+        xy = xy.astype(np.int32)
+        # mask stuff outside plot
+        mask = (xy[:,0] >= 0) & (xy[:,0] < N) & (xy[:,1] >= 0) & (xy[:,1] < N)
+        xy = xy[mask]
+        # add to pop
+        for p in xy:
+            pop[l][tuple(p)] = 1.0
+
+    # find whitespace, nice place for labels
+    ws = 1.0 - (np.sum(pop, axis=0) > 0) * 1.0
+    # don't use the borders
+    ws[:,0]   = 0
+    ws[:,N-1] = 0
+    ws[0,:]   = 0
+    ws[N-1,:] = 0
+
+    # blur the pop's
+    for l in range(Nlines):
+        pop[l] = ndimage.gaussian_filter(pop[l], sigma=N/5)
+
+    for l in range(Nlines):
+        # positive weights for current line, negative weight for others....
+        w = -0.3 * np.ones(Nlines, dtype=np.float)
+        w[l] = 0.5
+
+        # calculate a field
+        p = ws + np.sum(w[:, np.newaxis, np.newaxis] * pop, axis=0)
+        plt.figure()
+        plt.imshow(p, interpolation='nearest')
+        plt.title(axis.lines[l].get_label())
+
+        pos = np.argmax(p)  # note, argmax flattens the array first
+        best_x, best_y =  (pos / N, pos % N)
+        x = xmin + (xmax-xmin) * best_x / N
+        y = ymin + (ymax-ymin) * best_y / N
+
+
+        axis.text(x, y, axis.lines[l].get_label(),
+                  horizontalalignment='center',
+                  verticalalignment='center')
+
