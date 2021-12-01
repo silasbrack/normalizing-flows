@@ -1,7 +1,7 @@
 from distutils.spawn import find_executable
 use_latex = False
 if find_executable("pdflatex"):
-    use_latex = True
+    use_latex = False
 
 rc = {}
 if use_latex:
@@ -27,7 +27,7 @@ def save_plot(location, name, use=None, axis_height="\\figureheight", axis_width
     full_path_without_ext = os.path.join(location, name)
 
     if use is None:
-        use = ["pdf", "tikz", "pgf"]
+        use = ["pdf", "tikz", "pgf", "png"]
 
     backend = None
     if use_latex:
@@ -44,7 +44,7 @@ def save_plot(location, name, use=None, axis_height="\\figureheight", axis_width
         # tikzplotlib.clean_figure()
         tikzplotlib.save(full_path_without_ext + ".tex", axis_height=axis_height, axis_width=axis_width)
     if "png" in use:
-        plt.savefig(full_path_without_ext + ".png", backend=backend)
+        plt.savefig(full_path_without_ext + ".png", dpi=600, backend=backend)
 
 
 import numpy as np

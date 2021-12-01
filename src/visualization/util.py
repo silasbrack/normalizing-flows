@@ -9,11 +9,8 @@ __status__ = "Development"
 
 import numpy as np
 from matplotlib import rcParams
+from typing import NamedTuple
 
-# Project theme
-PLANAR_COLOR = np.array([0.298039215686275, 0.447058823529412, 0.690196078431373])
-RADIAL_COLOR = np.array([0.866666666666667, 0.517647058823529, 0.32156862745098])
-IAF_COLOR = np.array([0.333333333333333, 0.658823529411, 0.407843137254902])
 
 # Constants
 SINGLE_FIG_SIZE = (6, 4)
@@ -31,6 +28,23 @@ DARK_COLOR_V = np.array([float(DARK_COLOR) for i in range(3)])
 ALMOST_BLACK = '0.125'
 ALMOST_BLACK_V = np.array([float(ALMOST_BLACK) for i in range(3)])
 ACCENT_COLOR_1 = np.array([255., 145., 48.]) / 255.
+
+# Project theme
+PLANAR_COLOR = np.array([0.298039215686275, 0.447058823529412, 0.690196078431373])
+RADIAL_COLOR = np.array([0.866666666666667, 0.517647058823529, 0.32156862745098])
+IAF_COLOR = np.array([0.333333333333333, 0.658823529411, 0.407843137254902])
+
+
+class FlowParam(NamedTuple):
+    color: np.array
+    marker: str
+
+
+PLANAR = FlowParam([0.2980, 0.4470, 0.6901], "v")
+RADIAL = FlowParam([0.8667, 0.5177, 0.3216], "o")
+IAF = FlowParam([0.3333, 0.6588, 0.4078], "P")
+MF = FlowParam("grey", ".")
+FR = FlowParam("grey", ".")
 
 # Configuration
 # rcParams['text.usetex'] = True #Let TeX do the typsetting

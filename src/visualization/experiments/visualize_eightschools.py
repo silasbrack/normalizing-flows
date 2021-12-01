@@ -61,16 +61,23 @@ df = pd.read_csv(
 )
 df.loc[(df["type"] == "Mean-field") | (df["type"] == "Full-rank"), "n_flows"] = 8
 
-fig, ax = plt.subplots()
-for type, color in [("Mean-field", ALMOST_BLACK),("Full-rank", ALMOST_BLACK),("Planar", PLANAR_COLOR),("Radial", RADIAL_COLOR),("Inverse Autoregressive", IAF_COLOR)]:
-    row = df.loc[df["type"] == type]
+fig, ax = plt.subplots(figsize=(5, 4))
+for flow, color, marker in [
+    ("Mean-field", MF.color, MF.marker),
+    ("Full-rank", FR.color, FR.marker),
+    ("Planar", PLANAR.color, PLANAR.marker),
+    ("Radial", RADIAL.color, RADIAL.marker),
+    ("Inverse Autoregressive", IAF.color, IAF.marker),
+]:
+    row = df.loc[df["type"] == flow]
     ax.scatter(
         x=row["params"],
         y=row["k_hat"],
         color=color,
-        # c=[color],
+        marker=marker,
+        # edgecolor=ALMOST_BLACK,
         # s=row["n_flows"],
-        label=type,
+        label=flow,
     )
 ax.annotate(
     text="Planar",
@@ -80,36 +87,38 @@ ax.annotate(
 )
 ax.annotate(
     text="Radial",
-    xy=(300, 0.87),
+    xy=(300, 0.89),
     color=RADIAL_COLOR,
     size=LABEL_SIZE,
 )
 ax.annotate(
-    text="Inverse Autoregressive",
-    xy=(10000, 0.65),
+    text="Inverse\nAutoregressive",
+    xy=(100000, 0.67),
+    # xy=(10000, 0.67),
     color=IAF_COLOR,
     size=LABEL_SIZE,
+    ha="center",
 )
 ax.annotate(
     text="Mean-field",
     xy=(20, 0.871),
-    xytext=(14, 0.78), textcoords='data',
-    arrowprops=dict(arrowstyle="-", shrinkB=6),
-    color=ALMOST_BLACK,
+    xytext=(14, 0.74), textcoords='data',
+    arrowprops=dict(arrowstyle="-", shrinkB=6, color=MF.color),
+    color=MF.color,
     size=LABEL_SIZE,
 )
 ax.annotate(
     text="Full-rank",
     xy=(110, 0.8226),
     xytext=(300, 0.8226), textcoords='data',
-    arrowprops=dict(arrowstyle="-", shrinkB=6),
-    color=ALMOST_BLACK,
+    arrowprops=dict(arrowstyle="-", shrinkB=6, color=FR.color),
+    color=FR.color,
     size=LABEL_SIZE,
 )
-ax.annotate(text="4", xy=(63114, 0.529222 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.5, ha="center", va="top")
-ax.annotate(text="8", xy=(125918, 0.545997 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.5, ha="center", va="top")
-ax.annotate(text="16", xy=(251526, 0.524531 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.5, ha="center", va="top")
-ax.annotate(text="32", xy=(502742, 0.4818 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.5, ha="center", va="top")
+ax.annotate(text="4", xy=(63114, 0.529222 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.8, ha="center", va="top")
+ax.annotate(text="8", xy=(125918, 0.545997 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.8, ha="center", va="top")
+ax.annotate(text="16", xy=(251526, 0.524531 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.8, ha="center", va="top")
+ax.annotate(text="32", xy=(502742, 0.4818 - 0.015), color=IAF_COLOR, size=LABEL_SIZE*0.8, ha="center", va="top")
 ax.set(
     xlabel="Number of parameters",
     ylabel="$\hat{k}$-statistic",
@@ -136,27 +145,27 @@ df_summary = df.groupby(["type", "n_flows"]).agg({"ELBO": [np.mean, np.std], "k_
 with open("figures/eightschools/eightschools_error.tex", "w") as f:
     df_summary.to_latex(f, float_format="{:0.2f}".format)
 
-fig, axs = plt.subplots(ncols=2, figsize=(9, 5))
+fig, axs = plt.subplots(ncols=2, figsize=(9, 4))
 plt.subplots_adjust(wspace=0.3)
 ax = axs[0]
 k_hat_mf = df.query("type == 'Mean-field'")["k_hat"].values.item()
-ax.axhline(k_hat_mf, ls=":", linewidth=LINE_WIDTH, color="grey")
+ax.axhline(k_hat_mf, ls=":", linewidth=LINE_WIDTH, color=MF.color)
 ax.annotate(
     text="Mean-field",
     xy=(20, k_hat_mf),
     va="center",
     backgroundcolor="white",
-    color="grey",
+    color=MF.color,
     size=LABEL_SIZE,
 )
 k_hat_fr = df.query("type == 'Full-rank'")["k_hat"].values.item()
-ax.axhline(k_hat_fr, ls=":", linewidth=LINE_WIDTH, color="grey", zorder=-2)
+ax.axhline(k_hat_fr, ls=":", linewidth=LINE_WIDTH, color=FR.color, zorder=-2)
 ax.annotate(
     text="Full-rank",
     xy=(22, k_hat_fr),
     va="center",
     backgroundcolor="white",
-    color="grey",
+    color=FR.color,
     size=LABEL_SIZE,
     zorder=-1,
 )
@@ -231,24 +240,26 @@ adjust_spines(ax, ["left", "bottom"])
 
 ax = axs[1]
 ELBO_mf = df.query("type == 'Mean-field'")["ELBO"].values.item()
-ax.axhline(ELBO_mf, ls=":", linewidth=LINE_WIDTH, color="grey", label="Mean-Field")
+ax.axhline(ELBO_mf, ls=":", linewidth=LINE_WIDTH, color=MF.color, label="Mean-Field", zorder=-2)
 ax.annotate(
     text="Mean-field",
     xy=(8, ELBO_mf),
     va="center",
     backgroundcolor="white",
-    color="grey",
+    color=MF.color,
     size=LABEL_SIZE,
+    zorder=-1,
 )
 ELBO_fr = df.query("type == 'Full-rank'")["ELBO"].values.item()
-ax.axhline(ELBO_fr, ls=":", linewidth=LINE_WIDTH, color="grey", label="Full-Rank")
+ax.axhline(ELBO_fr, ls=":", linewidth=LINE_WIDTH, color=FR.color, label="Full-Rank", zorder=-2)
 ax.annotate(
     text="Full-rank",
     xy=(4, ELBO_fr),
     va="center",
     backgroundcolor="white",
-    color="grey",
+    color=FR.color,
     size=LABEL_SIZE,
+    zorder=-1,
 )
 ax.scatter(
     df.loc[df["type"] == "Planar", "n_flows"],

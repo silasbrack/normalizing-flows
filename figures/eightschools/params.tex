@@ -1,9 +1,12 @@
 % This file was created with tikzplotlib v0.9.15.
 \begin{tikzpicture}
 
-\definecolor{color0}{rgb}{0.298039215686275,0.447058823529412,0.690196078431373}
-\definecolor{color1}{rgb}{0.866666666666667,0.517647058823529,0.32156862745098}
-\definecolor{color2}{rgb}{0.333333333333333,0.658823529411,0.407843137254902}
+\definecolor{color0}{rgb}{0.298,0.447,0.6901}
+\definecolor{color1}{rgb}{0.8667,0.5177,0.3216}
+\definecolor{color2}{rgb}{0.3333,0.6588,0.4078}
+\definecolor{color3}{rgb}{0.298039215686275,0.447058823529412,0.690196078431373}
+\definecolor{color4}{rgb}{0.866666666666667,0.517647058823529,0.32156862745098}
+\definecolor{color5}{rgb}{0.333333333333333,0.658823529411,0.407843137254902}
 
 \begin{axis}[
 axis line style={white!12.5!black},
@@ -12,7 +15,7 @@ log basis x={10},
 tick align=outside,
 tick pos=left,
 width=\figurewidth,
-x grid style={white!69.0196078431373!black},
+x grid style={white!12.5!black},
 xlabel=\textcolor{white!12.5!black}{Number of parameters},
 xmin=12.0507544445181, xmax=834374.316254862,
 xmode=log,
@@ -28,72 +31,82 @@ xticklabels={
   \(\displaystyle {10^{6}}\),
   \(\displaystyle {10^{7}}\)
 },
-y grid style={white!69.0196078431373!black},
+y grid style={white!12.5!black},
 ylabel=\textcolor{white!12.5!black}{\(\displaystyle \hat{k}\)-statistic},
-ymin=0.4600914, ymax=0.9376806,
+ymin=0.4383828, ymax=0.9593892,
 ytick style={color=white!12.5!black}
 ]
-\addplot [draw=none, draw=white!12.5!black, fill=white!12.5!black, mark=*]
+\addplot [
+  draw=none,
+  draw=white!50.1960784313725!black,
+  fill=white!50.1960784313725!black,
+  mark=*
+]
 table{%
 x  y
-0 -0.5
-0.13260155 -0.5
-0.259789935392427 -0.447316845794121
-0.353553390593274 -0.353553390593274
-0.447316845794121 -0.259789935392427
-0.5 -0.13260155
-0.5 0
-0.5 0.13260155
-0.447316845794121 0.259789935392427
-0.353553390593274 0.353553390593274
-0.259789935392427 0.447316845794121
-0.13260155 0.5
-0 0.5
--0.13260155 0.5
--0.259789935392427 0.447316845794121
--0.353553390593274 0.353553390593274
--0.447316845794121 0.259789935392427
--0.5 0.13260155
--0.5 0
--0.5 -0.13260155
--0.447316845794121 -0.259789935392427
--0.353553390593274 -0.353553390593274
--0.259789935392427 -0.447316845794121
--0.13260155 -0.5
-0 -0.5
-0 -0.5
+0 -0.25
+0.066300775 -0.25
+0.129894967696213 -0.22365842289706
+0.176776695296637 -0.176776695296637
+0.22365842289706 -0.129894967696213
+0.25 -0.066300775
+0.25 0
+0.25 0.066300775
+0.22365842289706 0.129894967696213
+0.176776695296637 0.176776695296637
+0.129894967696213 0.22365842289706
+0.066300775 0.25
+0 0.25
+-0.066300775 0.25
+-0.129894967696213 0.22365842289706
+-0.176776695296637 0.176776695296637
+-0.22365842289706 0.129894967696213
+-0.25 0.066300775
+-0.25 0
+-0.25 -0.066300775
+-0.22365842289706 -0.129894967696213
+-0.176776695296637 -0.176776695296637
+-0.129894967696213 -0.22365842289706
+-0.066300775 -0.25
+0 -0.25
+0 -0.25
 };
-\addplot [draw=none, draw=white!12.5!black, fill=white!12.5!black, mark=*]
+\addplot [
+  draw=none,
+  draw=white!50.1960784313725!black,
+  fill=white!50.1960784313725!black,
+  mark=*
+]
 table{%
 x  y
-0 -0.5
-0.13260155 -0.5
-0.259789935392427 -0.447316845794121
-0.353553390593274 -0.353553390593274
-0.447316845794121 -0.259789935392427
-0.5 -0.13260155
-0.5 0
-0.5 0.13260155
-0.447316845794121 0.259789935392427
-0.353553390593274 0.353553390593274
-0.259789935392427 0.447316845794121
-0.13260155 0.5
-0 0.5
--0.13260155 0.5
--0.259789935392427 0.447316845794121
--0.353553390593274 0.353553390593274
--0.447316845794121 0.259789935392427
--0.5 0.13260155
--0.5 0
--0.5 -0.13260155
--0.447316845794121 -0.259789935392427
--0.353553390593274 -0.353553390593274
--0.259789935392427 -0.447316845794121
--0.13260155 -0.5
-0 -0.5
-0 -0.5
+0 -0.25
+0.066300775 -0.25
+0.129894967696213 -0.22365842289706
+0.176776695296637 -0.176776695296637
+0.22365842289706 -0.129894967696213
+0.25 -0.066300775
+0.25 0
+0.25 0.066300775
+0.22365842289706 0.129894967696213
+0.176776695296637 0.176776695296637
+0.129894967696213 0.22365842289706
+0.066300775 0.25
+0 0.25
+-0.066300775 0.25
+-0.129894967696213 0.22365842289706
+-0.176776695296637 0.176776695296637
+-0.22365842289706 0.129894967696213
+-0.25 0.066300775
+-0.25 0
+-0.25 -0.066300775
+-0.22365842289706 -0.129894967696213
+-0.176776695296637 -0.176776695296637
+-0.129894967696213 -0.22365842289706
+-0.066300775 -0.25
+0 -0.25
+0 -0.25
 };
-\addplot [draw=color0, fill=color0, mark=*, only marks]
+\addplot [draw=color0, fill=color0, mark options={rotate=180}, mark=triangle*, only marks]
 table{%
 x  y
 85 0.854041
@@ -125,7 +138,7 @@ x  y
 394 0.778441
 394 0.786368
 };
-\addplot [draw=color2, fill=color2, mark=*, only marks]
+\addplot [draw=color2, fill=color2, mark=+, only marks]
 table{%
 x  y
 63114 0.58
@@ -144,57 +157,59 @@ x  y
 \draw (axis cs:800,0.72) node[
   scale=0.7,
   anchor=base west,
-  text=color0,
+  text=color3,
   rotate=0.0
 ]{Planar};
-\draw (axis cs:300,0.87) node[
+\draw (axis cs:300,0.89) node[
   scale=0.7,
   anchor=base west,
-  text=color1,
+  text=color4,
   rotate=0.0
 ]{Radial};
-\draw (axis cs:10000,0.65) node[
+\draw (axis cs:100000,0.67) node[
+  scale=0.7,
+  anchor=base,
+  text=color5,
+  rotate=0.0,
+  align=center
+]{Inverse
+Autoregressive};
+\draw[-,draw=white!50.1960784313725!black] (axis cs:14,0.74) -- (axis cs:20,0.871);
+\draw (axis cs:14,0.74) node[
   scale=0.7,
   anchor=base west,
-  text=color2,
-  rotate=0.0
-]{Inverse Autoregressive};
-\draw[-,draw=black] (axis cs:14,0.78) -- (axis cs:20,0.871);
-\draw (axis cs:14,0.78) node[
-  scale=0.7,
-  anchor=base west,
-  text=white!12.5!black,
+  text=white!50.1960784313725!black,
   rotate=0.0
 ]{Mean-field};
-\draw[-,draw=black] (axis cs:300,0.8226) -- (axis cs:110,0.8226);
+\draw[-,draw=white!50.1960784313725!black] (axis cs:300,0.8226) -- (axis cs:110,0.8226);
 \draw (axis cs:300,0.8226) node[
   scale=0.7,
   anchor=base west,
-  text=white!12.5!black,
+  text=white!50.1960784313725!black,
   rotate=0.0
 ]{Full-rank};
 \draw (axis cs:63114,0.514222) node[
-  scale=0.35,
+  scale=0.56,
   anchor=north,
-  text=color2,
+  text=color5,
   rotate=0.0
 ]{4};
 \draw (axis cs:125918,0.530997) node[
-  scale=0.35,
+  scale=0.56,
   anchor=north,
-  text=color2,
+  text=color5,
   rotate=0.0
 ]{8};
 \draw (axis cs:251526,0.509531) node[
-  scale=0.35,
+  scale=0.56,
   anchor=north,
-  text=color2,
+  text=color5,
   rotate=0.0
 ]{16};
 \draw (axis cs:502742,0.4668) node[
-  scale=0.35,
+  scale=0.56,
   anchor=north,
-  text=color2,
+  text=color5,
   rotate=0.0
 ]{32};
 \end{axis}
